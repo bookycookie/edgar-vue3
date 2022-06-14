@@ -1,0 +1,67 @@
+enum RouteNames {
+	Home = 'Home',
+	Login = 'Login',
+	//! EXAMS
+	PreviousExams = 'PreviousExams',
+	TicketsAdmin = 'TicketsAdmin',
+	ExamDefinitions = 'ExamDefinitions',
+	EditExam = 'EditExam',
+	ExamInstances = 'ExamInstances',
+	ExportStudentScores = 'ExportStudentScores',
+	QuizDefinitions = 'QuizDefinitions',
+	QuizInstances = 'QuizInstances',
+	LectureQuiz = 'LectureQuiz',
+	//! LEARN
+	NewTutorial = 'NewTutorial',
+	TutorialDefinition = 'TutorialDefinition',
+	StartTutorial = 'StartTutorial',
+	NewExercise = 'NewExercise',
+	ExerciseDefinition = 'ExerciseDefinition',
+	StartExercise = 'StartExercise',
+	Feedback = 'Feedback',
+	//! QUESTIONS
+	NewQuestion = 'NewQuestion',
+	EditQuestion = 'EditQuestion',
+	ListAllAndEdit = 'ListAllAndEdit',
+	Search = 'Search',
+	NodeVis = 'NodeVis',
+	NodeQuestions = 'NodeQuestions',
+	NodeTreeVis = 'NodeTreeVis',
+	CourseDataObject = 'CourseDataObject',
+	//! PREFERENCES
+	CodeMirrorSkin = 'CodeMirrorSkin',
+	//! PLAYGROUND
+	CodeSandboxAdmin = 'CodeSandboxAdmin',
+	SnippetStoreAdmin = 'SnippetStoreAdmin',
+	//! ANALYTICS
+	ExamAnalytics = 'ExamAnalytics',
+	ExamScoreDistributionAnalytics = 'ExamScoreDistributionAnalytics',
+	QuestionsAnalytics = 'QuestionsAnalytics',
+	StudentBehaviourAnalytics = 'StudentBehaviourAnalytics',
+	PlagiarismDetection = 'PlagiarismDetection',
+	TimeDependantPlagiarismDetection = 'TimeDependantPlagiarismDetection',
+	StudentsScatter = 'StudentsScatter',
+	HighScoreList = 'HighScoreList',
+	//! ADMINISTRATION
+	UploadStudents = 'UploadStudents',
+	UploadImages = 'UploadImages',
+	StudentsList = 'StudentsList',
+	TeachersList = 'TeachersList',
+	UsersList = 'UsersList',
+	EdgarLogs = 'EdgarLogs',
+	NginxLogs = 'NginxLogs',
+	WhoIsOnline = 'WhoIsOnline',
+	//! HELP
+	Glossary = 'Glossary',
+	FrequentlyAskedQuestions = 'FrequentlyAskedQuestions',
+	ExamForm = 'ExamForm',
+	QuestionOperations = 'QuestionOperations',
+	QuestionForm = 'QuestionForm',
+	TemplatedQuestions = 'TemplatedQuestions',
+	ScriptedQuestions = 'ScriptedQuestions',
+	PeerAssessment = 'PeerAssessment',
+	TicketingSystem = 'TicketingSystem',
+	ManualGrading = 'ManualGrading',
+}
+
+export default RouteNames;
