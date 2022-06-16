@@ -41,7 +41,7 @@ const getRouteDataAsync = async () => {
 		.then(() => updateTimeline());
 	const ordinalPromise = getOrdinalDataAsync();
 
-	Promise.all([reviewPromise, ordinalPromise]);
+	await Promise.all([reviewPromise, ordinalPromise]);
 };
 
 const getOrdinalDataAsync = async () => {
