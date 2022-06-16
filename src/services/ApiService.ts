@@ -1,5 +1,5 @@
 import axios from 'axios';
-export class ApiService {
+export default class ApiService {
 	private baseUrl = `http://localhost:1337/api`;
 
 	/**

@@ -1,13 +1,9 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue';
-import { Course } from '../models/Course';
-import { AcademicYear } from '../models/AcademicYear';
-import { ApiService } from '../services/ApiService';
+import Course from '../models/Course';
+import AcademicYear from '../models/AcademicYear';
+import ApiService from '../services/ApiService';
 import RouteNames from '../router/routes';
-import Button from 'primevue/button';
-import Dropdown from 'primevue/dropdown';
-import Tag from 'primevue/tag';
-import Menubar from 'primevue/menubar';
 
 const service = new ApiService();
 const isAdmin = ref(true);

@@ -9,9 +9,41 @@ body {
 	width: 30%;
 }
 
-.icon {
+/* .icon {
 	font-size: 125px;
 	margin-bottom: 25px;
+} */
+.icon {
+	font-size: 2rem;
+}
+
+.number-align {
+	text-align: end !important;
+}
+
+.text-align {
+	text-align: start !important;
+}
+
+.center-align {
+	text-align: center !important;
+	justify-items: center !important;
+}
+
+.success {
+	color: green;
+}
+
+.failure {
+	color: red;
+}
+
+.warning {
+	color: orange;
+}
+
+.info {
+	color: lightskyblue;
 }
 
 .center {
@@ -21,4 +53,27 @@ body {
 
 .center-text {
 	text-align: center;
+}
+
+.no-x {
+	overflow-x: hidden;
+}
+
+.hand-cursor {
+	cursor: pointer;
+}
+
+p > code,
+pre {
+	color: rgb(41, 40, 40);
+	font-family: Consolas, 'Liberation Mono', Menlo, Courier, monospace;
+	font-size: 0.94em;
+	border-radius: 3px;
+	background-color: #f8f8f8;
+	border: 1px solid #ccc;
+	padding: 0.4rem;
+}
+
+p > code {
+	padding: 0.2rem;
 }
