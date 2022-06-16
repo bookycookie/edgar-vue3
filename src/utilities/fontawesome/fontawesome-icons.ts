@@ -1,50 +1,47 @@
 import { library } from '@fortawesome/fontawesome-svg-core';
 import {
-  faUser,
-  faUserSecret,
-  faPlayCircle,
-  faListAlt,
-  faTools,
-  faChartLine,
-  faGamepad,
-  faUserCog,
-  faUserTie,
-  faCheckCircle,
-  faTimesCircle,
-  faEye,
-  faEdit,
-  faCirclePlay,
-  faCloudDownloadAlt,
-  faPlusSquare,
-  faTrash,
-  faPenToSquare,
-  faMagnifyingGlass,
-  faCheck,
-  faArrowTurnRight,
-  faCommentDots,
-  faPen,
-  faSquarePollHorizontal,
-  faFileSignature,
-  faSignature,
-  faShoePrints,
-  faCircleQuestion,
-  faCode,
-  faSquareShareNodes,
-  faArrowUpRightFromSquare,
-  faCloudArrowUp,
-  faGears,
-  faEyeSlash,
-  faRotateRight,
-  faCirclePlus,
-  faThumbsDown,
-  faThumbsUp,
-  faPlay,
+	faUser,
+	faUserSecret,
+	faPlayCircle,
+	faListAlt,
+	faTools,
+	faChartLine,
+	faGamepad,
+	faUserCog,
+	faUserTie,
+	faCheckCircle,
+	faTimesCircle,
+	faEye,
+	faEdit,
+	faCirclePlay,
+	faCloudDownloadAlt,
+	faPlusSquare,
+	faTrash,
+	faPenToSquare,
+	faMagnifyingGlass,
+	faCheck,
+	faArrowTurnRight,
+	faCommentDots,
+	faPen,
+	faSquarePollHorizontal,
+	faFileSignature,
+	faSignature,
+	faShoePrints,
+	faCircleQuestion,
+	faCode,
+	faSquareShareNodes,
+	faArrowUpRightFromSquare,
+	faCloudArrowUp,
+	faGears,
+	faEyeSlash,
+	faRotateRight,
+	faCirclePlus,
+	faThumbsDown,
+	faThumbsUp,
+	faPlay,
 } from '@fortawesome/free-solid-svg-icons';
-import {
-  faGoogle,
-  faFacebookF,
-  faTwitter,
-} from '@fortawesome/free-brands-svg-icons';
+import { faGoogle, faFacebookF, faTwitter } from '@fortawesome/free-brands-svg-icons';
+import { faSmile, faFrown, faMeh, faFlushed } from '@fortawesome/free-regular-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 
 library.add(faUser);
@@ -89,5 +86,9 @@ library.add(faCirclePlus);
 library.add(faThumbsDown);
 library.add(faThumbsUp);
 library.add(faPlay);
+library.add(faSmile);
+library.add(faMeh);
+library.add(faFrown);
+library.add(faFlushed);
 
 export default FontAwesomeIcon;

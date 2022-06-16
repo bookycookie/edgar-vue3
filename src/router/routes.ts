@@ -3,6 +3,7 @@ enum RouteNames {
 	Login = 'Login',
 	//! EXAMS
 	PreviousExams = 'PreviousExams',
+	ReviewExam = 'ReviewExam',
 	TicketsAdmin = 'TicketsAdmin',
 	ExamDefinitions = 'ExamDefinitions',
 	EditExam = 'EditExam',
@@ -28,6 +29,7 @@ enum RouteNames {
 	NodeQuestions = 'NodeQuestions',
 	NodeTreeVis = 'NodeTreeVis',
 	CourseDataObject = 'CourseDataObject',
+	QuestionInstances = 'QuestionInstances',
 	//! PREFERENCES
 	CodeMirrorSkin = 'CodeMirrorSkin',
 	//! PLAYGROUND
@@ -42,6 +44,7 @@ enum RouteNames {
 	TimeDependantPlagiarismDetection = 'TimeDependantPlagiarismDetection',
 	StudentsScatter = 'StudentsScatter',
 	HighScoreList = 'HighScoreList',
+	MyStats = 'MyStats',
 	//! ADMINISTRATION
 	UploadStudents = 'UploadStudents',
 	UploadImages = 'UploadImages',

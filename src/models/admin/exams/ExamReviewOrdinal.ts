@@ -1,0 +1,34 @@
+export interface ExamReviewOrdinal {
+	id_course: number;
+	upload_file_no: number;
+	id: number;
+	id_test_instance_question: number;
+	question_text: string;
+	is_active: boolean;
+	can_uploadA: boolean;
+	type_name: string;
+	has_answers: boolean;
+	correct_answers_permutation: number[];
+	answers_permutation: number[];
+	student_answers: number[];
+	student_answer_code: string;
+	c_eval_data: string;
+	uploaded_files: string;
+	student_answer_text: string;
+	manual_comment: string;
+	grader_alt_id2: string;
+	grader_name: string;
+	score: number;
+	score_perc: number;
+	mode_desc: string;
+	data_object: string;
+	question_text_html: string;
+	question_abc_answers_html: string;
+	sql_answer: string;
+	text_answer: string;
+	c_prefix: string;
+	c_suffix: string;
+	c_source: string;
+	id_programming_language: number;
+	json_answer: string;
+}

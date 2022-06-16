@@ -1,8 +1,3 @@
-<script setup lang="ts">
-import Accordion from 'primevue/accordion';
-import AccordionTab from 'primevue/accordiontab';
-</script>
-
 <template>
 	<div class="container">
 		<h1>Glossary</h1>

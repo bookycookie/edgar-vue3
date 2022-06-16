@@ -1,11 +1,5 @@
 <script setup lang="ts">
 import { ref } from 'vue';
-import Button from 'primevue/button';
-import Password from 'primevue/password';
-import InputText from 'primevue/inputtext';
-import Card from 'primevue/card';
-import Avatar from 'primevue/avatar';
-import Divider from 'primevue/divider';
 
 const username = ref('');
 const password = ref('');
