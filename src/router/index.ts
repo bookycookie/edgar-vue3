@@ -189,6 +189,7 @@ const routes: RouteRecordRaw[] = [
 		path: '/question/edit/:id',
 		name: RouteNames.EditQuestion,
 		component: EditQuestionView,
+		props: (route) => ({ id: Number(route.params.id) }),
 	},
 	{
 		path: '/question',
