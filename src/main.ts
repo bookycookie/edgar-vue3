@@ -53,6 +53,7 @@ import ToastService from 'primevue/toastservice';
 import Toast from 'primevue/toast';
 import Calendar from 'primevue/calendar';
 import Timeline from 'primevue/timeline';
+import Tree from 'primevue/tree';
 
 import FontAwesomeIcon from './utilities/fontawesome/fontawesome-icons';
 
@@ -92,6 +93,7 @@ app.component('Dialog', Dialog);
 app.component('Toast', Toast);
 app.component('Calendar', Calendar);
 app.component('Timeline', Timeline);
+app.component('Tree', Tree);
 
 app.use(router);
 app.use(PrimeVue);

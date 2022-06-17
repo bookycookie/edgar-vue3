@@ -9,10 +9,6 @@ body {
 	width: 30%;
 }
 
-/* .icon {
-	font-size: 125px;
-	margin-bottom: 25px;
-} */
 .icon {
 	font-size: 2rem;
 }
@@ -80,4 +76,9 @@ p > code {
 
 *:disabled {
 	cursor: not-allowed;
+}
+
+.p-submenu-list {
+	/* It's over 1000! */
+	z-index: 10001 !important;
 }
