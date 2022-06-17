@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, onMounted, computed } from 'vue';
+import { ref, onMounted } from 'vue';
 import ApiService from '@/services/ApiService';
 import { ExerciseTable } from '@/models/admin/learn/ExerciseTable';
 import { FilterMatchMode } from 'primevue/api';

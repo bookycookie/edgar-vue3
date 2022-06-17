@@ -233,9 +233,10 @@ const routes: RouteRecordRaw[] = [
 
 	//! PLAYGROUND
 	{
-		path: '/playground/sandbox',
+		path: '/playground/sandbox/:id?',
 		name: RouteNames.CodeSandboxAdmin,
 		component: CodeSandboxView,
+		props: (route) => ({ id: Number(route.params.id) }),
 	},
 	{
 		path: '/playground/snippet/store',
