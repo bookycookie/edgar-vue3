@@ -40,6 +40,7 @@ import {
 	faThumbsUp,
 	faPlay,
 	faCodeFork,
+	faEnvelope,
 } from '@fortawesome/free-solid-svg-icons';
 import { faGoogle, faFacebookF, faTwitter } from '@fortawesome/free-brands-svg-icons';
 import { faSmile, faFrown, faMeh, faFlushed } from '@fortawesome/free-regular-svg-icons';
@@ -92,5 +93,6 @@ library.add(faMeh);
 library.add(faFrown);
 library.add(faFlushed);
 library.add(faCodeFork);
+library.add(faEnvelope);
 
 export default FontAwesomeIcon;
