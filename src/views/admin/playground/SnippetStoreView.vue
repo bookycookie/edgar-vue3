@@ -78,9 +78,7 @@ onMounted(async () => {
 						</template>
 					</Column>
 					<Column field="" header="Image" sortable>
-						<template #body="{}">
-							<img height="75" class="rounded-circle" src="../../../../public/images/FER_logo.png" />
-						</template>
+						<template #body="{}">PH</template>
 					</Column>
 					<Column field="first_name" header="First name" sortable />
 					<Column field="last_name" header="Last name" sortable />
