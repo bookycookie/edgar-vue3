@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { PropType } from 'vue';
 import { PreviousExamSidebar } from '@/models/admin/exams/PreviousExamSidebar';
+import RouteNames from '@/router/routes';
 defineProps({
 	examsSidebar: {
 		type: Object as PropType<PreviousExamSidebar[]>,
@@ -14,7 +15,7 @@ defineProps({
 		<Card class="me-4 ms-2">
 			<template #title>
 				<span>
-					<router-link :to="{ name: 'PreviousExams' }" class="me-2">Total</router-link>
+					<router-link :to="{ name: RouteNames.PreviousExams }" class="me-2">Total</router-link>
 					<span>{{ examsSidebar[0].full_name }}</span>
 				</span>
 				<Divider></Divider>

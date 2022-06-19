@@ -8,6 +8,7 @@ import { FilterMatchMode } from 'primevue/api';
 import Toast from 'primevue/toast';
 import { useToast } from 'primevue/usetoast';
 import { useRouter, useRoute } from 'vue-router';
+import RouteNames from '@/router/routes';
 
 const router = useRouter();
 const courseId = 2000;
@@ -155,44 +156,26 @@ const create = async () => {
 
 			const newId = parseInt(response.data[0].new_test);
 			console.log(newId);
-			router.push({ name: 'EditExam', params: { id: newId } });
+			router.push({ name: RouteNames.EditExam, params: { id: newId } });
 		});
 };
 
-const deleteE = (index: number) => {
-	console.log(`Deleted ${JSON.stringify(testTable.value[index])}`);
-	testTable.value.splice(index, 1);
-
+const deleteAsync = async (test: TestTable) => {
 	toast.add({
 		severity: 'success',
 		summary: '200 OK',
-		detail: `Exam ${testTable.value[index].id} deleted successfully.`,
+		detail: `Exam ${test.id} deleted successfully.`,
 		life: 3000,
 	});
+
+	await service.postAsync('/exam/delete', { testId: test.id }).then(async () => await getTestTableAsync());
 };
 
 const edit = (id: number) => {
-	router.push({ name: 'EditExam', params: { id: id } });
+	router.push({ name: RouteNames.EditExam, params: { id: id } });
 };
 
-const createNewEdit = async () => {
-	const res = await service.postAsync('/exam/new', {
-		testTypeId: selectedTest.value?.id,
-		courseId: courseId,
-		academicYearId: academicYearId,
-		appUserId: appUserId,
-	});
-
-	return parseInt(res);
-};
-
-onMounted(async () => {
-	tests.value = await service.getManyAsync<Test>('/test_types', {
-		standalone: true,
-	});
-
-	if (tests.value && tests.value.length > 0) selectedTest.value = tests.value[0];
-
+const getTestTableAsync = async () => {
 	testTable.value = await service.getManyAsync<TestTable>('/test_table', {
 		courseId: courseId,
 		academicYearId: academicYearId,
@@ -201,6 +184,15 @@ onMounted(async () => {
 	for (var i = 0; i < testTable.value.length; i++) {
 		testTable.value[i].title_type_name = `${testTable.value[i].title} — ${testTable.value[i].type_name}`;
 	}
+};
+onMounted(async () => {
+	tests.value = await service.getManyAsync<Test>('/test_types', {
+		standalone: true,
+	});
+
+	if (tests.value && tests.value.length > 0) selectedTest.value = tests.value[0];
+
+	await getTestTableAsync();
 });
 </script>
 
@@ -361,8 +353,8 @@ onMounted(async () => {
 				</template>
 			</Column>
 			<Column field="" header="Delete">
-				<template #body="{ index }">
-					<Button class="p-button-danger" @click="deleteE(index)">
+				<template #body="{ data }">
+					<Button class="p-button-danger" @click="deleteAsync(data)">
 						<font-awesome-icon icon="trash"></font-awesome-icon>
 					</Button>
 				</template>

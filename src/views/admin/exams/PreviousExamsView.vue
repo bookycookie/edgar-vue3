@@ -85,7 +85,7 @@ onMounted(async () => {
 							<div class="p-inputgroup"><h4>Total:</h4></div>
 						</div>
 						<div class="col-12 md:col-2 flex">
-							<router-link :to="{ name: 'MyStats' }" class="text-info me-3">
+							<router-link :to="{ name: RouteNames.MyStats }" class="text-info me-3">
 								<h4>
 									<font-awesome-icon icon="chart-line" class="me-1" />
 									Your stats here

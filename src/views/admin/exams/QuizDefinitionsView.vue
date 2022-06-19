@@ -2,34 +2,46 @@
 import { ref, onMounted } from 'vue';
 import ApiService from '@/services/ApiService';
 import { Test } from '@/models/admin/exams/Test';
-import { TestTable } from '@/models/admin/exams/TestTable';
+import { LectureTable } from '@/models/admin/exams/LectureTable';
 import humanize from '@/utilities/date-humanizer/humanizer';
 import { FilterMatchMode } from 'primevue/api';
+import { useRouter } from 'vue-router';
+import RouteNames from '@/router/routes';
+import Toast from 'primevue/toast';
+import { useToast } from 'primevue/usetoast';
 
-const courseId = 477;
+const router = useRouter();
+const courseId = 2000;
 const academicYearId = 2020;
+const appUserId = 46;
 
+const toast = useToast();
 const service = new ApiService();
 
 const tests = ref<Test[]>([]);
 const selectedTest = ref<Test | null>(null);
 
-const lectureTable = ref<TestTable[]>([]);
+const lectureTable = ref<LectureTable[]>([]);
 const lectureTableDt = ref();
 
 onMounted(async () => {
 	tests.value = await service.getManyAsync<Test>('/test_types', { standalone: false, typeName: 'Lecture quiz' });
-	lectureTable.value = await service.getManyAsync<TestTable>('/lecture_table', {
-		courseId: courseId,
-		academicYearId: academicYearId,
-	});
-
+	selectedTest.value = tests.value?.length > 0 ? tests.value[0] : null;
+	await getLectureTableAsync();
 	for (var i = 0; i < lectureTable.value.length; i++) {
 		lectureTable.value[i].title_type_name = `${lectureTable.value[i].title} — ${lectureTable.value[i].type_name}`;
 	}
 });
 
+const getLectureTableAsync = async () => {
+	lectureTable.value = await service.getManyAsync<LectureTable>('/lecture_table', {
+		courseId: courseId,
+		academicYearId: academicYearId,
+	});
+};
+
 const flagsPill = (flag: string) => {
+	if (!flag) return;
 	let pillClass = 'badge rounded-pill bg-';
 	if (flag.includes('-- STATS-')) pillClass += 'primary';
 	else if (flag.includes('--- SCIGNORED')) pillClass += 'secondary';
@@ -42,7 +54,7 @@ const filters = ref({
 	global: { value: '', matchMode: FilterMatchMode.CONTAINS },
 });
 
-const skeletonLectureData: TestTable[] = Array(8).fill({
+const skeletonLectureData: LectureTable[] = Array(8).fill({
 	id: 15,
 	title: '',
 	id_course: 5,
@@ -111,6 +123,38 @@ const skeletonColumns = [
 ];
 
 const exportCSV = () => lectureTableDt.value.exportCSV();
+
+const create = async () => {
+	console.log('Created!');
+	service
+		.postAsync('/exam/new', {
+			testTypeId: selectedTest.value?.id,
+			courseId: courseId,
+			academicYearId: academicYearId,
+			appUserId: appUserId,
+		})
+		.then((response: any) => {
+			if (!response) return;
+
+			const newId = parseInt(response.data[0].new_test);
+			console.log(newId);
+			router.push({ name: RouteNames.EditExam, params: { id: newId } });
+		});
+};
+
+const deleteAsync = async (lecture: LectureTable) => {
+	toast.add({
+		severity: 'success',
+		summary: '200 OK',
+		detail: `Quiz ${lecture.id} deleted successfully.`,
+		life: 3000,
+	});
+
+	await service.postAsync('/exam/delete', { testId: lecture.id }).then(async () => await getLectureTableAsync());
+};
+const edit = (id: number) => {
+	router.push({ name: RouteNames.EditExam, params: { id: id } });
+};
 </script>
 
 <template>
@@ -128,7 +172,11 @@ const exportCSV = () => lectureTableDt.value.exportCSV();
 								:placeholder="selectedTest?.name"
 								option-label="name"
 								class="me-2 ms-2"></Dropdown>
-							<Button label="Create" icon="pi pi-plus-circle" class="center p-button-rounded"></Button>
+							<Button
+								label="Create"
+								icon="pi pi-plus-circle"
+								class="center p-button-rounded"
+								@click="create"></Button>
 						</h5>
 					</div>
 					<br />
@@ -170,11 +218,6 @@ const exportCSV = () => lectureTableDt.value.exportCSV();
 							<div class="number-align">{{ data.id }}</div>
 						</template>
 					</Column>
-					<Column field="test_ordinal" header="Test ordinal" sortable>
-						<template #body="{ data }">
-							<div class="number-align">{{ data.test_ordinal }}</div>
-						</template>
-					</Column>
 					<Column field="title_type_name" header="Title" sortable>
 						<template #body="{ data }">
 							<strong>{{ data.title }}</strong>
@@ -185,19 +228,15 @@ const exportCSV = () => lectureTableDt.value.exportCSV();
 							</p>
 						</template>
 					</Column>
-					<Column field="title_abbrev" header="Abbrev." sortable></Column>
+					<Column field="user_created" header="User created" sortable></Column>
+					<Column field="test_ordinal" header="Test ordinal" sortable>
+						<template #body="{ data }">
+							<div class="number-align">{{ data.test_ordinal }}</div>
+						</template>
+					</Column>
 					<Column field="max_runs" header="Max runs (0=∞)" sortable>
 						<template #body="{ data }">
 							<div class="number-align">{{ data.max_runs }}</div>
-						</template>
-					</Column>
-					<Column field="test_flags" header="Global Public UseStats ScoreIgnored" sortable>
-						<template #body="{ data }">
-							<div class="center-align">
-								<span :class="flagsPill(data.test_flags)">
-									{{ data.test_flags }}
-								</span>
-							</div>
 						</template>
 					</Column>
 					<Column field="show_solutions" header="Show solutions" sortable>
@@ -226,6 +265,11 @@ const exportCSV = () => lectureTableDt.value.exportCSV();
 							<div class="number-align">{{ data.duration_seconds }}</div>
 						</template>
 					</Column>
+					<Column field="pass_percentage" header="Pass %" sortable>
+						<template #body="{ data }">
+							<div class="number-align">{{ data.pass_percentage }}%</div>
+						</template>
+					</Column>
 					<Column field="ts_from" header="Valid from" sortable>
 						<template #body="{ data }">
 							<span class="w-100">{{ new Date(data.ts_from).toISOString().split('T')[0] }}</span>
@@ -247,17 +291,21 @@ const exportCSV = () => lectureTableDt.value.exportCSV();
 						</template>
 					</Column>
 					<Column field="" header="Delete">
-						<template #body="{ index }">
-							<Button class="p-button-danger" @click="deleteE(index)">
-								<font-awesome-icon icon="trash"></font-awesome-icon>
-							</Button>
+						<template #body="{ data }">
+							<div class="center">
+								<Button class="p-button-danger" @click="deleteAsync(data)">
+									<font-awesome-icon icon="trash"></font-awesome-icon>
+								</Button>
+							</div>
 						</template>
 					</Column>
 					<Column field="" header="Edit">
 						<template #body="{ data }">
-							<Button class="p-button-success" @click="edit(data.id)">
-								<font-awesome-icon icon="pen-to-square"></font-awesome-icon>
-							</Button>
+							<div class="center">
+								<Button class="p-button-success" @click="edit(data.id)">
+									<font-awesome-icon icon="pen-to-square"></font-awesome-icon>
+								</Button>
+							</div>
 						</template>
 					</Column>
 				</DataTable>

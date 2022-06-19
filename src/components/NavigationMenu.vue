@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, computed } from 'vue';
 import Course from '../models/Course';
 import AcademicYear from '../models/AcademicYear';
 import ApiService from '../services/ApiService';
@@ -195,11 +195,20 @@ const adminItems = ref([
 		],
 	},
 ]);
+
+const studentItems = ref([
+	{ label: 'My previous exams', to: { name: RouteNames.PreviousExamsStudent } },
+	{ label: 'My tickets', to: { name: RouteNames.TicketsStudent } },
+	{ label: 'My stats', to: { name: RouteNames.StatsStudent } },
+	{ label: 'Code theme', to: { name: RouteNames.CodeThemeStudent } },
+]);
+
+const items = computed(() => (isAdmin.value ? adminItems.value : studentItems.value));
 </script>
 
 <template>
 	<div class="">
-		<Menubar :model="adminItems" style="max-height: 6rem">
+		<Menubar :model="items" style="max-height: 6rem">
 			<template #start>
 				<router-link :to="{ name: RouteNames.Home }" class="ms-2 me-5">
 					<img
@@ -209,26 +218,6 @@ const adminItems = ref([
 				</router-link>
 			</template>
 			<template #end>
-				<!-- <div class="profile-picture">
-          <font-awesome-icon
-            icon="user-secret"
-            class="me-3 rounded-circle"
-            style="font-size: 75px"
-          />
-        </div> -->
-
-				<!-- <div>
-          
-          <p>Igor Mekterović</p>
-          <Tag
-            :value="isAdmin ? 'Admin' : 'Student'"
-            :severity="isAdmin ? 'info' : 'danger'"
-            rounded
-            class="ml-4"
-          ></Tag>
-          <p>IP: 127.0.0.1</p>
-          <p>Instance: 0@BOBI</p>
-        </div> -->
 				<div class="d-flex align-items-center ml-5">
 					<Dropdown
 						v-model="selectedCourse"
@@ -252,13 +241,6 @@ const adminItems = ref([
 							<span>{{ slotProps.option.title }}</span>
 						</template>
 					</Dropdown>
-					<!-- <div class="profilepic">
-            <img
-              height="75"
-              class="rounded-circle"
-              src="/images/faces/10d984046e334330caba2de7ea952f0d.jpg"
-            />
-          </div> -->
 					<div class="profile-picture">
 						<font-awesome-icon icon="user-secret" class="me-3 rounded-circle" style="font-size: 75px" />
 					</div>

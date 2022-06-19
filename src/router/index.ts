@@ -4,6 +4,13 @@ import RouteNames from './routes';
 const HomeView = () => import('@/views/HomeView.vue');
 const LoginView = () => import('@/views/LoginView.vue');
 
+//? STUDENT
+const PreviousExamsViewStudent = () => import('@/views/student/PreviousExamsView.vue');
+const TicketsViewStudent = () => import('@/views/student/TicketsView.vue');
+const StatsViewStudent = () => import('@/views/student/StatsView.vue');
+const CodeThemeViewStudent = () => import('@/views/student/CodeThemeView.vue');
+
+//? ADMIN
 //! EXAMS
 const PreviousExamsView = () => import('@/views/admin/exams/PreviousExamsView.vue');
 const ReviewExamView = () => import('@/views/admin/exams/ReviewExamView.vue');
@@ -90,7 +97,28 @@ const routes: RouteRecordRaw[] = [
 		name: RouteNames.Login,
 		component: LoginView,
 	},
-
+	//? STUDENT
+	{
+		path: '/test_instances',
+		name: RouteNames.PreviousExamsStudent,
+		component: PreviousExamsViewStudent,
+	},
+	{
+		path: '/ticket_mytickets',
+		name: RouteNames.TicketsStudent,
+		component: TicketsViewStudent,
+	},
+	{
+		path: '/analytics_score_student',
+		name: RouteNames.StatsStudent,
+		component: StatsViewStudent,
+	},
+	{
+		path: '/prefs_cmskin',
+		name: RouteNames.CodeThemeStudent,
+		component: CodeThemeViewStudent,
+	},
+	//? ADMIN
 	//! EXAMS
 	{
 		path: '/test/instances/:id?',

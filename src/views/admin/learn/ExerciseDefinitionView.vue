@@ -53,8 +53,10 @@ onMounted(async () => {
 
 const exportCSV = () => exerciseDefinitionDt.value.exportCSV();
 
-const deleteE = async () => console.log('delete');
+//! TODO: Add functionality
+const deleteAsync = async () => console.log('delete');
 const edit = () => console.log('edit');
+const questions = () => console.log('questions');
 </script>
 
 <template>
@@ -145,17 +147,17 @@ const edit = () => console.log('edit');
 							</div>
 						</template>
 					</Column>
-					<Column field="no_students" header="Students" sortable>
-						<template #body="{ data }">
-							<div class="number-align">
-								{{ data.no_students }}
-							</div>
-						</template>
-					</Column>
 					<Column field="no_questions" header="Questions" sortable>
 						<template #body="{ data }">
 							<div class="number-align">
 								{{ data.no_questions }}
+							</div>
+						</template>
+					</Column>
+					<Column field="no_students" header="Students" sortable>
+						<template #body="{ data }">
+							<div class="number-align">
+								{{ data.no_students }}
 							</div>
 						</template>
 					</Column>
@@ -186,17 +188,17 @@ const edit = () => console.log('edit');
 					<Column field="" header="Delete">
 						<template #body="{}">
 							<div class="center">
-								<Button class="p-button-danger" @click="deleteE(index)">
+								<Button class="p-button-danger" @click="deleteAsync(index)">
 									<font-awesome-icon icon="trash"></font-awesome-icon>
 								</Button>
 							</div>
 						</template>
 					</Column>
 					<Column field="" header="Edit">
-						<template #body="{ index }">
+						<template #body="{ data }">
 							<div class="center">
 								<router-link to="">
-									<Button class="p-button-warning" @click="edit(index)">
+									<Button class="p-button-warning" @click="edit(data)">
 										<font-awesome-icon icon="pen-to-square"></font-awesome-icon>
 									</Button>
 								</router-link>
@@ -207,7 +209,7 @@ const edit = () => console.log('edit');
 						<template #body="{}">
 							<div class="center">
 								<router-link to="">
-									<Button class="p-button-info">
+									<Button class="p-button-info" @click="questions(data)">
 										<font-awesome-icon icon="circle-question"></font-awesome-icon>
 									</Button>
 								</router-link>

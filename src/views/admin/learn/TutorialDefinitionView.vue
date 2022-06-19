@@ -4,10 +4,17 @@ import ApiService from '@/services/ApiService';
 import { TutorialDefTable } from '@/models/admin/learn/TutorialDefTable';
 import { FilterMatchMode } from 'primevue/api';
 import humanize from '@/utilities/date-humanizer/humanizer';
+import Toast from 'primevue/toast';
+import { useToast } from 'primevue/usetoast';
+import RouteNames from '@/router/routes';
+import { useRouter } from 'vue-router';
 
 const courseId = 2000;
 const loading = ref(false);
 const service = new ApiService();
+
+const toast = useToast();
+const router = useRouter();
 
 const tutorialDefTable = ref<TutorialDefTable[]>([]);
 
@@ -44,6 +51,10 @@ const skeletonColumns = [
 ];
 
 onMounted(async () => {
+	await getTutorialsAsync();
+});
+
+const getTutorialsAsync = async () => {
 	try {
 		loading.value = true;
 		tutorialDefTable.value = await service.getManyAsync<TutorialDefTable>('/tutorial_def_table', {
@@ -52,11 +63,23 @@ onMounted(async () => {
 	} finally {
 		loading.value = false;
 	}
-});
+};
 
 const exportCSV = () => tutorialDefinitionDt.value.exportCSV();
 
-const deleteE = async () => console.log('delete');
+const deleteAsync = async (tutorial: TutorialDefTable) => {
+	toast.add({
+		severity: 'success',
+		summary: '200 OK',
+		detail: `Tutorial ${tutorial.id} deleted successfully.`,
+		life: 3000,
+	});
+
+	await service
+		.postAsync('/lecture/instances/delete', { tutorialId: tutorial.id })
+		.then(async () => await getTutorialsAsync());
+};
+//! TODO: Add edit
 const edit = () => console.log('edit');
 </script>
 
@@ -192,19 +215,19 @@ const edit = () => console.log('edit');
 						</template>
 					</Column>
 					<Column field="" header="Delete">
-						<template #body="{}">
+						<template #body="{ data }">
 							<div class="center">
-								<Button class="p-button-danger" @click="deleteE(index)">
+								<Button class="p-button-danger" @click="deleteAsync(data)">
 									<font-awesome-icon icon="trash"></font-awesome-icon>
 								</Button>
 							</div>
 						</template>
 					</Column>
 					<Column field="" header="Edit">
-						<template #body="{ index }">
+						<template #body="{ data }">
 							<div class="center">
 								<router-link to="">
-									<Button class="p-button-warning" @click="edit(index)">
+									<Button class="p-button-warning" @click="edit(data)">
 										<font-awesome-icon icon="pen-to-square"></font-awesome-icon>
 									</Button>
 								</router-link>

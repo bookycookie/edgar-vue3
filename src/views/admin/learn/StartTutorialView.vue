@@ -49,7 +49,8 @@ onMounted(async () => {
 
 const exportCSV = () => tutorialDt.value.exportCSV();
 
-const start = async () => console.log('start');
+//! TODO: it isn't working on Edgar
+const start = async (tutorial: TutorialTable) => console.log('start');
 </script>
 
 <template>
@@ -149,10 +150,10 @@ const start = async () => console.log('start');
 						</template>
 					</Column>
 
-					<Column field="" header="Delete">
-						<template #body="{}">
+					<Column field="" header="Start">
+						<template #body="{ data }">
 							<div class="center">
-								<Button class="p-button-danger" @click="start(index)">
+								<Button class="p-button-success" @click="start(data)">
 									<font-awesome-icon icon="circle-play"></font-awesome-icon>
 								</Button>
 							</div>

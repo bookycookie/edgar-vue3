@@ -5,6 +5,7 @@ import { QuestionTable } from '@/models/admin/questions/QuestionTable';
 import { QuestionType } from '@/models/admin/questions/QuestionType';
 import humanize from '@/utilities/date-humanizer/humanizer';
 import { FilterMatchMode } from 'primevue/api';
+import RouteNames from '@/router/routes';
 
 const courseId = 2000;
 const loading = ref(false);
@@ -160,7 +161,7 @@ const exportCSV = () => questionsDt.value.exportCSV();
 							<div class="number-align">
 								<router-link
 									:to="{
-										name: 'EditQuestion',
+										name: RouteNames.EditQuestion,
 										params: {
 											id: data.id,
 										},

@@ -17,6 +17,7 @@ import { NodeType } from '@/models/admin/exams/NodeType';
 import Toast from 'primevue/toast';
 import { useToast } from 'primevue/usetoast';
 import Message from 'primevue/message';
+import RouteNames from '@/router/routes';
 const route = useRoute();
 const router = useRouter();
 
@@ -104,7 +105,7 @@ const clone = async () => {
 		summary: '200 OK',
 		detail: `Exam ${props.id} cloned successfully to ${newId}.`,
 	});
-	router.push({ name: 'EditExam', params: { id: newId } });
+	router.push({ name: RouteNames.EditExam, params: { id: newId } });
 };
 const cloneUp = async () => {
 	const cloneResponse = await service.postAsync('/exam/clone', {

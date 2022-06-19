@@ -1,6 +1,12 @@
 enum RouteNames {
 	Home = 'Home',
 	Login = 'Login',
+	//? STUDENT
+	PreviousExamsStudent = 'PreviousExamsStudent',
+	TicketsStudent = 'TicketsStudent',
+	StatsStudent = 'StatsStudent',
+	CodeThemeStudent = 'CodeThemeStudent',
+	//? ADMIN
 	//! EXAMS
 	PreviousExams = 'PreviousExams',
 	ReviewExam = 'ReviewExam',
