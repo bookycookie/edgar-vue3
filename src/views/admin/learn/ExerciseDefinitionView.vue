@@ -54,9 +54,9 @@ onMounted(async () => {
 const exportCSV = () => exerciseDefinitionDt.value.exportCSV();
 
 //! TODO: Add functionality
-const deleteAsync = async () => console.log('delete');
-const edit = () => console.log('edit');
-const questions = () => console.log('questions');
+const deleteAsync = async (data: any) => console.log('delete');
+const edit = (data: any) => console.log('edit');
+const questions = (data: any) => console.log('questions');
 </script>
 
 <template>
@@ -186,9 +186,9 @@ const questions = () => console.log('questions');
 						</template>
 					</Column>
 					<Column field="" header="Delete">
-						<template #body="{}">
+						<template #body="{ data }">
 							<div class="center">
-								<Button class="p-button-danger" @click="deleteAsync(index)">
+								<Button class="p-button-danger" @click="deleteAsync(data)">
 									<font-awesome-icon icon="trash"></font-awesome-icon>
 								</Button>
 							</div>
@@ -206,7 +206,7 @@ const questions = () => console.log('questions');
 						</template>
 					</Column>
 					<Column field="" header="Questions">
-						<template #body="{}">
+						<template #body="{ data }">
 							<div class="center">
 								<router-link to="">
 									<Button class="p-button-info" @click="questions(data)">
