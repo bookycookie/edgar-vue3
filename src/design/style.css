@@ -157,3 +157,24 @@ details > *:not(summary) {
 .p-toast-detail {
 	word-break: break-word;
 }
+
+.table td.edgar-code,
+.table th.edgar-code {
+	font-family: IosevkaSlabWEB, Consolas, 'Lucida Console', Monaco, monospace;
+	/*IosevkaSlabWEB*/
+	padding: 1px;
+	border: 1px solid gray;
+	white-space: pre;
+}
+
+p.edgar-code {
+	font-family: 'Lucida Console', Monaco, monospace;
+	border: 1px solid #eceeef;
+}
+
+.table td.edgar-code-header {
+	cursor: pointer;
+	white-space: pre;
+	font-weight: bold;
+	font-size: 1.1em;
+}

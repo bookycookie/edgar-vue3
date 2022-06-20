@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, computed, defineProps, PropType, defineEmits } from 'vue';
+import { ref, computed, defineProps, PropType, defineEmits, onMounted } from 'vue';
 import { Tag } from '@/models/admin/questions/Tag';
 // @ts-ignore
 import md from 'markdown-it';
@@ -13,8 +13,11 @@ import useModelWrapper from '@/composables/modelWrapper';
 import { Codemirror } from 'vue-codemirror';
 import { markdown } from '@codemirror/lang-markdown';
 import { oneDark } from '@codemirror/theme-one-dark';
+import { Extension } from '@codemirror/state';
 
-const extensions = [markdown(), oneDark];
+let extensions = [markdown(), oneDark];
+
+onMounted(() => (extensions = props.extensionsOverride ? props.extensionsOverride : [markdown(), oneDark]));
 
 const render = (text: string) => {
 	return md({
@@ -107,25 +110,19 @@ const props = defineProps({
 			return [];
 		},
 	},
-	codemirrorOptions: {
-		type: Object as PropType<{
-			mode: string;
-			theme: string;
-			lineNumbers: boolean;
-			smartIndent: boolean;
-			foldGutter: boolean;
-			styleActiveLine: boolean;
-			viewportMargin: number;
-			indentUnit: number;
-			tabSize: number;
-			indentWithTabs: boolean | undefined;
-		}>,
-		required: true,
+	isSql: {
+		type: Boolean,
+		required: false,
+		default: false,
+	},
+	extensionsOverride: {
+		type: Object as PropType<Extension[]>,
+		required: false,
 		default() {
-			return {};
+			return [];
 		},
 	},
-	isSql: {
+	readonly: {
 		type: Boolean,
 		required: false,
 		default: false,
@@ -187,9 +184,9 @@ const ordinalToAlphabetical = (idx: number): string => String.fromCharCode(idx +
 						<Codemirror
 							:id="`codemirror-${id}`"
 							v-model="internalMarkdown"
-							:options="codemirrorOptions"
 							:extensions="extensions"
-							:style="{ width: '100%' }" />
+							:style="{ width: '100%' }"
+							:disabled="readonly" />
 						<div v-if="isSql || showPlaceholders">
 							<br />
 							<br />
@@ -292,5 +289,9 @@ const ordinalToAlphabetical = (idx: number): string => String.fromCharCode(idx +
 }
 .item2 {
 	grid-area: b;
+}
+
+.none {
+	display: none;
 }
 </style>

@@ -6,8 +6,15 @@ import { ExamReviewQuestionAnswers } from '@/models/admin/exams/ExamReviewQuesti
 import { ExamReviewAttachment } from '@/models/admin/exams/ExamReviewAttachment';
 import { ref, onMounted, watch, computed } from 'vue';
 import Avatar from 'primevue/avatar';
-
+import { cpp } from '@codemirror/lang-cpp';
+import { oneDark } from '@codemirror/theme-one-dark';
 import RouteNames from '@/router/routes';
+import QuestionPreviewComponent from '@/components/admin/questions/QuestionPreviewComponent.vue';
+
+const courseId = 2000;
+
+//? Which one to use generally?
+const additionalExtensions = [cpp(), oneDark];
 
 enum Outcome {
 	Correct = 'correct',
@@ -144,10 +151,26 @@ const secondsLeft = computed(() => {
 	return new Date(review.value?.seconds_left * 1000).toUTCString().split(' ')[4];
 });
 
-const brokenQuestionText = computed(() => {
-	const replaced = reviewOrdinal.value?.question_text.replaceAll('(\r\n*|\n*)', '<br />');
-	return replaced;
-});
+const responseStudent = ref();
+const responseTeacher = ref();
+const evaluatedStudentCode = ref('aa');
+const evaluatedTeacherCode = ref('aa');
+
+const evaluateStudentCodeAsync = async () => {
+	responseStudent.value = await service.postAsync('/exec/student', {
+		ordinal: props.questionId,
+		testInstanceId: review.value?.id_test_instance,
+		courseId: courseId,
+	});
+};
+const evaluateTeacherCodeAsync = async () => {
+	const response = await service.postAsync('/exec/correct', {
+		ordinal: props.questionId,
+		testInstanceId: review.value?.id_test_instance,
+		courseId: courseId,
+	});
+	evaluatedTeacherCode.value = response.data.codeResult;
+};
 </script>
 
 <template>
@@ -157,6 +180,9 @@ const brokenQuestionText = computed(() => {
 				<div class="wrapper">
 					<div>
 						{{ review?.title }}
+						<p>
+							<small class="text-600 text-xs">{{ review?.type_name }}</small>
+						</p>
 						<p class="text-blue">Total score: {{ review?.score }}</p>
 					</div>
 					<div class="center">
@@ -236,29 +262,55 @@ const brokenQuestionText = computed(() => {
 					</span>
 
 					<span>
-						<router-link :to="{ name: RouteNames.QuestionInstances, params: { id: reviewOrdinal.id } }">
+						<a target="_blank" :href="`http://localhost:1337/question/instances/${reviewOrdinal.id}`">
 							See instances (and accept?)
 							<font-awesome-icon icon="arrow-up-right-from-square" class="ms-2" />
-						</router-link>
+						</a>
 					</span>
 				</div>
-				<span>{{ review }}</span>
 			</template>
 		</Card>
-		<Card>
-			<template #title>ExamReviewOrdinal</template>
-			<template #content>
-				<div>
-					{{ reviewOrdinal }}
-				</div>
-				<div v-if="reviewOrdinal?.question_text_html" v-html="reviewOrdinal?.question_text_html"></div>
-				<div v-else v-html="brokenQuestionText"></div>
-				<div
-					v-if="reviewOrdinal?.question_abc_answers_html"
-					v-html="reviewOrdinal?.question_abc_answers_html"></div>
-				<div></div>
-			</template>
-		</Card>
+		<QuestionPreviewComponent
+			:markdown="reviewOrdinal?.question_text"
+			layout-question="none"
+			layout-preview="'col-12 md:col-12 flex'"
+			preview-header="Question" />
+		<div class="flex">
+			<!-- TODO: Change to Codemirror component -->
+			<QuestionPreviewComponent
+				id="review-student"
+				class="me-1"
+				:markdown="reviewOrdinal?.student_answer_code"
+				layout-preview="none"
+				layout-question="'col-12 md:col-12 flex'"
+				question-header="Student's answer"
+				:show-placeholders="false"
+				:extensions-override="additionalExtensions"
+				readonly />
+			<!-- TODO: Change to Codemirror component -->
+			<QuestionPreviewComponent
+				id="review-teacher"
+				class="ms-1"
+				:markdown="reviewOrdinal?.c_source"
+				:layout-preview="'none'"
+				:layout-question="'col-12 md:col-12 flex'"
+				question-header="Correct answer"
+				:show-placeholders="false"
+				:extensions-override="additionalExtensions"
+				readonly />
+		</div>
+		<TabView class="center">
+			<TabPanel header="Student's result">
+				<div v-html="evaluatedStudentCode"></div>
+				<Button label="Rerun student's code" @click="evaluateStudentCodeAsync" />
+			</TabPanel>
+			<TabPanel header="Correct result">
+				<div v-html="evaluatedTeacherCode"></div>
+				<div>{{ responseTeacher }}</div>
+				<Button label="Rerun teacher's code" @click="evaluateTeacherCodeAsync" />
+			</TabPanel>
+		</TabView>
+
 		<Card>
 			<template #title>ExamReviewQuestionAnswers</template>
 			<template #content>{{ reviewQuestionAnswers }}</template>
@@ -299,5 +351,13 @@ const brokenQuestionText = computed(() => {
 	display: grid;
 	grid-template-columns: repeat(3, 1fr);
 	/* column-gap: rem; */
+}
+
+.ui-tabs .ui-tabs-nav {
+	text-align: center;
+}
+.ui-tabs .ui-tabs-nav li {
+	float: none !important;
+	display: inline-block;
 }
 </style>

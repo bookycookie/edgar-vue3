@@ -6,10 +6,12 @@ import { FilterMatchMode } from 'primevue/api';
 import { AllExamInstances } from '@/models/admin/exams/AllExamInstances';
 
 const academicYearId = 2020;
-const courseId = 477;
+const courseId = 2000;
 const service = new ApiService();
 
-onMounted(async () => {
+onMounted(async () => await getAllExamInstancesAsync());
+
+const getAllExamInstancesAsync = async () => {
 	allExamInstances.value = await service.getManyAsync<AllExamInstances>('/all_test_instances', {
 		academicYearId: academicYearId,
 		courseId: courseId,
@@ -35,7 +37,7 @@ onMounted(async () => {
 			index
 		].title_type_name = `${allExamInstances.value[index].title} — ${allExamInstances.value[index].type_name}`;
 	}
-});
+};
 
 const loading = ref(false);
 const allExamInstances = ref<AllExamInstances[]>([]);
@@ -96,6 +98,15 @@ const skeletonColumns: any[] = [
 	{ field: '', header: 'Manual grading' },
 	{ field: '', header: 'Tickets' },
 ];
+
+const deleteAllAsync = async (instance: AllExamInstances) => {
+	await service
+		.postAsync('/instances/deleteall', { testId: instance.id })
+		.then(async () => await getAllExamInstancesAsync());
+};
+
+//! TODO: Implement
+const forwardGenerateAsync = async (instance: AllExamInstances) => {};
 </script>
 
 <template>
@@ -144,11 +155,7 @@ const skeletonColumns: any[] = [
 							class="p-inputtext-sm p-inputtext-filled"
 							style="border-radius: 14px" />
 					</span>
-					<Button
-						icon="pi pi-external-link"
-						label="Export"
-						class="p-button-rounded p-button-outlined p-button-sm ml-3"
-						@click="exportCSV" />
+					<Button icon="pi pi-external-link" label="Export" class="p-button-sm ml-3" @click="exportCSV" />
 				</div>
 			</template>
 			<Column field="" header="#">
@@ -189,7 +196,7 @@ const skeletonColumns: any[] = [
 			<Column field="test_flags" header="Global Public UseStats ScoreIgnored" sortable>
 				<template #body="{ data }">
 					<div class="center-align">
-						<span :class="flagsPill(data.test_flags)">
+						<span :class="flagsPill(data.test_flags)" style="min-width: 7rem">
 							{{ data.test_flags }}
 						</span>
 					</div>
@@ -211,18 +218,18 @@ const skeletonColumns: any[] = [
 				</template>
 			</Column>
 			<Column field="" header="Delete All">
-				<template #body="{}">
+				<template #body="{ data }">
 					<div class="center">
-						<Button class="p-button-danger">
+						<Button class="p-button-danger" @click="deleteAllAsync(data)">
 							<font-awesome-icon icon="trash"></font-awesome-icon>
 						</Button>
 					</div>
 				</template>
 			</Column>
 			<Column field="" header="Forward generate">
-				<template #body="{}">
+				<template #body="{ data }">
 					<div class="center">
-						<Button class="p-button-warning">
+						<Button class="p-button-warning" @click="forwardGenerateAsync(data)">
 							<font-awesome-icon icon="arrow-turn-right"></font-awesome-icon>
 						</Button>
 					</div>
@@ -231,72 +238,88 @@ const skeletonColumns: any[] = [
 			<Column field="generated" header="Generated" sortable>
 				<template #body="{ data }">
 					<div class="center-align">
-						<Button class="p-button-outlined p-button-primary">
-							{{ data.generated }}
-						</Button>
+						<a target="_blank" :href="`http://localhost:1337/test/instances/generated/test/${data.id}`">
+							<Button class="p-button-outlined p-button-primary">
+								{{ data.generated }}
+							</Button>
+						</a>
 					</div>
 				</template>
 			</Column>
 			<Column field="uploaded_files_no" header="Files uploaded" sortable>
 				<template #body="{ data }">
 					<div class="center-align">
-						<Button class="p-button-outlined p-button-primary">
-							{{ data.uploaded_files_no }}
-						</Button>
+						<a target="_blank" :href="`http://localhost:1337/test/instances/attachments/${data.id}`">
+							<Button class="p-button-outlined p-button-primary">
+								{{ data.uploaded_files_no }}
+							</Button>
+						</a>
 					</div>
 				</template>
 			</Column>
 			<Column field="submitted" header="Submitted" sortable>
 				<template #body="{ data }">
 					<div class="center-align">
-						<Button class="p-button-outlined p-button-primary">
-							{{ data.submitted }}
-						</Button>
+						<a target="_blank" :href="`http://localhost:1337/test/instances/submitted/test/${data.id}`">
+							<Button class="p-button-outlined p-button-primary">
+								{{ data.submitted }}
+							</Button>
+						</a>
 					</div>
 				</template>
 			</Column>
 			<Column field="ongoing" header="Ongoing" sortable>
 				<template #body="{ data }">
 					<div class="center-align">
-						<Button class="p-button-outlined p-button-primary">
-							{{ data.ongoing }}
-						</Button>
+						<a target="_blank" :href="`http://localhost:1337/test/instances/ongoing/test/${data.id}`">
+							<Button class="p-button-outlined p-button-primary">
+								{{ data.ongoing }}
+							</Button>
+						</a>
 					</div>
 				</template>
 			</Column>
 			<Column field="not_started" header="Not started" sortable>
 				<template #body="{ data }">
 					<div class="center-align">
-						<Button class="p-button-outlined p-button-primary">
-							{{ data.not_started }}
-						</Button>
+						<a target="_blank" :href="`http://localhost:1337/test/instances/notstarted/test/${data.id}`">
+							<Button class="p-button-outlined p-button-primary">
+								{{ data.not_started }}
+							</Button>
+						</a>
 					</div>
 				</template>
 			</Column>
 			<Column field="" header="Send message">
-				<template #body="{}">
+				<template #body="{ data }">
 					<div class="center">
-						<Button class="p-button-primary">
-							<font-awesome-icon icon="comment-dots"></font-awesome-icon>
-						</Button>
+						<a target="_blank" :href="`http://localhost:1337/test/instances/sendmessage/test/${data.id}`">
+							<Button class="p-button-primary">
+								<font-awesome-icon icon="comment-dots"></font-awesome-icon>
+							</Button>
+						</a>
 					</div>
 				</template>
 			</Column>
 			<Column field="" header="Manual grading">
-				<template #body="{}">
+				<template #body="{ data }">
 					<div class="center">
-						<Button class="p-button-primary">
-							<font-awesome-icon icon="pen"></font-awesome-icon>
-						</Button>
+						<a target="_blank" :href="`http://localhost:1337/test/instances/manualgrading/test/${data.id}`">
+							<Button class="p-button-primary">
+								<font-awesome-icon icon="pen"></font-awesome-icon>
+							</Button>
+						</a>
 					</div>
 				</template>
 			</Column>
 			<Column field="" header="Tickets">
-				<template #body="{}">
+				<template #body="{ data }">
 					<div class="center">
-						<Button class="p-button-primary">
-							<font-awesome-icon icon="tools"></font-awesome-icon>
-						</Button>
+						<a target="_blank" :href="`http://localhost:1337/ticket/test/${data.id}`">
+							<Button class="p-button-primary">
+								<font-awesome-icon icon="tools"></font-awesome-icon>
+							</Button>
+						</a>
 					</div>
 				</template>
 			</Column>

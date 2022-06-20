@@ -191,25 +191,31 @@ const edit = (data: any) => console.log(data);
 					</Column>
 					<Column field="courses" header="Course(s)" sortable>></Column>
 					<Column field="id" header="Analytics">
-						<template #body="{}">
+						<template #body="{ data }">
 							<div class="center-align">
 								<p>
-									<router-link to="">
+									<a
+										target="_blank"
+										:href="`http://localhost:1337/tutorial/analytics/${data.id}/students`">
 										Students
 										<i class="pi pi-external-link" />
-									</router-link>
+									</a>
 								</p>
 								<p>
-									<router-link to="">
+									<a
+										target="_blank"
+										:href="`http://localhost:1337/tutorial/analytics/${data.id}/groups`">
 										Groups
 										<i class="pi pi-external-link" />
-									</router-link>
+									</a>
 								</p>
 								<p>
-									<router-link to="">
+									<a
+										target="_blank"
+										:href="`http://localhost:1337/feedback/?tutorialId[]=${data.id}`">
 										Feedback
 										<i class="pi pi-external-link" />
-									</router-link>
+									</a>
 								</p>
 							</div>
 						</template>
@@ -226,11 +232,11 @@ const edit = (data: any) => console.log(data);
 					<Column field="" header="Edit">
 						<template #body="{ data }">
 							<div class="center">
-								<router-link to="">
+								<a target="_blank" :href="`http://localhost:1337/tutorial/def/${data.id}/edit/?`">
 									<Button class="p-button-warning" @click="edit(data)">
 										<font-awesome-icon icon="pen-to-square"></font-awesome-icon>
 									</Button>
-								</router-link>
+								</a>
 							</div>
 						</template>
 					</Column>

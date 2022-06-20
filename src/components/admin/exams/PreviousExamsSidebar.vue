@@ -12,7 +12,7 @@ defineProps({
 
 <template>
 	<div v-if="examsSidebar && examsSidebar.length > 0" id="sidebar">
-		<Card class="me-4 ms-2">
+		<Card class="me-5 ms-2 w-100 flex">
 			<template #title>
 				<span>
 					<router-link :to="{ name: RouteNames.PreviousExams }" class="me-2">Total</router-link>

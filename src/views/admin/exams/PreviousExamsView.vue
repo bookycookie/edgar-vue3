@@ -78,7 +78,7 @@ onMounted(async () => {
 		<br />
 		<div class="flex">
 			<PreviousExamsSidebar :exams-sidebar="examsSidebar" />
-			<Card style="width: 85%">
+			<Card style="width: 100%" class="ms-4">
 				<template #title>
 					<div class="grid p-fluid">
 						<div class="col-12 md:col-10 flex">
