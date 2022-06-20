@@ -85,7 +85,6 @@ const edit = (data: any) => console.log(data);
 
 <template>
 	<div class="container-fluid">
-		<Toast />
 		<br />
 		<Card>
 			<template #title>Tutorial definitions</template>

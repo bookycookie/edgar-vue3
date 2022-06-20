@@ -24,7 +24,6 @@ const exportCSV = () => onlineDt.value.exportCSV();
 
 <template>
 	<div class="container-fluid">
-		<Toast />
 		<Card>
 			<template #title>Online users (= touched server in the last hour):</template>
 			<template #content>

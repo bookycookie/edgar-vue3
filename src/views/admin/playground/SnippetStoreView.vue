@@ -42,7 +42,6 @@ onMounted(async () => {
 
 <template>
 	<div class="container-fluid">
-		<Toast />
 		<Card>
 			<template #title>Snippets for the current course and year:</template>
 			<template #content>

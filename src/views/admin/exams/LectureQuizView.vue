@@ -8,7 +8,6 @@ const start = (password: string, allowAnonymous: boolean) => password + allowAno
 
 <template>
 	<div class="container-fluid">
-		<Toast />
 		<Card>
 			<template #title>
 				<div class="center">Start new lecture quiz</div>

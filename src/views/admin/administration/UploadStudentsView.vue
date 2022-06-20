@@ -61,7 +61,6 @@ const insertNewAsync = async () => {
 
 <template>
 	<div class="container-fluid">
-		<Toast />
 		<Card>
 			<template #title>Upload students</template>
 			<template #content>

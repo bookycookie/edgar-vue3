@@ -7,7 +7,6 @@ const boilerplate = '';
 
 <template>
 	<div class="container-fluid">
-		<Toast />
 		<Card>
 			<template #title></template>
 			<template #content></template>

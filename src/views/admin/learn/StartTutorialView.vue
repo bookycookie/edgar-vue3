@@ -55,7 +55,6 @@ const start = async (tutorial: TutorialTable) => console.log('start');
 
 <template>
 	<div class="container-fluid">
-		<Toast />
 		<br />
 		<Card>
 			<template #title>Tutorials:</template>

@@ -21,17 +21,17 @@ export default class ApiService {
 				params: params,
 			});
 
-			if (res && res.data && res.data.success === false) {
-				return null;
-			}
-
-			console.log(res.data);
 			this.toast.add({
 				severity: 'success',
 				summary: `${res.status} ${res.statusText}`,
 				detail: `Successful GET ${url}.`,
 				life: 2000,
 			});
+			if (res && res.data && res.data.success === false) {
+				return null;
+			}
+
+			console.log(res.data);
 			data = res.data;
 		} catch (error: any) {
 			const err = error.response.data;
@@ -61,17 +61,17 @@ export default class ApiService {
 				params: params,
 			});
 
-			if (res && res.data && res.data.success === false) {
-				return [];
-			}
-
-			console.log(res.data);
 			this.toast.add({
 				severity: 'success',
 				summary: `${res.status} ${res.statusText}`,
 				detail: `GET ${url}.`,
 				life: 2000,
 			});
+			if (res && res.data && res.data.success === false) {
+				return [];
+			}
+
+			console.log(res.data);
 
 			console.log(res);
 			data = res.data;

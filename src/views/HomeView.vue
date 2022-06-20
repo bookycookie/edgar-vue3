@@ -109,7 +109,6 @@ const startExamAsync = () => {};
 
 <template>
 	<div class="container-fluid">
-		<Toast />
 		<Card>
 			<template #content>
 				<div class="row d-flex justify-content-center">

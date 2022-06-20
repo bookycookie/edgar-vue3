@@ -59,7 +59,6 @@ const edit = () => console.log('edit');
 
 <template>
 	<div class="container-fluid">
-		<Toast />
 		<br />
 		<Card>
 			<template #title>Exercises</template>

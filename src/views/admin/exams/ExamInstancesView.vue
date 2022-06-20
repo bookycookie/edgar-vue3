@@ -100,7 +100,6 @@ const skeletonColumns: any[] = [
 
 <template>
 	<div class="container-fluid">
-		<Toast />
 		<br />
 		<h2>Exams for the current course and year:</h2>
 		<DataTable v-if="loading" :value="skeletonExamInstances" responsive-layout="scroll">

@@ -82,7 +82,6 @@ const results = (id: number) => {
 
 <template>
 	<div class="container-fluid">
-		<Toast />
 		<Card>
 			<template #title>All quiz instances:</template>
 			<template #content>

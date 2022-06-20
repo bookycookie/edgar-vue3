@@ -49,8 +49,6 @@ const saveCourseDataObject = async () => {
 </script>
 <template>
 	<div class="container-fluid">
-		<Toast />
-		<Toast />
 		<br />
 		<div class="grid p-fluid">
 			<div class="col-12 md:col-6 flex">

@@ -198,7 +198,6 @@ const publishAsync = async () => {
 
 <template>
 	<div class="container-fluid">
-		<Toast />
 		<Dialog v-model:visible="showSaveAsDialog" :base-z-index="1338" class="w-25">
 			<template #header>
 				<h3>Save code snippet</h3>

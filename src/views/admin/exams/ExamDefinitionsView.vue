@@ -198,8 +198,6 @@ onMounted(async () => {
 
 <template>
 	<div class="container-fluid no-x">
-		<Toast />
-
 		<br />
 		<h2>Exams for the current course and year:</h2>
 		<br />

@@ -61,7 +61,6 @@ const questions = (data: any) => console.log('questions');
 
 <template>
 	<div class="container-fluid">
-		<Toast />
 		<br />
 		<Card>
 			<template #title>Exercise definitions</template>
