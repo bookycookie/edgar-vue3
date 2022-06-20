@@ -4,12 +4,10 @@ import { useRouter } from 'vue-router';
 import ApiService from '@/services/ApiService';
 import humanize from '@/utilities/date-humanizer/humanizer';
 import RouteNames from '../router/routes';
+import CONSTANTS from '@/config/constants';
 
 const service = new ApiService();
 
-const studentId = 23;
-const courseId = 2000;
-const academicYearId = 2020;
 type UnsubmittedPrivateExam = {
 	id: number;
 	title: string;
@@ -60,16 +58,19 @@ const password = ref('');
 const publicExams = ref<PublicExam[]>([]);
 const getPublicExamsAsync = async () => {
 	await service
-		.getManyAsync<PublicExam>('/home/public_exams', { studentId: studentId, courseId: courseId })
+		.getManyAsync<PublicExam>('/home/public_exams', {
+			studentId: CONSTANTS.STUDENT_ID,
+			courseId: CONSTANTS.COURSE_ID,
+		})
 		.then((pe: PublicExam[]) => (publicExams.value = pe));
 };
 const unsubmittedPrivateExams = ref<UnsubmittedPrivateExam[]>([]);
 const getUnsubmittedPrivateExamsAsync = async () => {
 	await service
 		.getManyAsync<UnsubmittedPrivateExam>('/home/unsubmitted_private_exams', {
-			studentId: studentId,
-			courseId: courseId,
-			academicYearId: academicYearId,
+			studentId: CONSTANTS.STUDENT_ID,
+			courseId: CONSTANTS.COURSE_ID,
+			academicYearId: CONSTANTS.ACADEMIC_YEAR_ID,
 		})
 		.then((upe: UnsubmittedPrivateExam[]) => (unsubmittedPrivateExams.value = upe));
 };
@@ -77,8 +78,8 @@ const tutorials = ref<Tutorial[]>([]);
 const getTutorialsAsync = async () => {
 	await service
 		.getManyAsync<Tutorial>('/home/tutorials', {
-			studentId: studentId,
-			courseId: courseId,
+			studentId: CONSTANTS.STUDENT_ID,
+			courseId: CONSTANTS.COURSE_ID,
 		})
 		.then((t: Tutorial[]) => (tutorials.value = t));
 };
@@ -86,9 +87,9 @@ const exercises = ref<Exercise[]>([]);
 const getExercisesAsync = async () => {
 	await service
 		.getManyAsync<Exercise>('/home/exercises', {
-			studentId: studentId,
-			courseId: courseId,
-			academicYearId: academicYearId,
+			studentId: CONSTANTS.STUDENT_ID,
+			courseId: CONSTANTS.COURSE_ID,
+			academicYearId: CONSTANTS.ACADEMIC_YEAR_ID,
 		})
 		.then((e: Exercise[]) => (exercises.value = e));
 };

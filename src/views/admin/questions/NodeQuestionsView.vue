@@ -127,7 +127,9 @@ onMounted(async () => {
 		nodes.value = await service.getManyAsync<QuestionNode>('/node/questions/nodes', {
 			courseId: CONSTANTS.COURSE_ID,
 		});
-		questions.value = await service.getManyAsync<Question>('/node/questions/all', { courseId: courseId });
+		questions.value = await service.getManyAsync<Question>('/node/questions/all', {
+			courseId: CONSTANTS.COURSE_ID,
+		});
 	} finally {
 		isLoading.value = false;
 	}
