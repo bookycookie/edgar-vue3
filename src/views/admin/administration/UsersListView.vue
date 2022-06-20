@@ -4,9 +4,6 @@ import ApiService from '@/services/ApiService';
 import { UserList } from '@/models/admin/administration/UserList';
 import { FilterMatchMode } from 'primevue/api';
 import humanize from '@/utilities/date-humanizer/humanizer';
-const courseId = 155;
-const academicYearId = 2020;
-const appUserId = 46;
 const service = new ApiService();
 
 const usersDt = ref();

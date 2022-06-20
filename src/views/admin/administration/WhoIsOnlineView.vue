@@ -4,9 +4,6 @@ import ApiService from '@/services/ApiService';
 import { OnlineUser } from '@/models/admin/administration/OnlineUser';
 import { FilterMatchMode } from 'primevue/api';
 import humanize from '@/utilities/date-humanizer/humanizer';
-
-const courseId = 155;
-const academicYearId = 2020;
 const service = new ApiService();
 
 const online = ref<OnlineUser[]>([]);

@@ -16,24 +16,6 @@ const props = defineProps({
 		type: String,
 		required: true,
 	},
-	codemirrorOptions: {
-		type: Object as PropType<{
-			mode: string;
-			theme: string;
-			lineNumbers: boolean;
-			smartIndent: boolean;
-			foldGutter: boolean;
-			styleActiveLine: boolean;
-			viewportMargin: number;
-			indentUnit: number;
-			tabSize: number;
-			indentWithTabs: boolean | undefined;
-		}>,
-		required: true,
-		default() {
-			return {};
-		},
-	},
 	courseId: {
 		type: Number,
 		required: true,
@@ -80,7 +62,6 @@ const internalDataObject = useModelWrapper<string>(props, emit, 'dataObject');
 								<template #content>
 									<Codemirror
 										v-model="internalDataObject"
-										:options="{ ...codemirrorOptions, mode: 'text/typescript' }"
 										:extensions="extensions"
 										:style="{ width: '100%' }" />
 									<Button

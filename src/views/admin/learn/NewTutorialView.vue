@@ -3,9 +3,7 @@ import { ref, onMounted, computed } from 'vue';
 import ApiService from '@/services/ApiService';
 import { QuestionType } from '@/models/admin/learn/QuestionType';
 import { Coderunner } from '@/models/admin/learn/Coderunner';
-
-const courseId = 2000;
-const appUserId = 46;
+import CONSTANTS from '@/config/constants';
 
 enum Activity {
 	Active = 'ACTIVE',
@@ -66,8 +64,8 @@ const create = async () => {
 		answersCount: answersCount.value,
 		questionTypeId: selectedQuestionType.value?.id,
 		coderunnerId: selectedCoderunner.value?.id,
-		courseId: courseId,
-		appUserId: appUserId,
+		courseId: CONSTANTS.COURSE_ID,
+		appUserId: CONSTANTS.APP_USER_ID,
 	};
 
 	await service.postAsync('/tutorial/create', createObject);

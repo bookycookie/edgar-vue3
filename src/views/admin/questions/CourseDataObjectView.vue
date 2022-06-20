@@ -1,18 +1,17 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue';
-import Toast from 'primevue/toast';
 import { useToast } from 'primevue/usetoast';
 import ApiService from '@/services/ApiService';
 import { Codemirror } from 'vue-codemirror';
 import { javascript } from '@codemirror/lang-javascript';
 import { oneDark } from '@codemirror/theme-one-dark';
+import CONSTANTS from '@/config/constants';
 
 const toast = useToast();
 const service = new ApiService();
-const courseId = 2000;
 
 onMounted(async () => {
-	const dataObjects = await service.getManyAsync<any>('/data_object', { courseId: courseId });
+	const dataObjects = await service.getManyAsync<any>('/data_object', { courseId: CONSTANTS.COURSE_ID });
 
 	globalDataObject.value = dataObjects[0].data_object;
 	courseDataObject.value = dataObjects[1].data_object;
@@ -27,7 +26,7 @@ const saveCourseDataObject = async () => {
 	service
 		.postAsync('/data_object/save', {
 			dataObject: courseDataObject.value,
-			courseId: courseId,
+			courseId: CONSTANTS.COURSE_ID,
 		})
 		.then(() => {
 			toast.add({

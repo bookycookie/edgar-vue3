@@ -1,20 +1,14 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue';
 import ApiService from '@/services/ApiService';
-import { Test } from '@/models/admin/exams/Test';
 import { LectureInstancesTable } from '@/models/admin/exams/LectureInstancesTable';
 import humanize from '@/utilities/date-humanizer/humanizer';
 import { FilterMatchMode } from 'primevue/api';
-import Toast from 'primevue/toast';
 import { useToast } from 'primevue/usetoast';
-import RouteNames from '@/router/routes';
-import { useRouter } from 'vue-router';
-const appUserId = 46;
-const courseId = 2000;
-const academicYearId = 2020;
+import CONSTANTS from '@/config/constants';
+
 const service = new ApiService();
 const toast = useToast();
-const router = useRouter();
 
 const lectureInstancesTable = ref<LectureInstancesTable[]>([]);
 
@@ -24,9 +18,9 @@ onMounted(async () => {
 
 const getLectureInstancesAsync = async () => {
 	lectureInstancesTable.value = await service.getManyAsync<LectureInstancesTable>('/lecture_instances_table', {
-		appUserId: appUserId,
-		courseId: courseId,
-		academicYearId: academicYearId,
+		appUserId: CONSTANTS.APP_USER_ID,
+		courseId: CONSTANTS.COURSE_ID,
+		academicYearId: CONSTANTS.ACADEMIC_YEAR_ID,
 	});
 };
 

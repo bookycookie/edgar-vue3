@@ -4,10 +4,8 @@ import ApiService from '@/services/ApiService';
 import { ExerciseTable } from '@/models/admin/learn/ExerciseTable';
 import { FilterMatchMode } from 'primevue/api';
 import humanize from '@/utilities/date-humanizer/humanizer';
+import CONSTANTS from '@/config/constants';
 
-const courseId = 2000;
-const academicYearId = 2020;
-const studentId = 23;
 const loading = ref(false);
 const service = new ApiService();
 
@@ -42,9 +40,9 @@ onMounted(async () => {
 	try {
 		loading.value = true;
 		exerciseDefTable.value = await service.getManyAsync<ExerciseTable>('/exercise/definitions', {
-			courseId: courseId,
-			academicYearId: academicYearId,
-			studentId: studentId,
+			studentId: CONSTANTS.STUDENT_ID,
+			courseId: CONSTANTS.COURSE_ID,
+			academicYearId: CONSTANTS.ACADEMIC_YEAR_ID,
 		});
 	} finally {
 		loading.value = false;

@@ -4,11 +4,7 @@ import ApiService from '@/services/ApiService';
 import { Ticket } from '@/models/admin/exams/Ticket';
 import humanize from '@/utilities/date-humanizer/humanizer';
 import { FilterMatchMode } from 'primevue/api';
-
-const appUserId = 46;
-const studentId = 23;
-const courseId = 2000;
-const academicYearId = 2020;
+import CONSTANTS from '@/config/constants';
 
 const service = new ApiService();
 
@@ -17,14 +13,14 @@ const myTickets = ref<Ticket[]>([]);
 
 onMounted(async () => {
 	studentTickets.value = await service.getManyAsync<Ticket>('/my_tickets_student', {
-		studentId: studentId,
-		courseId: courseId,
-		academicYearId: academicYearId,
+		studentId: CONSTANTS.STUDENT_ID,
+		courseId: CONSTANTS.COURSE_ID,
+		academicYearId: CONSTANTS.ACADEMIC_YEAR_ID,
 	});
 	myTickets.value = await service.getManyAsync<Ticket>('/my_tickets', {
-		appUserId: appUserId,
-		courseId: courseId,
-		academicYearId: academicYearId,
+		appUserId: CONSTANTS.APP_USER_ID,
+		courseId: CONSTANTS.COURSE_ID,
+		academicYearId: CONSTANTS.ACADEMIC_YEAR_ID,
 	});
 });
 

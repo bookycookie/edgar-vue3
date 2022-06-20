@@ -3,19 +3,11 @@ import { ref, onMounted, computed } from 'vue';
 import ApiService from '@/services/ApiService';
 import { QuestionNode } from '@/models/admin/learn/QuestionNode';
 import { AdaptivityModel } from '@/models/admin/learn/AdaptivityModel';
-
-const courseId = 2000;
-const appUserId = 46;
-const academicYearId = 2020;
+import CONSTANTS from '@/config/constants';
 
 enum Activity {
 	Active = 'ACTIVE',
 	Inactive = 'INACTIVE',
-}
-
-enum Access {
-	Random = 'RANDOM',
-	Sequential = 'SEQUENTIAL',
 }
 
 const service = new ApiService();
@@ -34,7 +26,7 @@ const selectedAdaptivityModel = ref<AdaptivityModel>();
 
 onMounted(async () => {
 	const questionNodesPromise = service
-		.getManyAsync<QuestionNode>('/question_nodes', { courseId: courseId })
+		.getManyAsync<QuestionNode>('/question_nodes', { courseId: CONSTANTS.COURSE_ID })
 		.then((nodes: QuestionNode[]) => {
 			questionNodes.value = nodes;
 		});
@@ -53,10 +45,10 @@ const isActive = computed(() => activity.value === Activity.Active);
 
 const create = async () => {
 	const createObject = {
-		courseId: courseId,
-		academicYearId: academicYearId,
+		courseId: CONSTANTS.COURSE_ID,
+		academicYearId: CONSTANTS.ACADEMIC_YEAR_ID,
 		adaptivityModelId: selectedAdaptivityModel.value?.id,
-		appUserId: appUserId,
+		appUserId: CONSTANTS.APP_USER_ID,
 		nodeIds: selectedQuestionNodes.value.map((qn: QuestionNode) => qn.id),
 		title: title.value,
 		description: description.value,

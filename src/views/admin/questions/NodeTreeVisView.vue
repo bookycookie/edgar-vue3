@@ -3,6 +3,7 @@ import { ref, onMounted } from 'vue';
 import ApiService from '@/services/ApiService';
 import humanize from '@/utilities/date-humanizer/humanizer';
 import { FilterMatchMode } from 'primevue/api';
+import CONSTANTS from '@/config/constants';
 
 const loading = ref(false);
 
@@ -13,8 +14,6 @@ type VisNodeInformation = {
 	tsModified: string;
 	type: string;
 };
-
-const courseId = 477;
 
 type VisNode = {
 	id: number;
@@ -57,7 +56,7 @@ const makeTree = (nodes: VisNode[], parentId: number | null): any => {
 };
 
 onMounted(async () => {
-	await service.getManyAsync<VisNode>('/vistree', { courseId: courseId }).then((nodes: VisNode[]) => {
+	await service.getManyAsync<VisNode>('/vistree', { courseId: CONSTANTS.COURSE_ID }).then((nodes: VisNode[]) => {
 		root.value = makeTree(nodes, null);
 	});
 });

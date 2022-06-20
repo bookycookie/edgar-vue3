@@ -4,9 +4,8 @@ import ApiService from '@/services/ApiService';
 import { TutorialTable } from '@/models/admin/learn/TutorialTable';
 import { FilterMatchMode } from 'primevue/api';
 import humanize from '@/utilities/date-humanizer/humanizer';
+import CONSTANTS from '@/config/constants';
 
-const studentId = 23;
-const courseId = 2000;
 const loading = ref(false);
 const service = new ApiService();
 
@@ -39,8 +38,8 @@ onMounted(async () => {
 	try {
 		loading.value = true;
 		tutorialTable.value = await service.getManyAsync<TutorialTable>('/tutorials', {
-			studentId: studentId,
-			courseId: courseId,
+			studentId: CONSTANTS.STUDENT_ID,
+			courseId: CONSTANTS.COURSE_ID,
 		});
 	} finally {
 		loading.value = false;

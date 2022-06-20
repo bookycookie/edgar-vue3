@@ -5,15 +5,12 @@ import { TestTable } from '@/models/admin/exams/TestTable';
 import { Test } from '@/models/admin/exams/Test';
 import humanize from '@/utilities/date-humanizer/humanizer';
 import { FilterMatchMode } from 'primevue/api';
-import Toast from 'primevue/toast';
 import { useToast } from 'primevue/usetoast';
-import { useRouter, useRoute } from 'vue-router';
+import { useRouter } from 'vue-router';
 import RouteNames from '@/router/routes';
+import CONSTANTS from '@/config/constants';
 
 const router = useRouter();
-const courseId = 2000;
-const academicYearId = 2020;
-const appUserId = 46;
 
 const toast = useToast();
 const loading = ref(false);
@@ -147,9 +144,9 @@ const create = async () => {
 	service
 		.postAsync('/exam/new', {
 			testTypeId: selectedTest.value?.id,
-			courseId: courseId,
-			academicYearId: academicYearId,
-			appUserId: appUserId,
+			appUserId: CONSTANTS.APP_USER_ID,
+			courseId: CONSTANTS.COURSE_ID,
+			academicYearId: CONSTANTS.ACADEMIC_YEAR_ID,
 		})
 		.then((response: any) => {
 			if (!response) return;
@@ -177,8 +174,8 @@ const edit = (id: number) => {
 
 const getTestTableAsync = async () => {
 	testTable.value = await service.getManyAsync<TestTable>('/test_table', {
-		courseId: courseId,
-		academicYearId: academicYearId,
+		courseId: CONSTANTS.COURSE_ID,
+		academicYearId: CONSTANTS.ACADEMIC_YEAR_ID,
 	});
 
 	for (var i = 0; i < testTable.value.length; i++) {

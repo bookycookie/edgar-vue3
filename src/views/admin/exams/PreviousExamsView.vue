@@ -10,12 +10,10 @@ import PreviousExamsTable from '@/components/admin/exams/PreviousExamsTable.vue'
 import { useRouter } from 'vue-router';
 import PreviousExamsId from '@/views/admin/exams/PreviousExamsIdView.vue';
 import RouteNames from '@/router/routes';
+import CONSTANTS from '@/config/constants';
 const router = useRouter();
 
 const service = new ApiService();
-const studentId = 23;
-const courseId = 477;
-const academicYearId = 2020;
 
 const exams = ref<PreviousExam[]>([]);
 const examsSidebar = ref<PreviousExamSidebar[]>([]);
@@ -36,9 +34,9 @@ const getQueryData = async () => {
 	if (!props.id) return;
 
 	examsNotOver.value = await service.getManyAsync<PreviousExamNotOver>('/test_instances_not_over', {
-		studentId: studentId,
-		courseId: courseId,
-		academicYearId: academicYearId,
+		studentId: CONSTANTS.STUDENT_ID,
+		courseId: CONSTANTS.COURSE_ID,
+		academicYearId: CONSTANTS.ACADEMIC_YEAR_ID,
 		testId: props.id,
 	});
 
@@ -61,14 +59,14 @@ const getQueryData = async () => {
 
 onMounted(async () => {
 	exams.value = await service.getManyAsync<PreviousExam>('/test_instances', {
-		studentId: studentId,
-		courseId: courseId,
-		academicYearId: academicYearId,
+		studentId: CONSTANTS.STUDENT_ID,
+		courseId: CONSTANTS.COURSE_ID,
+		academicYearId: CONSTANTS.ACADEMIC_YEAR_ID,
 	});
 	examsSidebar.value = await service.getManyAsync<PreviousExamSidebar>('/test_instances_sidebar', {
-		studentId: studentId,
-		courseId: courseId,
-		academicYearId: academicYearId,
+		studentId: CONSTANTS.STUDENT_ID,
+		courseId: CONSTANTS.COURSE_ID,
+		academicYearId: CONSTANTS.ACADEMIC_YEAR_ID,
 	});
 	await getQueryData();
 });

@@ -4,6 +4,7 @@ import ApiService from '@/services/ApiService';
 import humanize from '@/utilities/date-humanizer/humanizer';
 import { FilterMatchMode } from 'primevue/api';
 import { QuestionNode } from '@/models/admin/questions/QuestionNode';
+import CONSTANTS from '@/config/constants';
 type Question = {
 	id: number;
 	id_ver_act: string;
@@ -13,7 +14,6 @@ type Question = {
 	type_name: string;
 };
 
-const courseId = 477;
 const service = new ApiService();
 
 const isLoading = ref(false);
@@ -125,7 +125,7 @@ onMounted(async () => {
 	try {
 		isLoading.value = true;
 		nodes.value = await service.getManyAsync<QuestionNode>('/node/questions/nodes', {
-			courseId: courseId,
+			courseId: CONSTANTS.COURSE_ID,
 		});
 		questions.value = await service.getManyAsync<Question>('/node/questions/all', { courseId: courseId });
 	} finally {

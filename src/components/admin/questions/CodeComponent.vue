@@ -40,26 +40,10 @@ const props = defineProps({
 			return;
 		},
 	},
-	codemirrorOptions: {
-		type: Object as PropType<{
-			mode: string;
-			theme: string;
-			lineNumbers: boolean;
-			smartIndent: boolean;
-			foldGutter: boolean;
-			styleActiveLine: boolean;
-			viewportMargin: number;
-			indentUnit: number;
-			tabSize: number;
-			indentWithTabs: boolean | undefined;
-		}>,
-		required: true,
-	},
 });
 
 // Props to watch
 const propsLanguages = toRefs(props).languages;
-const cmOptions = toRefs(props).codemirrorOptions;
 watch(propsLanguages, (newValue) => {
 	internalSelectedLanguage.value = newValue[0];
 });
@@ -67,12 +51,6 @@ watch(propsLanguages, (newValue) => {
 const activeIndexes = ref([1]);
 
 onMounted(() => {
-	// All code accordions and open on page load so
-	// the CodeMirror component can render its height properly
-	// we minimize them afterwards
-	// setTimeout(() => {
-	// 	activeIndexes.value = [1];
-	// }, 1500);
 	internalSelectedLanguage.value = props.languages[0];
 });
 
@@ -98,11 +76,7 @@ const internalSelectedLanguage = useModelWrapper<ProgrammingLanguage>(props, emi
 <template>
 	<Accordion :active-index="activeIndexes" multiple>
 		<AccordionTab header="Code prefix">
-			<Codemirror
-				v-model="internalCodePrefix"
-				:options="cmOptions"
-				:extensions="computedExtensions"
-				:style="{ width: '100%' }" />
+			<Codemirror v-model="internalCodePrefix" :extensions="computedExtensions" :style="{ width: '100%' }" />
 		</AccordionTab>
 		<AccordionTab>
 			<template #header>
@@ -122,19 +96,11 @@ const internalSelectedLanguage = useModelWrapper<ProgrammingLanguage>(props, emi
 			</div>
 			<br />
 			<div class="p-inputgroup">
-				<Codemirror
-					v-model="internalCodeSource"
-					:options="cmOptions"
-					:extensions="computedExtensions"
-					:style="{ width: '100%' }" />
+				<Codemirror v-model="internalCodeSource" :extensions="computedExtensions" :style="{ width: '100%' }" />
 			</div>
 		</AccordionTab>
 		<AccordionTab header="Code suffix">
-			<Codemirror
-				v-model="internalCodeSuffix"
-				:options="cmOptions"
-				:extensions="computedExtensions"
-				:style="{ width: '100%' }" />
+			<Codemirror v-model="internalCodeSuffix" :extensions="computedExtensions" :style="{ width: '100%' }" />
 		</AccordionTab>
 	</Accordion>
 </template>

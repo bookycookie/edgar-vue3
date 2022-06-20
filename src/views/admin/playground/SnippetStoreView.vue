@@ -6,13 +6,11 @@ import humanize from '@/utilities/date-humanizer/humanizer';
 import { FilterMatchMode } from 'primevue/api';
 import RouteNames from '@/router/routes';
 import router from '@/router';
+import CONSTANTS from '@/config/constants';
 
 const filters = ref({
 	global: { value: '', matchMode: FilterMatchMode.CONTAINS },
 });
-const courseId = 155;
-const academicYearId = 2020;
-const studentId = 23;
 
 const service = new ApiService();
 
@@ -23,7 +21,7 @@ const exportCSV = () => snippetsDt.value.exportCSV();
 
 const fork = async (snippet: SnippetTable) => {
 	await service
-		.postAsync('/playground/snippet/fork', { studentId: studentId, snippetId: snippet.id })
+		.postAsync('/playground/snippet/fork', { studentId: CONSTANTS.STUDENT_ID, snippetId: snippet.id })
 		.then((response: any) => {
 			const newId = parseInt(response.data.rows[0].id);
 
@@ -33,9 +31,9 @@ const fork = async (snippet: SnippetTable) => {
 
 onMounted(async () => {
 	snippets.value = await service.getManyAsync<SnippetTable>('/playground/snippet_table', {
-		courseId: courseId,
-		academicYearId: academicYearId,
-		studentId: studentId,
+		courseId: CONSTANTS.COURSE_ID,
+		academicYearId: CONSTANTS.ACADEMIC_YEAR_ID,
+		studentId: CONSTANTS.STUDENT_ID,
 	});
 });
 </script>

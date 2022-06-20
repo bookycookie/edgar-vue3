@@ -4,13 +4,8 @@ import { TestItem } from '@/models/admin/questions/TestItem';
 import { ProgrammingLanguage } from '@/models/admin/questions/ProgrammingLanguage';
 import { RuntimeConstraint } from '@/models/admin/questions/RuntimeConstraint';
 import useModelWrapper from '@/composables/modelWrapper';
-// import { CmComponentRef } from 'codemirror-editor-vue3';
 import { Codemirror } from 'vue-codemirror';
 import { cpp } from '@codemirror/lang-cpp';
-import { javascript } from '@codemirror/lang-javascript';
-import { java } from '@codemirror/lang-java';
-import { python } from '@codemirror/lang-python';
-import { sql } from '@codemirror/lang-sql';
 import { oneDark } from '@codemirror/theme-one-dark';
 import { Extension } from '@codemirror/state';
 import ApiService from '@/services/ApiService';
@@ -24,7 +19,6 @@ const service = new ApiService();
 
 const extensions: Extension[] = [cpp(), oneDark];
 
-// const cmRefDom = ref<CmComponentRef[]>([]);
 const emit = defineEmits(['update:items', 'update:constraints']);
 const props = defineProps({
 	items: {
@@ -52,21 +46,6 @@ const props = defineProps({
 		default() {
 			return [];
 		},
-	},
-	codemirrorOptions: {
-		type: Object as PropType<{
-			mode: string;
-			theme: string;
-			lineNumbers: boolean;
-			smartIndent: boolean;
-			foldGutter: boolean;
-			styleActiveLine: boolean;
-			viewportMargin: number;
-			indentUnit: number;
-			tabSize: number;
-			indentWithTabs: boolean | undefined;
-		}>,
-		required: true,
 	},
 });
 
@@ -268,7 +247,6 @@ const generate = async (typeId?: number, lowBound?: number, upBound?: number, el
 													ref="cmRefDom"
 													v-model="item.input"
 													class="me-2 mb-2"
-													:options="codemirrorOptions"
 													:extensions="extensions"
 													:style="{ width: '100%' }" />
 											</div>
@@ -283,7 +261,6 @@ const generate = async (typeId?: number, lowBound?: number, upBound?: number, el
 													ref="cmRefDom"
 													v-model="item.output"
 													class="me-2 mb-2"
-													:options="codemirrorOptions"
 													:extensions="extensions"
 													:style="{ width: '100%' }" />
 											</div>
@@ -433,7 +410,6 @@ const generate = async (typeId?: number, lowBound?: number, upBound?: number, el
 										ref="cmRefDom"
 										v-model="item.comment"
 										class="me-2"
-										:options="codemirrorOptions"
 										:extensions="extensions"
 										:style="{ width: '100%' }" />
 								</div>

@@ -60,21 +60,6 @@ const props = defineProps({
 		type: Object as PropType<ColumnMode>,
 		required: true,
 	},
-	codemirrorOptions: {
-		type: Object as PropType<{
-			mode: string;
-			theme: string;
-			lineNumbers: boolean;
-			smartIndent: boolean;
-			foldGutter: boolean;
-			styleActiveLine: boolean;
-			viewportMargin: number;
-			indentUnit: number;
-			tabSize: number;
-			indentWithTabs: boolean | undefined;
-		}>,
-		required: true,
-	},
 	columns: {
 		type: Object as PropType<Array<string>>,
 		required: false,
@@ -162,7 +147,6 @@ const runAll = async () => {
 				<Codemirror
 					id="sql-answer-cm"
 					v-model="internalSqlAnswer"
-					:options="codemirrorOptions"
 					:extensions="extensions"
 					:style="{ width: '100%' }" />
 				<div v-if="rows && !sqlError">
@@ -224,7 +208,6 @@ const runAll = async () => {
 				<Codemirror
 					id="sql-prefix-cm"
 					v-model="internalSqlPrefix"
-					:options="codemirrorOptions"
 					:extensions="extensions"
 					:style="{ width: '100%' }" />
 			</AccordionTab>
@@ -251,7 +234,6 @@ const runAll = async () => {
 				<Codemirror
 					id="sql-suffix-cm"
 					v-model="internalSqlSuffix"
-					:options="codemirrorOptions"
 					:extensions="extensions"
 					:style="{ width: '100%' }" />
 			</AccordionTab>
@@ -278,7 +260,6 @@ const runAll = async () => {
 				<Codemirror
 					id="sql-presentation-query-cm"
 					v-model="internalPresentationQuery"
-					:options="codemirrorOptions"
 					:extensions="extensions"
 					:style="{ width: '100%' }" />
 			</AccordionTab>

@@ -5,15 +5,13 @@ import { TeacherList } from '@/models/admin/administration/TeacherList';
 import { TeacherListNo } from '@/models/admin/administration/TeacherListNo';
 import { FilterMatchMode } from 'primevue/api';
 import humanize from '@/utilities/date-humanizer/humanizer';
-const courseId = 155;
-const academicYearId = 2020;
-const appUserId = 46;
+import CONSTANTS from '@/config/constants';
 const service = new ApiService();
 
 const teachers = ref<TeacherList[]>([]);
 const getTeachersAsync = async () => {
 	teachers.value = await service.getManyAsync<TeacherList>('/administration/teachers/list', {
-		courseId: courseId,
+		courseId: CONSTANTS.COURSE_ID,
 	});
 };
 
@@ -21,7 +19,7 @@ const teachersNo = ref<TeacherListNo[]>([]);
 const selectedTeacherNo = ref<TeacherListNo>();
 const getTeachersNoAsync = async () => {
 	teachersNo.value = await service.getManyAsync<TeacherListNo>('/administration/teachers/list_no', {
-		courseId: courseId,
+		courseId: CONSTANTS.COURSE_ID,
 	});
 };
 
@@ -34,8 +32,8 @@ const addTeacherNoAsync = async () => {
 	await service
 		.postAsync('/administration/teachers/add', {
 			teacherId: selectedTeacherNo.value?.id,
-			courseId: courseId,
-			academicYearId: academicYearId,
+			courseId: CONSTANTS.COURSE_ID,
+			academicYearId: CONSTANTS.ACADEMIC_YEAR_ID,
 		})
 		.then(async () => await Promise.all([getTeachersAsync(), getTeachersNoAsync()]));
 };
@@ -43,7 +41,7 @@ const addTeacherNoAsync = async () => {
 const deleteAsync = async (teacherId: number) => {
 	await service
 		.postAsync('/administration/teachers/delete', {
-			courseId: courseId,
+			courseId: CONSTANTS.COURSE_ID,
 			teacherId: teacherId,
 		})
 		.then(async () => await Promise.all([getTeachersAsync(), getTeachersNoAsync()]));

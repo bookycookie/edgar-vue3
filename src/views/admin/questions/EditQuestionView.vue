@@ -31,6 +31,7 @@ import Toast from 'primevue/toast';
 import { useToast } from 'primevue/usetoast';
 import { useRouter, useRoute } from 'vue-router';
 import RouteNames from '@/router/routes';
+import CONSTANTS from '@/config/constants';
 
 const HeaderComponent = defineAsyncComponent(() => import('@/components/admin/questions/HeaderComponent.vue'));
 const QuestionPreviewComponent = defineAsyncComponent(
@@ -71,10 +72,8 @@ const props = defineProps({
 	id: { type: Number, required: true },
 });
 const service = new ApiService();
-// Good one for ABC: 38441
-// Has data object & eval script (FREE TEXT): 44549
-const courseId = 2000;
-const appUserId = 46;
+// Good one for ABC: 38441 (course)
+// Has data object & eval script (FREE TEXT): 44549 (course)
 
 const isLoading = ref(false);
 
@@ -137,22 +136,6 @@ const languageMode = computed((): string => {
 	return 'text';
 });
 
-const codemirrorOptions = computed(() => {
-	return {
-		mode: languageMode.value, // Language mode
-		theme: 'ambiance', // Theme
-		lineNumbers: true, // Show line number
-		smartIndent: false, // Smart indent
-		foldGutter: true, // Code folding
-		styleActiveLine: true, // Display the style of the selected row
-		viewportMargin: Infinity,
-		indentUnit: isSql.value ? 4 : 3,
-		tabSize: isSql.value ? 4 : 3,
-		indentWithTabs: isPython.value,
-		// TODO: Add CTRL + ENTER hotkey
-	};
-});
-
 // Toolbar
 const selectedLayout = ref<Layout>({
 	name: '1-1',
@@ -183,7 +166,7 @@ const saveFreeText = async () => {
 	try {
 		await service.postAsync('/question/big_save', {
 			...saveObject,
-			appUserId: appUserId,
+			appUserId: CONSTANTS.APP_USER_ID,
 		});
 		toast.add({
 			severity: 'success',
@@ -210,7 +193,7 @@ const saveAbc = async () => {
 			questionText: markdown.value,
 			questionComment: commentMarkdown.value,
 			answers: answers.value,
-			appUserId: appUserId,
+			appUserId: CONSTANTS.APP_USER_ID,
 		});
 		toast.add({
 			severity: 'success',
@@ -235,7 +218,7 @@ const saveSql = async () => {
 			canUpload: true, //canUpload.value,
 			questionText: markdown.value,
 			questionComment: commentMarkdown.value,
-			appUserId: appUserId,
+			appUserId: CONSTANTS.APP_USER_ID,
 			sqlAnswer: sqlAnswer.value,
 			sqlAltAssertion: sqlSuffix.value,
 			sqlTestFixture: sqlPrefix.value,
@@ -275,7 +258,7 @@ const saveScale = async () => {
 	try {
 		await service.postAsync('/question/big_save', {
 			...saveObject,
-			appUserId: appUserId,
+			appUserId: CONSTANTS.APP_USER_ID,
 		});
 	} catch (err) {
 		console.log(err);
@@ -305,7 +288,7 @@ const saveInPlace = async () => {
 		prefix: codePrefix.value,
 		suffix: codeSuffix.value,
 		c_answer: codeSource.value,
-		id_app_user: appUserId,
+		id_app_user: CONSTANTS.APP_USER_ID,
 		question_tags: selectedTags.value.map((t) => t.id),
 		json_answer: jsonAnswer.value,
 		json_alt_assertion: jsonAltAssertion.value,
@@ -325,7 +308,7 @@ const clone = async () =>
 	service
 		.postAsync('/question/clone', {
 			questionId: props.id,
-			appUserId: appUserId,
+			appUserId: CONSTANTS.APP_USER_ID,
 		})
 		.then((response: any) => {
 			const intNewId = parseInt(response.data);
@@ -407,7 +390,7 @@ const testCasesResult = ref('');
 const runTestCases = async () => {
 	let response: any = await service.postAsync('/execute_question', {
 		questionId: props.id,
-		courseId: courseId,
+		courseId: CONSTANTS.COURSE_ID,
 		isC: true,
 		source: codeSource.value,
 		programmingLanguageId: selectedLanguage.value.id,
@@ -436,7 +419,7 @@ const runSql = async (sql: string) => {
 	service
 		.postAsync('/execute_question', {
 			questionId: props.id,
-			courseId: courseId,
+			courseId: CONSTANTS.COURSE_ID,
 			isSql: true,
 			sql: sql,
 		})
@@ -507,7 +490,7 @@ const runJsonAnswer = async () => {
 	service
 		.postAsync('/execute_question', {
 			questionId: props.id,
-			courseId: courseId,
+			courseId: CONSTANTS.COURSE_ID,
 			isJs: true,
 			js: jsonAnswer,
 		})
@@ -578,14 +561,14 @@ const getDataAsync = async (id: number) => {
 	});
 	tags.value = await service.getManyAsync<Tag>('/question/tags', {
 		questionId: id,
-		courseId: courseId,
+		courseId: CONSTANTS.COURSE_ID,
 		global: true,
 	});
 
 	const showAttachmentsAndRuntimeConstraints = await service.getSingleAsync<ShowAttachmentsAndRuntimeConstraint>(
 		'/course/attachments_constraints',
 		{
-			courseId: courseId,
+			courseId: CONSTANTS.COURSE_ID,
 		},
 	);
 	showAttachments.value = showAttachmentsAndRuntimeConstraints?.show_attachments ?? false;
@@ -685,14 +668,14 @@ watch(
 const addReviewer = async () => {
 	await service.postAsync('/setreviewer', {
 		questionId: props.id,
-		appUserId: appUserId,
+		appUserId: CONSTANTS.APP_USER_ID,
 	});
 };
 
 const removeReviewer = async () => {
 	await service.postAsync('/removereviewer', {
 		questionId: props.id,
-		appUserId: appUserId,
+		appUserId: CONSTANTS.APP_USER_ID,
 	});
 };
 
@@ -700,7 +683,7 @@ const claimAuthorship = async () => {
 	try {
 		await service.postAsync('/claimauthor', {
 			questionId: props.id,
-			appUserId: appUserId,
+			appUserId: CONSTANTS.APP_USER_ID,
 		});
 		toast.add({
 			severity: 'success',
@@ -765,10 +748,7 @@ const claimAuthorship = async () => {
 					@disable="disable" />
 				<br />
 				<div v-if="dataObject">
-					<TemplateDataComponent
-						v-model:dataObject="dataObject"
-						:codemirror-options="codemirrorOptions"
-						:course-id="courseId" />
+					<TemplateDataComponent v-model:dataObject="dataObject" :course-id="CONSTANTS.COURSE_ID" />
 					<br />
 				</div>
 				<!-- <div v-if="true">
@@ -788,7 +768,6 @@ const claimAuthorship = async () => {
 					:tags="tags"
 					:answers="answers"
 					:mode="languageMode"
-					:codemirror-options="codemirrorOptions"
 					:is-sql="isSql" />
 				<br />
 				<CodeComponent
@@ -798,8 +777,7 @@ const claimAuthorship = async () => {
 					v-model:code-suffix="codeSuffix"
 					v-model:selected-language="selectedLanguage"
 					:languages="languages"
-					:language-mode="languageMode"
-					:codemirror-options="codemirrorOptions" />
+					:language-mode="languageMode" />
 				<br />
 				<div class="center">
 					<Button
@@ -826,8 +804,7 @@ const claimAuthorship = async () => {
 					v-model:constraints="runtimeConstraints"
 					:show-constraints="showRuntimeConstraints"
 					:constraints="runtimeConstraints"
-					:languages="languages"
-					:codemirror-options="codemirrorOptions" />
+					:languages="languages" />
 				<SqlComponent
 					v-if="isSql"
 					v-model:sql-answer="sqlAnswer"
@@ -836,7 +813,6 @@ const claimAuthorship = async () => {
 					v-model:presentation-query="presentationQuery"
 					v-model:check-tuple-order="checkTupleOrder"
 					v-model:selected-column-mode="selectedColumnMode"
-					:codemirror-options="codemirrorOptions"
 					:column-modes="columnModes"
 					:columns="columnNames"
 					:rows="columns"
@@ -851,7 +827,6 @@ const claimAuthorship = async () => {
 					v-model:json-alt-assertion="jsonAltAssertion"
 					v-model:json-alt-presentation-query="jsonAltPresentationQuery"
 					v-model:json-test-fixture="jsonTestFixture"
-					:codemirror-options="codemirrorOptions"
 					:json-error="jsonError"
 					:columns="columnNames"
 					:rows="columns"
@@ -905,7 +880,6 @@ const claimAuthorship = async () => {
 					v-model:markdown="freeTextMarkdown"
 					question-header="Free text question"
 					:mode="languageMode"
-					:codemirror-options="codemirrorOptions"
 					:is-sql="false"
 					:show-placeholders="false" />
 				<Card v-if="isScale">
@@ -925,7 +899,6 @@ const claimAuthorship = async () => {
 					v-model:markdown="commentMarkdown"
 					question-header="Question comment"
 					:mode="languageMode"
-					:codemirror-options="codemirrorOptions"
 					:is-sql="false"
 					:show-placeholders="false" />
 			</template>

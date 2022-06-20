@@ -16,6 +16,7 @@ import ApiService from '@/services/ApiService';
 import Dialog from 'primevue/dialog';
 import { useRouter } from 'vue-router';
 import RouteNames from '@/router/routes';
+import CONSTANTS from '@/config/constants';
 const router = useRouter();
 
 type CodeResponse = {
@@ -37,8 +38,6 @@ watch(
 	},
 );
 
-const courseId = 155;
-const studentId = 23;
 const service = new ApiService();
 
 //? Currently hard-coded to be SQL on edgar
@@ -54,8 +53,8 @@ const code = ref('');
 
 const getQueryDataAsync = async () => {
 	snippetId.value = await service.getSingleAsync<SnippetId>('/playground/snippet/id', {
-		courseId: courseId,
-		studentId: studentId,
+		courseId: CONSTANTS.COURSE_ID,
+		studentId: CONSTANTS.STUDENT_ID,
 		snippetId: props.id,
 	});
 };
@@ -65,7 +64,7 @@ onMounted(async () => {
 	if (props.id) promises.push(getQueryDataAsync());
 	else {
 		const coderunnerPromise = service
-			.getManyAsync<Coderunner>('/playground/coderunners', { courseId: courseId })
+			.getManyAsync<Coderunner>('/playground/coderunners', { courseId: CONSTANTS.COURSE_ID })
 			.then((runners: Coderunner[]) => {
 				coderunners.value = runners;
 				coderunner.value = runners[0];
@@ -74,8 +73,8 @@ onMounted(async () => {
 	}
 	const snippetPromise = service
 		.getManyAsync<Snippet>('/playground/snippets', {
-			courseId: courseId,
-			studentId: studentId,
+			courseId: CONSTANTS.COURSE_ID,
+			studentId: CONSTANTS.STUDENT_ID,
 		})
 		.then((s: Snippet[]) => (snippets.value = s));
 
@@ -96,8 +95,8 @@ const openSnippetAsync = async (snippetId: string | undefined) => {
 
 	openSnippetMenu.value.toggle();
 	const response = await service.getSingleAsync<CodeResponse>('/playground/snippet', {
-		courseId: courseId,
-		studentId: studentId,
+		courseId: CONSTANTS.COURSE_ID,
+		studentId: CONSTANTS.STUDENT_ID,
 		snippetId: id,
 	});
 	code.value = response?.code ?? '';
@@ -113,8 +112,8 @@ const insertSnippetAsync = async (snippetId: string | undefined) => {
 
 	const id = parseInt(snippetId);
 	const response = await service.getSingleAsync<CodeResponse>('/playground/snippet', {
-		courseId: courseId,
-		studentId: studentId,
+		courseId: CONSTANTS.COURSE_ID,
+		studentId: CONSTANTS.STUDENT_ID,
 		snippetId: id,
 	});
 	code.value += response?.code ?? '';
@@ -177,8 +176,8 @@ const saveAsAsync = async () => {
 			title: saveAsName.value,
 			code: code.value,
 			codeRunnerId: coderunner.value?.id,
-			studentId: studentId,
-			courseId: courseId,
+			courseId: CONSTANTS.COURSE_ID,
+			studentId: CONSTANTS.STUDENT_ID,
 		})
 		.then((response: any) => {
 			const newId = parseInt(response.data.rows[0].id);
@@ -187,12 +186,12 @@ const saveAsAsync = async () => {
 };
 
 const deleteAsync = async () => {
-	await service.postAsync('/playground/delete/id', { snippetId: props.id, studentId: studentId });
+	await service.postAsync('/playground/delete/id', { snippetId: props.id, studentId: CONSTANTS.STUDENT_ID });
 	router.push({ name: RouteNames.CodeSandboxAdmin });
 };
 
 const publishAsync = async () => {
-	await service.postAsync('/playground/publish/id', { snippetId: props.id, studentId: studentId });
+	await service.postAsync('/playground/publish/id', { snippetId: props.id, studentId: CONSTANTS.STUDENT_ID });
 };
 </script>
 

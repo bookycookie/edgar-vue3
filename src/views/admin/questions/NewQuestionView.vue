@@ -7,9 +7,9 @@ import { ProgrammingLanguage } from '@/models/admin/questions/ProgrammingLanguag
 import Listbox from 'primevue/listbox';
 import { useRouter } from 'vue-router';
 import RouteNames from '@/router/routes';
+import CONSTANTS from '@/config/constants';
+
 const service = new ApiService();
-const courseId = 2000;
-const appUserId = 46;
 const router = useRouter();
 
 const getCodeRunners = async () => {
@@ -18,7 +18,9 @@ const getCodeRunners = async () => {
 };
 
 const getQuestionNodes = async () => {
-	questionNodes.value = await service.getManyAsync<QuestionNode>('/question_nodes', { courseId: courseId });
+	questionNodes.value = await service.getManyAsync<QuestionNode>('/question_nodes', {
+		courseId: CONSTANTS.COURSE_ID,
+	});
 	selectedQuestionNodes.value.push(questionNodes.value[0]);
 };
 
@@ -29,7 +31,7 @@ const getQuestionTypes = async () => {
 		{ name: 'JSON', id: 21 } as ProgrammingLanguage,
 	];
 	programmingLanguages.value = await service.getManyAsync<ProgrammingLanguage>('/course/programming_languages', {
-		courseId: courseId,
+		courseId: CONSTANTS.COURSE_ID,
 	});
 
 	questionTypes.value = [...defaultLanguages, ...programmingLanguages.value];
@@ -76,7 +78,7 @@ const create = async () => {
 		scripted: 'non-scripted',
 		useTemplate: useTemplates.value,
 		useScript: useCustomEvaluationScript.value,
-		appUserId: appUserId,
+		appUserId: CONSTANTS.APP_USER_ID,
 	};
 
 	await service.postAsync('/question/new', request).then((response: any) => {

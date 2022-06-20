@@ -4,17 +4,16 @@ import ApiService from '@/services/ApiService';
 import humanize from '@/utilities/date-humanizer/humanizer';
 import { FilterMatchMode } from 'primevue/api';
 import { AllExamInstances } from '@/models/admin/exams/AllExamInstances';
+import CONSTANTS from '@/config/constants';
 
-const academicYearId = 2020;
-const courseId = 2000;
 const service = new ApiService();
 
 onMounted(async () => await getAllExamInstancesAsync());
 
 const getAllExamInstancesAsync = async () => {
 	allExamInstances.value = await service.getManyAsync<AllExamInstances>('/all_test_instances', {
-		academicYearId: academicYearId,
-		courseId: courseId,
+		courseId: CONSTANTS.COURSE_ID,
+		academicYearId: CONSTANTS.ACADEMIC_YEAR_ID,
 	});
 
 	for (let index = 0; index < allExamInstances.value.length; index++) {

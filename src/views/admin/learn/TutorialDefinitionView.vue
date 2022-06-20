@@ -1,15 +1,13 @@
 <script setup lang="ts">
-import { ref, onMounted, computed } from 'vue';
+import { ref, onMounted } from 'vue';
 import ApiService from '@/services/ApiService';
 import { TutorialDefTable } from '@/models/admin/learn/TutorialDefTable';
 import { FilterMatchMode } from 'primevue/api';
 import humanize from '@/utilities/date-humanizer/humanizer';
-import Toast from 'primevue/toast';
 import { useToast } from 'primevue/usetoast';
-import RouteNames from '@/router/routes';
 import { useRouter } from 'vue-router';
+import CONSTANTS from '@/config/constants';
 
-const courseId = 2000;
 const loading = ref(false);
 const service = new ApiService();
 
@@ -58,7 +56,7 @@ const getTutorialsAsync = async () => {
 	try {
 		loading.value = true;
 		tutorialDefTable.value = await service.getManyAsync<TutorialDefTable>('/tutorial_def_table', {
-			courseId: courseId,
+			courseId: CONSTANTS.COURSE_ID,
 		});
 	} finally {
 		loading.value = false;

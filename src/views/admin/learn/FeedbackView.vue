@@ -4,14 +4,12 @@ import { FilterMatchMode } from 'primevue/api';
 import ApiService from '@/services/ApiService';
 import { FeedbackTableRow } from '@/models/admin/learn/FeedbackTableRow';
 import humanize from '@/utilities/date-humanizer/humanizer';
+import CONSTANTS from '@/config/constants';
 
 type Option = {
 	name: string;
 	value: number;
 };
-
-const courseId = 155;
-const academicYearId = 2019;
 
 const feedbackDt = ref();
 const loading = ref(false);
@@ -21,8 +19,8 @@ const exercises = ref<Option[]>([]);
 const selectedExercises = ref<Option[]>([]);
 const getExercisesAsync = async () => {
 	exercises.value = await service.getManyAsync<Option>('/feedback/exercises', {
-		courseId: courseId,
-		academicYearId: academicYearId,
+		courseId: CONSTANTS.COURSE_ID,
+		academicYearId: CONSTANTS.ACADEMIC_YEAR_ID,
 	});
 };
 
@@ -30,8 +28,8 @@ const tutorials = ref<Option[]>([]);
 const selectedTutorials = ref<Option[]>([]);
 const getTutorialsAsync = async () => {
 	tutorials.value = await service.getManyAsync<Option>('/feedback/tutorials', {
-		courseId: courseId,
-		academicYearId: academicYearId,
+		courseId: CONSTANTS.COURSE_ID,
+		academicYearId: CONSTANTS.ACADEMIC_YEAR_ID,
 	});
 };
 
@@ -39,8 +37,8 @@ const tutorialSteps = ref<Option[]>([]);
 const selectedTutorialSteps = ref<Option[]>([]);
 const getTutorialStepsAsync = async () => {
 	tutorialSteps.value = await service.getManyAsync<Option>('/feedback/tutorial_steps', {
-		courseId: courseId,
-		academicYearId: academicYearId,
+		courseId: CONSTANTS.COURSE_ID,
+		academicYearId: CONSTANTS.ACADEMIC_YEAR_ID,
 	});
 };
 
@@ -48,8 +46,8 @@ const students = ref<Option[]>([]);
 const selectedStudents = ref<Option[]>([]);
 const getStudentsAsync = async () => {
 	students.value = await service.getManyAsync<Option>('/feedback/students', {
-		courseId: courseId,
-		academicYearId: academicYearId,
+		courseId: CONSTANTS.COURSE_ID,
+		academicYearId: CONSTANTS.ACADEMIC_YEAR_ID,
 	});
 };
 
@@ -57,16 +55,16 @@ const classGroups = ref<Option[]>([]);
 const selectedClassGroups = ref<Option[]>([]);
 const getClassGroupsAsync = async () => {
 	classGroups.value = await service.getManyAsync<Option>('/feedback/class_groups', {
-		courseId: courseId,
-		academicYearId: academicYearId,
+		courseId: CONSTANTS.COURSE_ID,
+		academicYearId: CONSTANTS.ACADEMIC_YEAR_ID,
 	});
 };
 
 const table = ref<FeedbackTableRow[]>([]);
 const getTableAsync = async () => {
 	table.value = await service.getManyAsync<FeedbackTableRow>('/feedback/table', {
-		courseId: courseId,
-		academicYearId: academicYearId,
+		courseId: CONSTANTS.COURSE_ID,
+		academicYearId: CONSTANTS.ACADEMIC_YEAR_ID,
 	});
 };
 

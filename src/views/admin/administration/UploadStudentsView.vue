@@ -5,10 +5,9 @@ import { sql } from '@codemirror/lang-sql';
 import { oneDark } from '@codemirror/theme-one-dark';
 import { Extension } from '@codemirror/state';
 import { ParsedStudent } from '@/models/admin/administration/ParsedStudent';
+import CONSTANTS from '@/config/constants';
 
 import ApiService from '@/services/ApiService';
-const courseId = 155;
-const academicYearId = 2020;
 
 const service = new ApiService();
 
@@ -50,8 +49,8 @@ const parseAsync = async () => {
 const insertNewAsync = async () => {
 	if (!parsedList.value) return;
 	const response = await service.postAsync('/administration/students/insertnew', {
-		courseId: courseId,
-		academicYearId: academicYearId,
+		courseId: CONSTANTS.COURSE_ID,
+		academicYearId: CONSTANTS.ACADEMIC_YEAR_ID,
 		rows: parsedList.value,
 	});
 	console.log('insert new');

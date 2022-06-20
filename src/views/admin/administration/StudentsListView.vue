@@ -4,9 +4,7 @@ import ApiService from '@/services/ApiService';
 import { StudentList } from '@/models/admin/administration/StudentList';
 import { FilterMatchMode } from 'primevue/api';
 import humanize from '@/utilities/date-humanizer/humanizer';
-const courseId = 155;
-const academicYearId = 2020;
-const appUserId = 46;
+import CONSTANTS from '@/config/constants';
 const service = new ApiService();
 
 const filters = ref({
@@ -17,8 +15,8 @@ const students = ref<StudentList[]>([]);
 
 const getStudentsAsync = async () => {
 	students.value = await service.getManyAsync<StudentList>('/administration/students/list', {
-		courseId: courseId,
-		academicYearId: academicYearId,
+		courseId: CONSTANTS.COURSE_ID,
+		academicYearId: CONSTANTS.ACADEMIC_YEAR_ID,
 	});
 };
 
@@ -31,22 +29,22 @@ const exportCSV = () => studentsDt.value.exportCSV();
 
 const appendTeachersAsync = async () => {
 	await service.postAsync('/administration/students/list/appendTeachers', {
-		courseId: courseId,
-		academicYearId: academicYearId,
+		courseId: CONSTANTS.COURSE_ID,
+		academicYearId: CONSTANTS.ACADEMIC_YEAR_ID,
 	});
 };
 
 const sendRegisterEmailsAsync = async () => {
 	await service.postAsync('/administration/groupmail', {
-		courseId: courseId,
-		academicYearId: academicYearId,
-		appUserId: appUserId,
+		courseId: CONSTANTS.COURSE_ID,
+		academicYearId: CONSTANTS.ACADEMIC_YEAR_ID,
+		appUserId: CONSTANTS.APP_USER_ID,
 	});
 };
 
 const sendRegisterEmailAsync = async (studentId: number) => {
 	await service.postAsync('/administration/onemail', {
-		appUserId: appUserId,
+		appUserId: CONSTANTS.APP_USER_ID,
 		studentId: studentId,
 	});
 };
@@ -54,8 +52,8 @@ const sendRegisterEmailAsync = async (studentId: number) => {
 const deleteAsync = async (studentId: number) => {
 	await service
 		.postAsync('/administration/students/delete', {
-			courseId: courseId,
-			academicYearId: academicYearId,
+			courseId: CONSTANTS.COURSE_ID,
+			academicYearId: CONSTANTS.ACADEMIC_YEAR_ID,
 			studentId: studentId,
 		})
 		.then(async () => await getStudentsAsync());

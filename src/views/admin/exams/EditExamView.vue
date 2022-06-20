@@ -5,28 +5,22 @@ import { PlagiarismDetectionAlgorithm } from '@/models/admin/exams/PlagiarismDet
 import { Pace } from '@/models/admin/exams/Pace';
 import { Policy } from '@/models/admin/exams/Policy';
 import { EmailReminderScheme } from '@/models/admin/exams/EmailReminderScheme';
-import { Type } from '@/models/admin/exams/Type';
 import { Node } from '@/models/admin/exams/Node';
 import { GradingModel } from '@/models/admin/exams/GradingModel';
 import { BigTest } from '@/models/admin/exams/BigTest';
 import { TestPart } from '@/models/admin/exams/TestPart';
-import { useRoute, useRouter } from 'vue-router';
+import { useRouter } from 'vue-router';
 import humanize from '@/utilities/date-humanizer/humanizer';
 import Calendar from 'primevue/calendar';
 import { NodeType } from '@/models/admin/exams/NodeType';
-import Toast from 'primevue/toast';
 import { useToast } from 'primevue/usetoast';
 import Message from 'primevue/message';
 import RouteNames from '@/router/routes';
-const route = useRoute();
+import CONSTANTS from '@/config/constants';
 const router = useRouter();
 
 const toast = useToast();
 
-const appUserId = 46;
-const courseId = 2000; // ALCHEMY
-// const courseId = 477; // NBP
-const academicYearId = 2020;
 const service = new ApiService();
 const props = defineProps({
 	id: { type: Number, required: true },
@@ -94,8 +88,8 @@ const testParts = ref<TestPart[]>([]);
 const clone = async () => {
 	const cloneResponse = await service.postAsync('/exam/clone', {
 		testId: props.id,
-		academicYearId: academicYearId,
-		appUserId: appUserId,
+		appUserId: CONSTANTS.APP_USER_ID,
+		academicYearId: CONSTANTS.ACADEMIC_YEAR_ID,
 	});
 
 	if (!cloneResponse || !cloneResponse.data) return;
@@ -110,8 +104,8 @@ const clone = async () => {
 const cloneUp = async () => {
 	const cloneResponse = await service.postAsync('/exam/clone', {
 		testId: props.id,
-		academicYearId: academicYearId,
-		appUserId: appUserId,
+		appUserId: CONSTANTS.APP_USER_ID,
+		academicYearId: CONSTANTS.ACADEMIC_YEAR_ID,
 	});
 
 	if (!cloneResponse || !cloneResponse.data) return;
@@ -269,7 +263,7 @@ const testGenerate = async () => {
 
 const fetchNodes = async () => {
 	fetchedNodes.value = await service.getManyAsync('/exam/edit/filtered_nodes', {
-		courseId: courseId,
+		courseId: CONSTANTS.COURSE_ID,
 		nodeTypeId: selectedNode.value?.id,
 		nodeName: nodeName.value,
 	});
@@ -361,8 +355,8 @@ const getQueryData = async () => {
 	const examPromise = service
 		.getSingleAsync<BigTest>('/big_test', {
 			testId: props.id,
-			courseId: courseId,
-			academicYearId: academicYearId,
+			courseId: CONSTANTS.COURSE_ID,
+			academicYearId: CONSTANTS.ACADEMIC_YEAR_ID,
 		})
 		.then((apiExam: BigTest | null) => {
 			if (!apiExam) return;

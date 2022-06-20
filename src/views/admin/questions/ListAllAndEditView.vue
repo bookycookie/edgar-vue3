@@ -6,8 +6,8 @@ import { QuestionType } from '@/models/admin/questions/QuestionType';
 import humanize from '@/utilities/date-humanizer/humanizer';
 import { FilterMatchMode } from 'primevue/api';
 import RouteNames from '@/router/routes';
+import CONSTANTS from '@/config/constants';
 
-const courseId = 2000;
 const loading = ref(false);
 const service = new ApiService();
 
@@ -86,7 +86,7 @@ const getQuestionsAsync = async (courseId: number) => {
 onMounted(async () => {
 	try {
 		loading.value = true;
-		await getQuestionsAsync(courseId);
+		await getQuestionsAsync(CONSTANTS.COURSE_ID);
 	} finally {
 		loading.value = false;
 	}

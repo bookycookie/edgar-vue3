@@ -14,8 +14,7 @@ import { markdown } from '@codemirror/lang-markdown';
 import render from '@/utilities/markdown/renderer';
 import { sql } from '@codemirror/lang-sql';
 import { FilterMatchMode } from 'primevue/api';
-
-const courseId = 155;
+import CONSTANTS from '@/config/constants';
 
 //? Which one to use generally?
 const extensions = [cpp(), oneDark];
@@ -180,7 +179,7 @@ const evaluateStudentSqlAsync = async () => {
 	const response = await service.postAsync('/exec/correct', {
 		ordinal: props.questionId,
 		testInstanceId: review.value?.id_test_instance,
-		courseId: courseId,
+		courseId: CONSTANTS.COURSE_ID,
 	});
 	if (!response.data.success && response.data.error) {
 		sqlErrorStudent.value = response.data.error.message;
@@ -218,7 +217,7 @@ const evaluateStudentCodeAsync = async () => {
 	const response = await service.postAsync('/exec/student', {
 		ordinal: props.questionId,
 		testInstanceId: review.value?.id_test_instance,
-		courseId: courseId,
+		courseId: CONSTANTS.COURSE_ID,
 	});
 	evaluatedStudentCode.value = response.data.codeResult;
 };
@@ -236,7 +235,7 @@ const evaluateTeacherSqlAsync = async () => {
 	const response = await service.postAsync('/exec/correct', {
 		ordinal: props.questionId,
 		testInstanceId: review.value?.id_test_instance,
-		courseId: courseId,
+		courseId: CONSTANTS.COURSE_ID,
 	});
 	if (!response.data.success && response.data.error) {
 		sqlErrorTeacher.value = response.data.error.message;
@@ -274,7 +273,7 @@ const evaluateTeacherCodeAsync = async () => {
 	const response = await service.postAsync('/exec/correct', {
 		ordinal: props.questionId,
 		testInstanceId: review.value?.id_test_instance,
-		courseId: courseId,
+		courseId: CONSTANTS.COURSE_ID,
 	});
 
 	evaluatedTeacherCode.value = response.data.codeResult;
@@ -512,7 +511,7 @@ const showHeader = ref(true);
 			layout-question="'col-12 md:col-12 flex'"
 			question-header="Student's answer"
 			:show-placeholders="false"
-			:extensions="extensions"
+			:extensions="markdownExtensions"
 			:show-cheats="false"
 			readonly />
 

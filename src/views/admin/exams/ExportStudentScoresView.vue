@@ -2,9 +2,8 @@
 import { ref, onMounted } from 'vue';
 import ApiService from '@/services/ApiService';
 import { FilterMatchMode } from 'primevue/api';
+import CONSTANTS from '@/config/constants';
 
-const courseId = 477;
-const academicYearId = 2020;
 const service = new ApiService();
 
 const exportStudentDt = ref();
@@ -15,8 +14,8 @@ const rows = ref<any[]>([]);
 onMounted(() => {
 	service
 		.getManyAsync<any>('/instances/dumpcsv', {
-			courseId: courseId,
-			academicYearId: academicYearId,
+			courseId: CONSTANTS.COURSE_ID,
+			academicYearId: CONSTANTS.ACADEMIC_YEAR_ID,
 		})
 		.then((response: any) => {
 			headers.value = response.csvheaders;

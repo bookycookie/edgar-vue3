@@ -4,9 +4,10 @@ import Course from '../models/Course';
 import AcademicYear from '../models/AcademicYear';
 import ApiService from '../services/ApiService';
 import RouteNames from '../router/routes';
+import CONSTANTS from '@/config/constants';
 
 //! TODO: Add store
-const username = 'imekterovi@fer.hr';
+const username = CONSTANTS.USERNAME;
 const service = new ApiService();
 const isAdmin = ref(true);
 

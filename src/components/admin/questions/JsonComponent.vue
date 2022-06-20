@@ -58,24 +58,6 @@ const props = defineProps({
 			return;
 		},
 	},
-	codemirrorOptions: {
-		type: Object as PropType<{
-			mode: string;
-			theme: string;
-			lineNumbers: boolean;
-			smartIndent: boolean;
-			foldGutter: boolean;
-			styleActiveLine: boolean;
-			viewportMargin: number;
-			indentUnit: number;
-			tabSize: number;
-			indentWithTabs: boolean | undefined;
-		}>,
-		required: false,
-		default() {
-			return;
-		},
-	},
 	columns: {
 		type: Object as PropType<Array<string>>,
 		required: false,
@@ -167,7 +149,6 @@ const runJsonTestFixture = () => {
 				<Codemirror
 					id="json-answer-cm"
 					v-model="internalJsonAnswer"
-					:options="codemirrorOptions"
 					:extensions="extensions"
 					:style="{ width: '100%' }" />
 			</AccordionTab>
@@ -190,7 +171,6 @@ const runJsonTestFixture = () => {
 				<Codemirror
 					id="json-alt-assertion-cm"
 					v-model="internalJsonAltAssertion"
-					:options="codemirrorOptions"
 					:extensions="extensions"
 					:style="{ width: '100%' }" />
 			</AccordionTab>
@@ -212,7 +192,6 @@ const runJsonTestFixture = () => {
 				<Codemirror
 					id="json-alt-presentation-query-cm"
 					v-model="internalJsonAltPresentationQuery"
-					:options="codemirrorOptions"
 					:extensions="extensions"
 					:style="{ width: '100%' }" />
 			</AccordionTab>
@@ -234,7 +213,6 @@ const runJsonTestFixture = () => {
 				<Codemirror
 					id="json-test-fixture-cm"
 					v-model="internalJsonTestFixture"
-					:options="codemirrorOptions"
 					:extensions="extensions"
 					:style="{ width: '100%' }" />
 			</AccordionTab>

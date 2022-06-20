@@ -5,6 +5,7 @@ import { Node } from '@/models/admin/questions/Node';
 import * as vis from 'vis-network';
 import humanize from '@/utilities/date-humanizer/humanizer';
 import { FilterMatchMode } from 'primevue/api';
+import CONSTANTS from '@/config/constants';
 
 type VisNode = {
 	id_root: number;
@@ -29,7 +30,6 @@ type VisNodeInformation = {
 };
 
 const service = new ApiService();
-const courseId = 477;
 
 const rootId = ref(-1);
 const network = ref<vis.Network>();
@@ -53,7 +53,7 @@ const parentId = ref();
 const getVisNodesAsync = async () =>
 	await service
 		.getManyAsync<VisNode>('/node/vis/network', {
-			courseId: courseId,
+			courseId: CONSTANTS.COURSE_ID,
 		})
 		.then((visNodes: VisNode[]) => {
 			redraw(visNodes);

@@ -8,8 +8,7 @@ import { LocationQueryValue, useRoute, useRouter } from 'vue-router';
 import { FilterMatchMode } from 'primevue/api';
 import RouteNames from '@/router/routes';
 import humanize from '@/utilities/date-humanizer/humanizer';
-
-const courseId = 155;
+import CONSTANTS from '@/config/constants';
 
 const loading = ref(false);
 
@@ -46,7 +45,7 @@ const getDataAsync = async () => {
 		const request = {
 			noResults: noResults.value,
 			nodeIds: selectedNodes.value.map((n: QuestionNode) => n.id),
-			courseId: courseId,
+			courseId: CONSTANTS.COURSE_ID,
 			courseTagIds: selectedTags.value.map((t: Tag) => t.id),
 			questionText: textSearch.value,
 			created: userCreated.value,
@@ -134,11 +133,11 @@ const getQueryData = () => {
 onMounted(async () => {
 	router.isReady().then(async () => {
 		nodes.value = await service.getManyAsync<QuestionNode>('/search/nodes', {
-			courseId: courseId,
+			courseId: CONSTANTS.COURSE_ID,
 		});
 
 		tags.value = await service.getManyAsync<Tag>('/question/tags', {
-			courseId: courseId,
+			courseId: CONSTANTS.COURSE_ID,
 			global: true,
 		});
 

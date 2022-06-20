@@ -4,13 +4,14 @@ import { Reviewer } from '@/models/admin/questions/Reviewer';
 import humanize from '@/utilities/date-humanizer/humanizer';
 import useModelWrapper from '@/composables/modelWrapper';
 import Dialog from 'primevue/dialog';
+import CONSTANTS from '@/config/constants';
 // all of these are automatically bound to the template
 
 const emit = defineEmits(['claimAuthorship', 'addReviewer', 'removeReviewer']);
 
 // FIXME: Get this from the store
-const reviewer = 'IMekterović';
-const userModified = 'Igor Mekterović';
+const reviewer = CONSTANTS.NAME;
+const userModified = CONSTANTS.NAME;
 
 const showAddReviewer = computed(() => !internalReviewers.value?.find((r) => r.reviewer === reviewer));
 
