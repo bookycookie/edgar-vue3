@@ -7,7 +7,6 @@ import RouteNames from '../router/routes';
 import CONSTANTS from '@/config/constants';
 
 //! TODO: Add store
-const username = CONSTANTS.USERNAME;
 const service = new ApiService();
 const isAdmin = ref(true);
 
@@ -17,8 +16,16 @@ const academicYears = ref<AcademicYear[]>([]);
 const selectedAcademicYear = ref<AcademicYear>();
 
 onMounted(async () => {
-	courses.value = await service.getManyAsync<Course>('/courses', { username: username });
-	academicYears.value = await service.getManyAsync<AcademicYear>('/acdmYears', { username: username });
+	await service.getManyAsync<Course>('/courses', { username: CONSTANTS.USERNAME }).then((c: Course[]) => {
+		courses.value = c;
+		selectedCourse.value = c.find((course) => course.id === CONSTANTS.COURSE_ID);
+	});
+	await service
+		.getManyAsync<AcademicYear>('/acdmYears', { username: CONSTANTS.USERNAME })
+		.then((ays: AcademicYear[]) => {
+			academicYears.value = ays;
+			selectedAcademicYear.value = ays.find((academicYear) => academicYear.id === CONSTANTS.ACADEMIC_YEAR_ID);
+		});
 });
 
 const adminItems = ref([
@@ -249,7 +256,7 @@ const items = computed(() => (isAdmin.value ? adminItems.value : studentItems.va
 					</div>
 
 					<div style="min-width: 120px">
-						<div>Borna Goljački</div>
+						<div>{{ CONSTANTS.NAME }}</div>
 						<Tag
 							:value="isAdmin ? 'Admin' : 'Student'"
 							:severity="isAdmin ? 'info' : 'danger'"

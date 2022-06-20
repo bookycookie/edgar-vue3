@@ -16,14 +16,7 @@ const filters = ref({
 });
 
 const exerciseDefinitionDt = ref();
-const skeletonData: ExerciseTable[] = Array(8).fill({
-	id: 0,
-	title: '',
-	description: '',
-	is_active: false,
-	no_students: 0,
-	no_questions: 0,
-});
+const skeletonData: ExerciseTable[] = Array(8).fill({} as ExerciseTable);
 const skeletonColumns = [
 	{ field: '', header: '#' },
 	{ field: '', header: 'Title' },
@@ -85,7 +78,7 @@ const edit = () => console.log('edit');
 						:field="col.field"
 						:header="col.header"
 						sortable>
-						<template #body><Skeleton></Skeleton></template>
+						<template #body><Skeleton /></template>
 					</Column>
 				</DataTable>
 				<DataTable

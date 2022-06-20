@@ -152,24 +152,7 @@ const filters = ref({
 });
 const exportCSV = () => searchDt.value.exportCSV();
 
-const skeletonTable: SearchTable[] = Array(7).fill({
-	id: 0,
-	version: 0,
-	is_active: '0',
-	question_text: '',
-	tags: '',
-	user_modified_sl: '',
-	ts_modified_sl: '',
-	days_ago: 1,
-	user_created: '',
-	ts_created_sl: '',
-	type_name: '',
-	ts_last_used: '',
-	last_used_by_id: 0,
-	last_used_by_name: '',
-	last_used_by_alt_id2: '',
-	test_instance_id: 0,
-});
+const skeletonTable: SearchTable[] = Array(7).fill({} as SearchTable);
 
 const skeletonColumns: any[] = [
 	{ field: '', header: '#' },
@@ -306,7 +289,7 @@ const skeletonColumns: any[] = [
 						:field="col.field"
 						:header="col.header"
 						sortable>
-						<template #body><Skeleton></Skeleton></template>
+						<template #body><Skeleton /></template>
 					</Column>
 				</DataTable>
 				<DataTable

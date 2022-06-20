@@ -6,7 +6,7 @@ import { FilterMatchMode } from 'primevue/api';
 import humanize from '@/utilities/date-humanizer/humanizer';
 import CONSTANTS from '@/config/constants';
 
-const loading = ref(false);
+const isLoading = ref(false);
 const service = new ApiService();
 
 const exerciseDefTable = ref<ExerciseTable[]>([]);
@@ -16,14 +16,7 @@ const filters = ref({
 });
 
 const exerciseDefinitionDt = ref();
-const skeletonData: ExerciseTable[] = Array(8).fill({
-	id: 0,
-	title: '',
-	description: '',
-	is_active: false,
-	no_students: 0,
-	no_questions: 0,
-});
+const skeletonData: ExerciseTable[] = Array(8).fill({} as ExerciseTable);
 const skeletonColumns = [
 	{ field: '', header: '#' },
 	{ field: '', header: 'Title' },
@@ -37,17 +30,21 @@ const skeletonColumns = [
 ];
 
 onMounted(async () => {
+	await getExerciseDefTableAsync();
+});
+
+const getExerciseDefTableAsync = async () => {
 	try {
-		loading.value = true;
+		isLoading.value = true;
 		exerciseDefTable.value = await service.getManyAsync<ExerciseTable>('/exercise/definitions', {
 			studentId: CONSTANTS.STUDENT_ID,
 			courseId: CONSTANTS.COURSE_ID,
 			academicYearId: CONSTANTS.ACADEMIC_YEAR_ID,
 		});
 	} finally {
-		loading.value = false;
+		isLoading.value = false;
 	}
-});
+};
 
 const exportCSV = () => exerciseDefinitionDt.value.exportCSV();
 
@@ -63,7 +60,7 @@ const questions = (data: any) => console.log('questions');
 		<Card>
 			<template #title>Exercise definitions</template>
 			<template #content>
-				<DataTable v-if="loading" :value="skeletonData" responsive-layout="scroll">
+				<DataTable v-if="isLoading" :value="skeletonData" responsive-layout="scroll">
 					<template #header>
 						<div style="display: flex">
 							<span class="p-input-icon-left">
@@ -87,7 +84,7 @@ const questions = (data: any) => console.log('questions');
 						:field="col.field"
 						:header="col.header"
 						sortable>
-						<template #body><Skeleton></Skeleton></template>
+						<template #body><Skeleton /></template>
 					</Column>
 				</DataTable>
 				<DataTable

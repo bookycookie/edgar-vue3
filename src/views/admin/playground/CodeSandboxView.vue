@@ -94,12 +94,8 @@ const openSnippetAsync = async (snippetId: string | undefined) => {
 	const id = parseInt(snippetId);
 
 	openSnippetMenu.value.toggle();
-	const response = await service.getSingleAsync<CodeResponse>('/playground/snippet', {
-		courseId: CONSTANTS.COURSE_ID,
-		studentId: CONSTANTS.STUDENT_ID,
-		snippetId: id,
-	});
-	code.value = response?.code ?? '';
+
+	router.push({ name: RouteNames.CodeSandboxAdmin, params: { id: id } });
 };
 const insertSnippetMenu = ref();
 const toggleInsertSnippetMenu = (event: any) => {

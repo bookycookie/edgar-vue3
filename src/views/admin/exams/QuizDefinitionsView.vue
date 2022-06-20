@@ -11,6 +11,7 @@ import { useToast } from 'primevue/usetoast';
 import CONSTANTS from '@/config/constants';
 
 const router = useRouter();
+const isLoading = ref(false);
 
 const toast = useToast();
 const service = new ApiService();
@@ -25,16 +26,23 @@ onMounted(async () => {
 	tests.value = await service.getManyAsync<Test>('/test_types', { standalone: false, typeName: 'Lecture quiz' });
 	selectedTest.value = tests.value?.length > 0 ? tests.value[0] : null;
 	await getLectureTableAsync();
-	for (var i = 0; i < lectureTable.value.length; i++) {
-		lectureTable.value[i].title_type_name = `${lectureTable.value[i].title} — ${lectureTable.value[i].type_name}`;
-	}
 });
 
 const getLectureTableAsync = async () => {
-	lectureTable.value = await service.getManyAsync<LectureTable>('/lecture_table', {
-		courseId: CONSTANTS.COURSE_ID,
-		academicYearId: CONSTANTS.ACADEMIC_YEAR_ID,
-	});
+	try {
+		isLoading.value = true;
+		lectureTable.value = await service.getManyAsync<LectureTable>('/lecture_table', {
+			courseId: CONSTANTS.COURSE_ID,
+			academicYearId: CONSTANTS.ACADEMIC_YEAR_ID,
+		});
+		for (var i = 0; i < lectureTable.value.length; i++) {
+			lectureTable.value[
+				i
+			].title_type_name = `${lectureTable.value[i].title} — ${lectureTable.value[i].type_name}`;
+		}
+	} finally {
+		isLoading.value = false;
+	}
 };
 
 const flagsPill = (flag: string) => {
@@ -51,63 +59,15 @@ const filters = ref({
 	global: { value: '', matchMode: FilterMatchMode.CONTAINS },
 });
 
-const skeletonLectureData: LectureTable[] = Array(8).fill({
-	id: 15,
-	title: '',
-	id_course: 5,
-	id_academic_year: 43,
-	id_semester: 31,
-	id_test_type: 38,
-	id_user_created: 29,
-	test_ordinal: 17,
-	max_runs: 25,
-	show_solutions: true,
-	max_score: 14,
-	password: '',
-	questions_no: 29,
-	duration_seconds: 6,
-	pass_percentage: 1,
-	ts_available_from: '',
-	ts_available_to: '',
-	ts_created: '',
-	ts_modified: '',
-	user_modified: '',
-	review_period_mins: 14,
-	hint_result: true,
-	test_score_ignored: true,
-	title_abbrev: 'odio',
-	async_submit: true,
-	trim_clock: false,
-	id_email_reminder_scheme: 1,
-	allow_anonymous: false,
-	is_competition: false,
-	eval_comp_score: '',
-	upload_file_no: 47,
-	upload_file_limit: 37,
-	forward_only: true,
-	id_parent: '',
-	allow_anonymous_stalk: false,
-	use_in_stats: false,
-	is_global: false,
-	is_public: false,
-	id_plag_detection_algorithm: 2,
-	spassword: '',
-	ts_from: '',
-	ts_to: '',
-	type_name: '',
-	user_created: '',
-	title_type_name: '',
-	test_flags: '',
-});
+const skeletonLectureData: LectureTable[] = Array(8).fill({} as LectureTable);
 
 const skeletonColumns = [
 	{ field: '', header: '#' },
 	{ field: 'id', header: 'Id' },
-	{ field: 'ordinal', header: 'Ordinal' },
 	{ field: 'title_type_name', header: 'Title' },
-	{ field: 'user_created', header: 'User created' },
+	{ field: 'ordinal', header: 'Test ordinal' },
 	{ field: 'max_runs', header: 'Max runs (0=∞)' },
-	{ field: '', header: 'Show results' },
+	{ field: '', header: 'Show solutions' },
 	{ field: 'max_score', header: 'Max score' },
 	{ field: 'spassword', header: 'Password' },
 	{ field: 'questions_no', header: 'No of qs' },
@@ -183,7 +143,17 @@ const showDeleteDialog = (instance: LectureTable) => {
 		<Card>
 			<template #title>Quizzes for the current course and year:</template>
 			<template #content>
-				<div class="row d-flex justify-content-start">
+				<div v-if="isLoading">
+					<div class="ml-5">
+						<h5>
+							<Skeleton />
+							<br />
+							<Skeleton />
+						</h5>
+					</div>
+					<br />
+				</div>
+				<div v-else class="row d-flex justify-content-start">
 					<div class="ml-5">
 						<h5>
 							Create a new exam of the following type
@@ -203,6 +173,38 @@ const showDeleteDialog = (instance: LectureTable) => {
 					<br />
 				</div>
 				<DataTable
+					v-if="isLoading"
+					:value="skeletonLectureData"
+					responsive-layout="scroll"
+					class="p-datatable-sm">
+					<template #header>
+						<div style="display: flex">
+							<span class="p-input-icon-left">
+								<i class="pi pi-search" />
+								<InputText
+									v-model="filters['global'].value"
+									placeholder="Search"
+									class="p-inputtext-sm p-inputtext-filled"
+									style="border-radius: 14px" />
+							</span>
+							<Button
+								icon="pi pi-external-link"
+								label="Export"
+								class="p-button-rounded p-button-outlined p-button-sm ml-3"
+								@click="exportCSV" />
+						</div>
+					</template>
+					<Column
+						v-for="col of skeletonColumns"
+						:key="col.field"
+						:field="col.field"
+						:header="col.header"
+						sortable>
+						<template #body><Skeleton /></template>
+					</Column>
+				</DataTable>
+				<DataTable
+					v-else
 					ref="lectureTableDt"
 					v-model:filters="filters"
 					:value="lectureTable"

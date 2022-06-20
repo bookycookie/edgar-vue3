@@ -20,6 +20,9 @@ const examsSidebar = ref<PreviousExamSidebar[]>([]);
 const examsNotOver = ref<PreviousExamNotOver[]>([]);
 const examStatistics = ref<ExamStatistics[]>([]);
 
+const isLoading = ref(false);
+const isIdLoading = ref(false);
+
 // eslint-disable-next-line vue/require-default-prop
 const props = defineProps({ id: { type: Number, required: false } });
 
@@ -31,44 +34,54 @@ watch(
 );
 
 const getQueryData = async () => {
-	if (!props.id) return;
+	try {
+		isIdLoading.value = true;
+		if (!props.id) return;
 
-	examsNotOver.value = await service.getManyAsync<PreviousExamNotOver>('/test_instances_not_over', {
-		studentId: CONSTANTS.STUDENT_ID,
-		courseId: CONSTANTS.COURSE_ID,
-		academicYearId: CONSTANTS.ACADEMIC_YEAR_ID,
-		testId: props.id,
-	});
+		examsNotOver.value = await service.getManyAsync<PreviousExamNotOver>('/test_instances_not_over', {
+			studentId: CONSTANTS.STUDENT_ID,
+			courseId: CONSTANTS.COURSE_ID,
+			academicYearId: CONSTANTS.ACADEMIC_YEAR_ID,
+			testId: props.id,
+		});
 
-	const examStats: ExamStatistics = {} as ExamStatistics;
-	if (examsNotOver.value && examsNotOver.value.length > 0) {
-		examStats.ts_started = examsNotOver.value[0].ts_started;
-		examStats.ts_submitted = examsNotOver.value[0].ts_submitted;
-		examStats.duration = examsNotOver.value[0].duration;
-		examStats.correct_no = examsNotOver.value[0].correct_no;
-		examStats.incorrect_no = examsNotOver.value[0].incorrect_no;
-		examStats.unanswered_no = examsNotOver.value[0].unanswered_no;
-		examStats.partial_no = examsNotOver.value[0].partial_no;
-		examStats.t_score = examsNotOver.value[0].t_score;
-		examStats.t_score_perc = examsNotOver.value[0].t_score_perc;
-		examStats.passed = examsNotOver.value[0].passed;
-		examStats.id_test_instance = examsNotOver.value[0].id_test_instance;
+		const examStats: ExamStatistics = {} as ExamStatistics;
+		if (examsNotOver.value && examsNotOver.value.length > 0) {
+			examStats.ts_started = examsNotOver.value[0].ts_started;
+			examStats.ts_submitted = examsNotOver.value[0].ts_submitted;
+			examStats.duration = examsNotOver.value[0].duration;
+			examStats.correct_no = examsNotOver.value[0].correct_no;
+			examStats.incorrect_no = examsNotOver.value[0].incorrect_no;
+			examStats.unanswered_no = examsNotOver.value[0].unanswered_no;
+			examStats.partial_no = examsNotOver.value[0].partial_no;
+			examStats.t_score = examsNotOver.value[0].t_score;
+			examStats.t_score_perc = examsNotOver.value[0].t_score_perc;
+			examStats.passed = examsNotOver.value[0].passed;
+			examStats.id_test_instance = examsNotOver.value[0].id_test_instance;
+		}
+		examStatistics.value = [examStats];
+	} finally {
+		isIdLoading.value = false;
 	}
-	examStatistics.value = [examStats];
 };
 
 onMounted(async () => {
-	exams.value = await service.getManyAsync<PreviousExam>('/test_instances', {
-		studentId: CONSTANTS.STUDENT_ID,
-		courseId: CONSTANTS.COURSE_ID,
-		academicYearId: CONSTANTS.ACADEMIC_YEAR_ID,
-	});
-	examsSidebar.value = await service.getManyAsync<PreviousExamSidebar>('/test_instances_sidebar', {
-		studentId: CONSTANTS.STUDENT_ID,
-		courseId: CONSTANTS.COURSE_ID,
-		academicYearId: CONSTANTS.ACADEMIC_YEAR_ID,
-	});
-	await getQueryData();
+	try {
+		isLoading.value = true;
+		exams.value = await service.getManyAsync<PreviousExam>('/test_instances', {
+			studentId: CONSTANTS.STUDENT_ID,
+			courseId: CONSTANTS.COURSE_ID,
+			academicYearId: CONSTANTS.ACADEMIC_YEAR_ID,
+		});
+		examsSidebar.value = await service.getManyAsync<PreviousExamSidebar>('/test_instances_sidebar', {
+			studentId: CONSTANTS.STUDENT_ID,
+			courseId: CONSTANTS.COURSE_ID,
+			academicYearId: CONSTANTS.ACADEMIC_YEAR_ID,
+		});
+		await getQueryData();
+	} finally {
+		isLoading.value = false;
+	}
 });
 </script>
 
@@ -76,7 +89,7 @@ onMounted(async () => {
 	<div class="container-fluid">
 		<br />
 		<div class="flex">
-			<PreviousExamsSidebar :exams-sidebar="examsSidebar" />
+			<PreviousExamsSidebar :exams-sidebar="examsSidebar" :is-loading="isLoading" />
 			<Card style="width: 100%" class="ms-4">
 				<template #title>
 					<div class="grid p-fluid">
@@ -84,22 +97,27 @@ onMounted(async () => {
 							<div class="p-inputgroup"><h4>Total:</h4></div>
 						</div>
 						<div class="col-12 md:col-2 flex">
-							<router-link :to="{ name: RouteNames.MyStats }" class="text-info me-3">
+							<a target="_blank" :href="`http://localhost:1337/analytics/score/student`">
 								<h4>
 									<font-awesome-icon icon="chart-line" class="me-1" />
 									Your stats here
 								</h4>
-							</router-link>
+							</a>
 						</div>
 					</div>
 				</template>
 				<template #content>
-					<PreviousExamsTable v-if="!id" :exams="exams" :exams-sidebar="examsSidebar" />
+					<PreviousExamsTable
+						v-if="!id"
+						:exams="exams"
+						:exams-sidebar="examsSidebar"
+						:is-loading="isLoading" />
 					<PreviousExamsId
 						v-else
 						:exams-not-over="examsNotOver"
 						:exam-statistics="examStatistics"
-						:exams-sidebar="examsSidebar" />
+						:exams-sidebar="examsSidebar"
+						:is-loading="isIdLoading" />
 				</template>
 			</Card>
 		</div>

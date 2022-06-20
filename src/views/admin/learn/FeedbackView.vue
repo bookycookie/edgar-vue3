@@ -12,7 +12,7 @@ type Option = {
 };
 
 const feedbackDt = ref();
-const loading = ref(false);
+const isLoading = ref(false);
 const service = new ApiService();
 
 const exercises = ref<Option[]>([]);
@@ -68,31 +68,7 @@ const getTableAsync = async () => {
 	});
 };
 
-const skeletonTable: FeedbackTableRow[] = Array(8).fill({
-	id: 37,
-	student_id: 22,
-	student_alt_id2: 'Quaerat voluptate harum aut error quasi laboriosam.',
-	student_label:
-		'Nemo et voluptatem ducimus. Amet aut et. Libero et cum dignissimos suscipit quia ut dolore odio. Saepe qui doloremque aut distinctio ea ad. Dolorum voluptas dignissimos corporis eum minima inventore numquam et.',
-	class_group: 'adipisci accusamus nisi',
-	exercise_id: 'vA=o:B"}y?',
-	exercise_title: '0bx)o<CLu|',
-	tutorial_id: 40,
-	tutorial_title: 'sunt in architecto',
-	tutorial_step_id: 24,
-	tutorial_step_ordinal: 17,
-	tutorial_step_title:
-		'Consequatur officiis consectetur ea ut pariatur. Et quas cum numquam. Sequi vel nobis ab totam quia.\n \rEligendi architecto quia. Ut qui animi. Officia asperiores non soluta.\n \rRecusandae non neque dolor natus qui sit ipsa sequi. Iusto at sint omnis culpa quia velit fugit. Harum ab tempore voluptates consequatur. Cum ullam iure aspernatur et porro.',
-	question_id: 42,
-	question_text:
-		'Deleniti velit repellat consectetur dolores ea. Quas est itaque. Quis dignissimos nisi eos rem quo minus. Aliquam aut reprehenderit. Ipsa eum est laborum dignissimos omnis. Id velit nihil possimus est id enim quod asperiores.\n \rVoluptatibus ipsum veritatis. At incidunt consequuntur vel deleniti cumque reprehenderit. Vel quidem est dolor sit. Et aliquam eaque explicabo facilis autem esse sit non natus.\n \rEum et nisi id. Omnis quos quasi et quo. Non aut cumque sed laudantium quae. Blanditiis a voluptatum omnis maxime soluta qui dicta ex. Sint autem ut perferendis numquam cum sequi nesciunt.',
-	comment: ')p?mfD=S:g',
-	rating: 'quam',
-	ts_created: 'iure inventore qui',
-	tutorial_title_step_title: 'a',
-	star_rating: 3,
-	humanized_ts_created: '1',
-});
+const skeletonTable: FeedbackTableRow[] = Array(8).fill({} as FeedbackTableRow);
 
 const skeletonColumns: any[] = [
 	{ field: '', header: '#' },
@@ -126,14 +102,19 @@ const filters = ref({
 });
 
 onMounted(async () => {
-	await Promise.all([
-		getExercisesAsync(),
-		getTutorialsAsync(),
-		getTutorialStepsAsync(),
-		getStudentsAsync(),
-		getClassGroupsAsync(),
-		getTableAsync(),
-	]);
+	try {
+		isLoading.value = true;
+		await Promise.all([
+			getExercisesAsync(),
+			getTutorialsAsync(),
+			getTutorialStepsAsync(),
+			getStudentsAsync(),
+			getClassGroupsAsync(),
+			getTableAsync(),
+		]);
+	} finally {
+		isLoading.value = false;
+	}
 });
 </script>
 
@@ -212,7 +193,7 @@ onMounted(async () => {
 			</template>
 
 			<template #footer>
-				<DataTable v-if="loading" :value="skeletonTable" responsive-layout="scroll">
+				<DataTable v-if="isLoading" :value="skeletonTable" responsive-layout="scroll">
 					<template #header>
 						<div style="display: flex">
 							<span class="p-input-icon-left">
@@ -236,7 +217,7 @@ onMounted(async () => {
 						:field="col.field"
 						:header="col.header"
 						sortable>
-						<template #body><Skeleton></Skeleton></template>
+						<template #body><Skeleton /></template>
 					</Column>
 				</DataTable>
 				<DataTable

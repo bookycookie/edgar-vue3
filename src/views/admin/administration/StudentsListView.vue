@@ -178,13 +178,13 @@ const impersonateAsync = async (studentId: number) => {
 						</template>
 					</Column>
 					<Column field="" header="Score">
-						<template #body="{}">
+						<template #body="{ data }">
 							<div class="center">
-								<router-link to="">
+								<a target="_blank" :href="`http://localhost:1337/analytics/score/student/${data.id}`">
 									<Button class="p-button-success">
 										<font-awesome-icon icon="chart-line"></font-awesome-icon>
 									</Button>
-								</router-link>
+								</a>
 							</div>
 						</template>
 					</Column>

@@ -20,6 +20,7 @@ defineProps({
 			return [];
 		},
 	},
+	isLoading: { type: Boolean, required: true },
 });
 
 const filters = ref({
@@ -29,11 +30,46 @@ const filters = ref({
 const examsDt = ref();
 const exportCSV = () => examsDt.value.exportCSV();
 
-const review = (data: any) => console.log(data);
+const skeletonData = Array(8).fill({} as PreviousExam);
+const skeletonColumns = [
+	{ field: '', header: '#' },
+	{ field: '', header: 'Title' },
+	{ field: '', header: 'Score ignored' },
+	{ field: '', header: 'Started' },
+	{ field: '', header: 'Submitted' },
+	{ field: '', header: 'Duration' },
+	{ field: '', header: 'Correct' },
+	{ field: '', header: 'Incorrect' },
+	{ field: '', header: 'Partial' },
+	{ field: '', header: 'Unanswered' },
+	{ field: '', header: 'Score' },
+	{ field: '', header: 'Score %' },
+	{ field: '', header: 'Passed' },
+	{ field: '', header: 'Review' },
+];
 </script>
 
 <template>
+	<DataTable v-if="isLoading" :value="skeletonData">
+		<template #header>
+			<div style="display: flex">
+				<span class="p-input-icon-left">
+					<i class="pi pi-search" />
+					<InputText
+						v-model="filters['global'].value"
+						placeholder="Search"
+						class="p-inputtext-sm p-inputtext-filled"
+						style="border-radius: 14px" />
+				</span>
+				<Button icon="pi pi-external-link" label="Export" class="p-button-sm ml-3" @click="exportCSV" />
+			</div>
+		</template>
+		<Column v-for="col of skeletonColumns" :key="col.field" :field="col.field" :header="col.header" sortable>
+			<template #body><Skeleton /></template>
+		</Column>
+	</DataTable>
 	<DataTable
+		v-else
 		ref="examsDt"
 		v-model:filters="filters"
 		:value="exams"
@@ -56,6 +92,7 @@ const review = (data: any) => console.log(data);
 				<Button icon="pi pi-external-link" label="Export" class="p-button-sm ml-3" @click="exportCSV" />
 			</div>
 		</template>
+		<template #empty><span class="center">No data found</span></template>
 		<Column field="title" header="Title" sortable></Column>
 		<Column field="test_score_ignored" header="Score ignored" sortable>
 			<template #body="{ data }">

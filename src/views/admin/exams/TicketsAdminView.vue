@@ -11,17 +11,24 @@ const service = new ApiService();
 const studentTickets = ref<Ticket[]>([]);
 const myTickets = ref<Ticket[]>([]);
 
+const isLoading = ref(false);
+
 onMounted(async () => {
-	studentTickets.value = await service.getManyAsync<Ticket>('/my_tickets_student', {
-		studentId: CONSTANTS.STUDENT_ID,
-		courseId: CONSTANTS.COURSE_ID,
-		academicYearId: CONSTANTS.ACADEMIC_YEAR_ID,
-	});
-	myTickets.value = await service.getManyAsync<Ticket>('/my_tickets', {
-		appUserId: CONSTANTS.APP_USER_ID,
-		courseId: CONSTANTS.COURSE_ID,
-		academicYearId: CONSTANTS.ACADEMIC_YEAR_ID,
-	});
+	try {
+		isLoading.value = true;
+		studentTickets.value = await service.getManyAsync<Ticket>('/my_tickets_student', {
+			studentId: CONSTANTS.STUDENT_ID,
+			courseId: CONSTANTS.COURSE_ID,
+			academicYearId: CONSTANTS.ACADEMIC_YEAR_ID,
+		});
+		myTickets.value = await service.getManyAsync<Ticket>('/my_tickets', {
+			appUserId: CONSTANTS.APP_USER_ID,
+			courseId: CONSTANTS.COURSE_ID,
+			academicYearId: CONSTANTS.ACADEMIC_YEAR_ID,
+		});
+	} finally {
+		isLoading.value = false;
+	}
 });
 
 const studentDt = ref();
@@ -34,12 +41,55 @@ const myFilters = ref({
 	global: { value: '', matchMode: FilterMatchMode.CONTAINS },
 });
 const exportCSV = (ref: any) => ref.exportCSV();
+
+const skeletonData = Array(8).fill({} as Ticket);
+const skeletonColumns = [
+	{ field: '', header: '#' },
+	{ field: '', header: 'Exam' },
+	{ field: '', header: 'Q. no' },
+	{ field: '', header: 'Ticket created' },
+	{ field: '', header: 'Ticket modified' },
+	{ field: '', header: 'Status' },
+	{ field: '', header: 'Description' },
+];
 </script>
 
 <template>
 	<div class="container-fluid">
-		<!--  -->
-		<Card>
+		<Card v-if="isLoading">
+			<template #title>Tickets</template>
+			<template #content>
+				<DataTable :value="skeletonData">
+					<template #header>
+						<div style="display: flex">
+							<span class="p-input-icon-left">
+								<i class="pi pi-search" />
+								<InputText
+									v-model="studentFilters['global'].value"
+									placeholder="Search"
+									class="p-inputtext-sm p-inputtext-filled"
+									style="border-radius: 14px" />
+							</span>
+							<Button
+								icon="pi pi-external-link"
+								label="Export"
+								class="p-button-sm ml-3"
+								@click="exportCSV" />
+						</div>
+					</template>
+					<Column
+						v-for="col of skeletonColumns"
+						:key="col.field"
+						:field="col.field"
+						:header="col.header"
+						sortable>
+						<template #body><Skeleton /></template>
+					</Column>
+				</DataTable>
+			</template>
+		</Card>
+
+		<Card v-else>
 			<template #title>Tickets</template>
 			<template #content>
 				<div class="p-card-title">Tickets for the student:</div>

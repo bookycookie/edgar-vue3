@@ -30,19 +30,50 @@ defineProps({
 			return [];
 		},
 	},
+	isLoading: { type: Boolean, required: true },
 });
+
+const skeletonData = Array(8).fill({} as ExamStatistics);
+const skeletonColumns = [
+	{ field: '', header: 'Started' },
+	{ field: '', header: 'Submitted' },
+	{ field: '', header: 'Duration' },
+	{ field: '', header: 'Correct' },
+	{ field: '', header: 'Incorrect' },
+	{ field: '', header: 'Partial' },
+	{ field: '', header: 'Unanswered' },
+	{ field: '', header: 'Score' },
+	{ field: '', header: 'Score %' },
+	{ field: '', header: 'Passed' },
+	{ field: '', header: 'Review' },
+];
 </script>
 
 <template>
 	<div class="container-fluid">
 		<div class="flex">
-			<div style="width: 100%">
+			<div v-if="isLoading" style="width: 100%">
+				<DataTable v-if="isLoading" :value="skeletonData">
+					<Column
+						v-for="col of skeletonColumns"
+						:key="col.field"
+						:field="col.field"
+						:header="col.header"
+						sortable>
+						<template #body><Skeleton /></template>
+					</Column>
+				</DataTable>
+			</div>
+			<div v-else style="width: 100%">
 				<DataTable
 					:value="examStatistics"
 					filter-display="menu"
 					show-gridlines
 					scrollable
 					scroll-height="43rem">
+					<template #empty>
+						<span class="center">No data to show.</span>
+					</template>
 					<Column field="ts_started" header="Started">
 						<template #body="{ data }">
 							<div class="center-align">

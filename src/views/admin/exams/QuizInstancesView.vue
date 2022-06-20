@@ -29,17 +29,7 @@ const filters = ref({
 	global: { value: '', matchMode: FilterMatchMode.CONTAINS },
 });
 
-const skeletonLectureInstanceData = Array(8).fill({
-	id: 22,
-	ts_start: '',
-	ts_end: '',
-	title: '',
-	max_score: 2,
-	spassword: '',
-	questions_no: 21,
-	user_started: '',
-	students_no: 12,
-});
+const skeletonLectureInstanceData = Array(8).fill({} as LectureInstancesTable);
 
 const skeletonColumns = [
 	{ field: '', header: '#' },

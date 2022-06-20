@@ -58,6 +58,8 @@ const makeTree = (nodes: VisNode[], parentId: number | null): any => {
 onMounted(async () => {
 	await service.getManyAsync<VisNode>('/vistree', { courseId: CONSTANTS.COURSE_ID }).then((nodes: VisNode[]) => {
 		root.value = makeTree(nodes, null);
+
+		expandedKeys.value[root.value[0].key] = true;
 	});
 });
 
@@ -75,6 +77,8 @@ const selectNode = async (node: any) => {
 const filters = ref({
 	global: { value: '', matchMode: FilterMatchMode.CONTAINS },
 });
+
+const expandedKeys = ref<any[]>([]);
 </script>
 
 <template>
@@ -83,7 +87,14 @@ const filters = ref({
 			<template #title>Course structure (readonly)</template>
 			<template #content>
 				<div class="wrapper">
-					<Tree :value="root" selection-mode="single" @node-select="selectNode"></Tree>
+					<Tree
+						:value="root"
+						selection-mode="single"
+						:expanded-keys="expandedKeys"
+						filter
+						filter-mode="lenient"
+						filter-placeholder="Search nodes"
+						@node-select="selectNode"></Tree>
 					<DataTable :value="selectedNodes" show-gridlines class="p-datatable-sm">
 						<template #header>
 							<div style="display: flex">

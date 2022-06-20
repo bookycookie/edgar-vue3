@@ -21,23 +21,11 @@ const filters = ref({
 });
 
 const tutorialDefinitionDt = ref();
-const skeletonData: TutorialDefTable[] = Array(8).fill({
-	id: 0,
-	tutorial_title: '',
-	tutorial_desc: '',
-	id_act_vir: '',
-	user_created_name: '',
-	user_modified_name: '',
-	ts_created: '',
-	ts_modified: '',
-	courses: '',
-	no_steps: 0,
-});
+const skeletonData: TutorialDefTable[] = Array(8).fill({} as TutorialDefTable);
 const skeletonColumns = [
 	{ field: '', header: '#' },
 	{ field: '', header: 'Id/Act/vir' },
 	{ field: '', header: 'Title' },
-	{ field: '', header: 'Description' },
 	{ field: '', header: 'Created by' },
 	{ field: '', header: 'Created at' },
 	{ field: '', header: 'Modified by' },
@@ -111,7 +99,7 @@ const edit = (data: any) => console.log(data);
 						:field="col.field"
 						:header="col.header"
 						sortable>
-						<template #body><Skeleton></Skeleton></template>
+						<template #body><Skeleton /></template>
 					</Column>
 				</DataTable>
 				<DataTable

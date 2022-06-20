@@ -16,15 +16,7 @@ const filters = ref({
 });
 
 const tutorialDt = ref();
-const skeletonData: TutorialTable[] = Array(8).fill({
-	id: 0,
-	tutorial_title: '',
-	tutorial_desc: '',
-	ts_finished: '',
-	finished: '',
-	courses: '',
-	no_steps: 0,
-});
+const skeletonData: TutorialTable[] = Array(8).fill({} as TutorialTable);
 const skeletonColumns = [
 	{ field: '', header: '#' },
 	{ field: '', header: 'Title' },
@@ -82,7 +74,7 @@ const start = async (tutorial: TutorialTable) => console.log('start');
 						:field="col.field"
 						:header="col.header"
 						sortable>
-						<template #body><Skeleton></Skeleton></template>
+						<template #body><Skeleton /></template>
 					</Column>
 				</DataTable>
 				<DataTable
