@@ -1,15 +1,15 @@
 <script setup lang="ts">
-import { ref, defineProps, onMounted, computed, watch } from 'vue';
+import { ref, defineProps, onMounted, computed, watch, defineAsyncComponent } from 'vue';
 import ApiService from '@/services/ApiService';
-import HeaderComponent from '@/components/admin/questions/HeaderComponent.vue';
-import QuestionPreviewComponent from '@/components/admin/questions/QuestionPreviewComponent.vue';
-import CodeComponent from '@/components/admin/questions/CodeComponent.vue';
-import TestItemsComponent from '@/components/admin/questions/TestItemsComponent.vue';
-import JsonComponent from '@/components/admin/questions/JsonComponent.vue';
-import ToolbarComponent from '@/components/admin/questions/ToolbarComponent.vue';
-import SqlComponent from '@/components/admin/questions/SqlComponent.vue';
-import TemplateDataComponent from '@/components/admin/questions/TemplateDataComponent.vue';
-import CustomScoringComponent from '@/components/admin/questions/CustomScoringComponent.vue';
+// import HeaderComponent from '@/components/admin/questions/HeaderComponent.vue';
+// import QuestionPreviewComponent from '@/components/admin/questions/QuestionPreviewComponent.vue';
+// import CodeComponent from '@/components/admin/questions/CodeComponent.vue';
+// import TestItemsComponent from '@/components/admin/questions/TestItemsComponent.vue';
+// import JsonComponent from '@/components/admin/questions/JsonComponent.vue';
+// import ToolbarComponent from '@/components/admin/questions/ToolbarComponent.vue';
+// import SqlComponent from '@/components/admin/questions/SqlComponent.vue';
+// import TemplateDataComponent from '@/components/admin/questions/TemplateDataComponent.vue';
+// import CustomScoringComponent from '@/components/admin/questions/CustomScoringComponent.vue';
 import { Tag } from '@/models/admin/questions/Tag';
 import { Question } from '@/models/admin/questions/Question';
 import { Answer } from '@/models/admin/questions/Answer';
@@ -32,6 +32,21 @@ import { useToast } from 'primevue/usetoast';
 import { useRouter, useRoute } from 'vue-router';
 import RouteNames from '@/router/routes';
 
+const HeaderComponent = defineAsyncComponent(() => import('@/components/admin/questions/HeaderComponent.vue'));
+const QuestionPreviewComponent = defineAsyncComponent(
+	() => import('@/components/admin/questions/QuestionPreviewComponent.vue'),
+);
+const CodeComponent = defineAsyncComponent(() => import('@/components/admin/questions/CodeComponent.vue'));
+const TestItemsComponent = defineAsyncComponent(() => import('@/components/admin/questions/TestItemsComponent.vue'));
+const JsonComponent = defineAsyncComponent(() => import('@/components/admin/questions/JsonComponent.vue'));
+const ToolbarComponent = defineAsyncComponent(() => import('@/components/admin/questions/ToolbarComponent.vue'));
+const SqlComponent = defineAsyncComponent(() => import('@/components/admin/questions/SqlComponent.vue'));
+const TemplateDataComponent = defineAsyncComponent(
+	() => import('@/components/admin/questions/TemplateDataComponent.vue'),
+);
+const CustomScoringComponent = defineAsyncComponent(
+	() => import('@/components/admin/questions/CustomScoringComponent.vue'),
+);
 const initiateUpload = async (event: any) => {
 	// console.log(files);
 	// const fileName = files;

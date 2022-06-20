@@ -212,6 +212,7 @@ defineEmits(['deleteNode', 'updateNode', 'reassign', 'insert']);
 
 <template>
 	<div class="container-fluid">
+		<Toast />
 		<Card>
 			<template #title>Node Visualization</template>
 			<template #content>

@@ -25,8 +25,8 @@ const getQuestionNodes = async () => {
 //! TODO: Get these values from the DB!
 const getQuestionTypes = async () => {
 	const defaultLanguages: ProgrammingLanguage[] = [
-		{ name: 'SQL', id: 2 },
-		{ name: 'JSON', id: 21 },
+		{ name: 'SQL', id: 2 } as ProgrammingLanguage,
+		{ name: 'JSON', id: 21 } as ProgrammingLanguage,
 	];
 	programmingLanguages.value = await service.getManyAsync<ProgrammingLanguage>('/course/programming_languages', {
 		courseId: courseId,
@@ -39,14 +39,14 @@ const getQuestionTypes = async () => {
 
 //! TODO: Get these values from the DB!
 const textualQuestions = ref<ProgrammingLanguage[]>([
-	{ id: 1, name: 'multiple-choice' },
-	{ id: 20, name: 'free text' },
-	{ id: 25, name: 'peer assessment' },
-	{ id: 26, name: 'scale' },
+	{ id: 1, name: 'multiple-choice' } as ProgrammingLanguage,
+	{ id: 20, name: 'free text' } as ProgrammingLanguage,
+	{ id: 25, name: 'peer assessment' } as ProgrammingLanguage,
+	{ id: 26, name: 'scale' } as ProgrammingLanguage,
 ]);
 
 //! TODO: Get these values from the DB!
-const multilanguage: ProgrammingLanguage = { name: 'Multilanguage', id: 23 };
+const multilanguage: ProgrammingLanguage = { name: 'Multilanguage', id: 23 } as ProgrammingLanguage;
 const selectedMultipleLanguages = ref<ProgrammingLanguage[]>([]);
 
 const programmingLanguages = ref<ProgrammingLanguage[]>([]);
@@ -93,6 +93,7 @@ onMounted(async () => {
 
 <template>
 	<div class="container-fluid">
+		<Toast />
 		<br />
 		<Card>
 			<template #title>

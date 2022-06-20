@@ -69,6 +69,7 @@ const impersonateAsync = async (studentId: number) => {
 
 <template>
 	<div class="container-fluid">
+		<Toast />
 		<Card>
 			<template #title>Students for the current course and year:</template>
 			<template #content>

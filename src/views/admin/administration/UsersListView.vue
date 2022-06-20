@@ -57,6 +57,7 @@ const deleteAsync = async (userId: number) => {
 
 <template>
 	<div class="container-fluid">
+		<Toast />
 		<Card>
 			<template #title>Users (globally, in all courses):</template>
 			<template #content>

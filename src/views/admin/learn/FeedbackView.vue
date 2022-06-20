@@ -141,6 +141,7 @@ onMounted(async () => {
 
 <template>
 	<div class="container-fluid">
+		<Toast />
 		<Card>
 			<template #title>Feedback</template>
 			<template #content>

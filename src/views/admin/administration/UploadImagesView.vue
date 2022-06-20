@@ -13,6 +13,7 @@ const filesChange = () => {
 
 <template>
 	<div class="container-fluid">
+		<Toast />
 		<Card>
 			<template #title>Upload images</template>
 			<template #content>

@@ -25,6 +25,7 @@ const submitAsync = async () => {
 
 <template>
 	<div class="container-fluid">
+		<Toast />
 		<Card>
 			<template #title></template>
 			<template #content>

@@ -80,11 +80,12 @@ const deleteAsync = async (tutorial: TutorialDefTable) => {
 		.then(async () => await getTutorialsAsync());
 };
 //! TODO: Add edit
-const edit = () => console.log('edit');
+const edit = (data: any) => console.log(data);
 </script>
 
 <template>
 	<div class="container-fluid">
+		<Toast />
 		<br />
 		<Card>
 			<template #title>Tutorial definitions</template>

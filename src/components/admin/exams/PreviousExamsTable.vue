@@ -28,6 +28,8 @@ const filters = ref({
 
 const examsDt = ref();
 const exportCSV = () => examsDt.value.exportCSV();
+
+const review = (data: any) => console.log(data);
 </script>
 
 <template>

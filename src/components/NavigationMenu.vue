@@ -5,6 +5,8 @@ import AcademicYear from '../models/AcademicYear';
 import ApiService from '../services/ApiService';
 import RouteNames from '../router/routes';
 
+//! TODO: Add store
+const username = 'imekterovi@fer.hr';
 const service = new ApiService();
 const isAdmin = ref(true);
 
@@ -14,8 +16,8 @@ const academicYears = ref<AcademicYear[]>([]);
 const selectedAcademicYear = ref<AcademicYear>();
 
 onMounted(async () => {
-	courses.value = await service.getManyAsync<Course>('/courses');
-	academicYears.value = await service.getManyAsync<AcademicYear>('/acdmYears');
+	courses.value = await service.getManyAsync<Course>('/courses', { username: username });
+	academicYears.value = await service.getManyAsync<AcademicYear>('/acdmYears', { username: username });
 });
 
 const adminItems = ref([
@@ -225,7 +227,7 @@ const items = computed(() => (isAdmin.value ? adminItems.value : studentItems.va
 						:placeholder="selectedCourse?.course_acronym"
 						option-label="course_acronym"
 						class="outline mr-1 small-text-dropdown"
-						style="max-height: 3rem; max-width: 8rem">
+						style="max-height: 3rem; max-width: 10rem; min-width: 10rem">
 						<template #option="slotProps">
 							<span>{{ slotProps.option.course_name }}</span>
 						</template>
@@ -236,7 +238,7 @@ const items = computed(() => (isAdmin.value ? adminItems.value : studentItems.va
 						:placeholder="selectedAcademicYear?.title"
 						option-label="title"
 						class="outline me-5 small-text-dropdown"
-						style="max-height: 3rem; max-width: 9rem">
+						style="max-height: 3rem; max-width: 9rem; min-width: 9rem">
 						<template #option="slotProps">
 							<span>{{ slotProps.option.title }}</span>
 						</template>
@@ -246,7 +248,7 @@ const items = computed(() => (isAdmin.value ? adminItems.value : studentItems.va
 					</div>
 
 					<div style="min-width: 120px">
-						<div>Igor Mekterović</div>
+						<div>Borna Goljački</div>
 						<Tag
 							:value="isAdmin ? 'Admin' : 'Student'"
 							:severity="isAdmin ? 'info' : 'danger'"

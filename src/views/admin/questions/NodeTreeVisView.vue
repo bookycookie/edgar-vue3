@@ -80,6 +80,7 @@ const filters = ref({
 
 <template>
 	<div class="container-fluid">
+		<Toast />
 		<Card>
 			<template #title>Course structure (readonly)</template>
 			<template #content>

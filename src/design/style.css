@@ -90,3 +90,70 @@ p > code {
 #img-spae:hover {
 	animation: 3s forwards fadein;
 }
+
+div#preview-html > table > thead > tr > th {
+	vertical-align: top;
+	background-color: rgba(157, 229, 251, 0.2);
+	padding: 4px 10px;
+	border-width: 1px;
+	border-style: solid;
+	border-color: black;
+	border-image: initial;
+}
+div#preview-html > table > tbody > tr > td {
+	vertical-align: top;
+	padding: 4px 10px;
+	border-width: 1px;
+	border-style: solid;
+	border-color: rgb(187, 187, 187);
+	border-image: initial;
+}
+
+details > summary:first-of-type {
+	list-style-type: none;
+}
+
+::-webkit-details-marker {
+	display: none;
+}
+
+summary {
+	outline: none;
+	user-select: none;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-khtml-user-select: none;
+	-ms-user-select: none;
+	cursor: pointer;
+}
+
+details > summary .details-marker:before {
+	content: '\25BA';
+	font-size: 20px;
+}
+
+details[open] > summary .details-marker:before {
+	content: '\25BC';
+	font-size: 16px;
+}
+
+details > *:not(summary) {
+	padding-left: 1.25em;
+}
+
+.p-submenu-list,
+.p-menuitem {
+	z-index: 9999 !important;
+}
+
+.p-menuitem-text {
+	font-size: 15px;
+}
+
+.p-submenu-list {
+	min-width: 15rem;
+}
+
+.p-toast-detail {
+	word-break: break-word;
+}

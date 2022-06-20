@@ -58,6 +58,7 @@ const filters = ref({
 
 <template>
 	<div class="container-fluid">
+		<Toast />
 		<Card>
 			<template #title>Teachers for the current course:</template>
 			<template #content>

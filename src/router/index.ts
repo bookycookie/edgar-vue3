@@ -1,88 +1,95 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router';
+import { defineAsyncComponent } from 'vue';
 import RouteNames from './routes';
 
-const HomeView = () => import('@/views/HomeView.vue');
-const LoginView = () => import('@/views/LoginView.vue');
+const HomeView = defineAsyncComponent(() => import('@/views/HomeView.vue'));
+const LoginView = defineAsyncComponent(() => import('@/views/LoginView.vue'));
 
 //? STUDENT
-const PreviousExamsViewStudent = () => import('@/views/student/PreviousExamsView.vue');
-const TicketsViewStudent = () => import('@/views/student/TicketsView.vue');
-const StatsViewStudent = () => import('@/views/student/StatsView.vue');
-const CodeThemeViewStudent = () => import('@/views/student/CodeThemeView.vue');
+const PreviousExamsViewStudent = defineAsyncComponent(() => import('@/views/student/PreviousExamsView.vue'));
+const TicketsViewStudent = defineAsyncComponent(() => import('@/views/student/TicketsView.vue'));
+const StatsViewStudent = defineAsyncComponent(() => import('@/views/student/StatsView.vue'));
+const CodeThemeViewStudent = defineAsyncComponent(() => import('@/views/student/CodeThemeView.vue'));
 
 //? ADMIN
 //! EXAMS
-const PreviousExamsView = () => import('@/views/admin/exams/PreviousExamsView.vue');
-const ReviewExamView = () => import('@/views/admin/exams/ReviewExamView.vue');
-const TicketsAdminView = () => import('@/views/admin/exams/TicketsAdminView.vue');
-const ExamDefinitionsView = () => import('@/views/admin/exams/ExamDefinitionsView.vue');
-const EditExamView = () => import('@/views/admin/exams/EditExamView.vue');
-const ExamInstancesView = () => import('@/views/admin/exams/ExamInstancesView.vue');
-const ExportStudentScoresView = () => import('@/views/admin/exams/ExportStudentScoresView.vue');
-const QuizDefinitionsView = () => import('@/views/admin/exams/QuizDefinitionsView.vue');
-const QuizInstancesView = () => import('@/views/admin/exams/QuizInstancesView.vue');
-const LectureQuizView = () => import('@/views/admin/exams/LectureQuizView.vue');
+const PreviousExamsView = defineAsyncComponent(() => import('@/views/admin/exams/PreviousExamsView.vue'));
+const ReviewExamView = defineAsyncComponent(() => import('@/views/admin/exams/ReviewExamView.vue'));
+const TicketsAdminView = defineAsyncComponent(() => import('@/views/admin/exams/TicketsAdminView.vue'));
+const ExamDefinitionsView = defineAsyncComponent(() => import('@/views/admin/exams/ExamDefinitionsView.vue'));
+const EditExamView = defineAsyncComponent(() => import('@/views/admin/exams/EditExamView.vue'));
+const ExamInstancesView = defineAsyncComponent(() => import('@/views/admin/exams/ExamInstancesView.vue'));
+const ExportStudentScoresView = defineAsyncComponent(() => import('@/views/admin/exams/ExportStudentScoresView.vue'));
+const QuizDefinitionsView = defineAsyncComponent(() => import('@/views/admin/exams/QuizDefinitionsView.vue'));
+const QuizInstancesView = defineAsyncComponent(() => import('@/views/admin/exams/QuizInstancesView.vue'));
+const LectureQuizView = defineAsyncComponent(() => import('@/views/admin/exams/LectureQuizView.vue'));
 
 //! LEARN
-const NewTutorialView = () => import('@/views/admin/learn/NewTutorialView.vue');
-const TutorialDefinitionView = () => import('@/views/admin/learn/TutorialDefinitionView.vue');
-const StartTutorialView = () => import('@/views/admin/learn/StartTutorialView.vue');
-const NewExerciseView = () => import('@/views/admin/learn/NewExerciseView.vue');
-const ExerciseDefinitionView = () => import('@/views/admin/learn/ExerciseDefinitionView.vue');
-const StartExerciseView = () => import('@/views/admin/learn/StartExerciseView.vue');
-const FeedbackView = () => import('@/views/admin/learn/FeedbackView.vue');
+const NewTutorialView = defineAsyncComponent(() => import('@/views/admin/learn/NewTutorialView.vue'));
+const TutorialDefinitionView = defineAsyncComponent(() => import('@/views/admin/learn/TutorialDefinitionView.vue'));
+const StartTutorialView = defineAsyncComponent(() => import('@/views/admin/learn/StartTutorialView.vue'));
+const NewExerciseView = defineAsyncComponent(() => import('@/views/admin/learn/NewExerciseView.vue'));
+const ExerciseDefinitionView = defineAsyncComponent(() => import('@/views/admin/learn/ExerciseDefinitionView.vue'));
+const StartExerciseView = defineAsyncComponent(() => import('@/views/admin/learn/StartExerciseView.vue'));
+const FeedbackView = defineAsyncComponent(() => import('@/views/admin/learn/FeedbackView.vue'));
 
 //! QUESTIONS
-const NewQuestionView = () => import('@/views/admin/questions/NewQuestionView.vue');
-const EditQuestionView = () => import('@/views/admin/questions/EditQuestionView.vue');
-const ListAllAndEditView = () => import('@/views/admin/questions/ListAllAndEditView.vue');
-const SearchView = () => import('@/views/admin/questions/SearchView.vue');
-const NodeVisView = () => import('@/views/admin/questions/NodeVisView.vue');
-const NodeQuestionsView = () => import('@/views/admin/questions/NodeQuestionsView.vue');
-const NodeTreeVisView = () => import('@/views/admin/questions/NodeTreeVisView.vue');
-const CourseDataObjectView = () => import('@/views/admin/questions/CourseDataObjectView.vue');
-const QuestionInstancesView = () => import('@/views/admin/questions/QuestionInstancesView.vue');
+const NewQuestionView = defineAsyncComponent(() => import('@/views/admin/questions/NewQuestionView.vue'));
+const EditQuestionView = defineAsyncComponent(() => import('@/views/admin/questions/EditQuestionView.vue'));
+const ListAllAndEditView = defineAsyncComponent(() => import('@/views/admin/questions/ListAllAndEditView.vue'));
+const SearchView = defineAsyncComponent(() => import('@/views/admin/questions/SearchView.vue'));
+const NodeVisView = defineAsyncComponent(() => import('@/views/admin/questions/NodeVisView.vue'));
+const NodeQuestionsView = defineAsyncComponent(() => import('@/views/admin/questions/NodeQuestionsView.vue'));
+const NodeTreeVisView = defineAsyncComponent(() => import('@/views/admin/questions/NodeTreeVisView.vue'));
+const CourseDataObjectView = defineAsyncComponent(() => import('@/views/admin/questions/CourseDataObjectView.vue'));
+const QuestionInstancesView = defineAsyncComponent(() => import('@/views/admin/questions/QuestionInstancesView.vue'));
 
 //! PREFERENCES
-const CodeMirrorSkinView = () => import('@/views/admin/preferences/CodeMirrorSkinView.vue');
+const CodeMirrorSkinView = defineAsyncComponent(() => import('@/views/admin/preferences/CodeMirrorSkinView.vue'));
 
 //! PLAYGROUND
-const CodeSandboxView = () => import('@/views/admin/playground/CodeSandboxView.vue');
-const SnippetStoreView = () => import('@/views/admin/playground/SnippetStoreView.vue');
+const CodeSandboxView = defineAsyncComponent(() => import('@/views/admin/playground/CodeSandboxView.vue'));
+const SnippetStoreView = defineAsyncComponent(() => import('@/views/admin/playground/SnippetStoreView.vue'));
 
 //! ANALYTICS
-const ExamAnalyticsView = () => import('@/views/admin/analytics/ExamAnalyticsView.vue');
-const ExamScoreDistributionAnalyticsView = () =>
-	import('@/views/admin/analytics/ExamScoreDistributionAnalyticsView.vue');
-const QuestionsAnalyticsView = () => import('@/views/admin/analytics/QuestionsAnalyticsView.vue');
-const StudentBehaviourAnalyticsView = () => import('@/views/admin/analytics/StudentBehaviourAnalyticsView.vue');
-const PlagiarismDetectionView = () => import('@/views/admin/analytics/PlagiarismDetectionView.vue');
-const TimeDependantPlagiarismDetectionView = () =>
-	import('@/views/admin/analytics/TimeDependantPlagiarismDetectionView.vue');
-const StudentsScatterView = () => import('@/views/admin/analytics/StudentsScatterView.vue');
-const HighScoreListView = () => import('@/views/admin/analytics/HighScoreListView.vue');
+const ExamAnalyticsView = defineAsyncComponent(() => import('@/views/admin/analytics/ExamAnalyticsView.vue'));
+const ExamScoreDistributionAnalyticsView = defineAsyncComponent(
+	() => import('@/views/admin/analytics/ExamScoreDistributionAnalyticsView.vue'),
+);
+const QuestionsAnalyticsView = defineAsyncComponent(() => import('@/views/admin/analytics/QuestionsAnalyticsView.vue'));
+const StudentBehaviourAnalyticsView = defineAsyncComponent(
+	() => import('@/views/admin/analytics/StudentBehaviourAnalyticsView.vue'),
+);
+const PlagiarismDetectionView = defineAsyncComponent(
+	() => import('@/views/admin/analytics/PlagiarismDetectionView.vue'),
+);
+const TimeDependantPlagiarismDetectionView = defineAsyncComponent(
+	() => import('@/views/admin/analytics/TimeDependantPlagiarismDetectionView.vue'),
+);
+const StudentsScatterView = defineAsyncComponent(() => import('@/views/admin/analytics/StudentsScatterView.vue'));
+const HighScoreListView = defineAsyncComponent(() => import('@/views/admin/analytics/HighScoreListView.vue'));
 
 //! ADMINISTRATION
-const UploadStudentsView = () => import('@/views/admin/administration/UploadStudentsView.vue');
-const UploadImagesView = () => import('@/views/admin/administration/UploadImagesView.vue');
-const StudentsListView = () => import('@/views/admin/administration/StudentsListView.vue');
-const TeachersListView = () => import('@/views/admin/administration/TeachersListView.vue');
-const UsersListView = () => import('@/views/admin/administration/UsersListView.vue');
-const EdgarLogsView = () => import('@/views/admin/administration/EdgarLogsView.vue');
-const NginxLogsView = () => import('@/views/admin/administration/NginxLogsView.vue');
-const WhoIsOnlineView = () => import('@/views/admin/administration/WhoIsOnlineView.vue');
+const UploadStudentsView = defineAsyncComponent(() => import('@/views/admin/administration/UploadStudentsView.vue'));
+const UploadImagesView = defineAsyncComponent(() => import('@/views/admin/administration/UploadImagesView.vue'));
+const StudentsListView = defineAsyncComponent(() => import('@/views/admin/administration/StudentsListView.vue'));
+const TeachersListView = defineAsyncComponent(() => import('@/views/admin/administration/TeachersListView.vue'));
+const UsersListView = defineAsyncComponent(() => import('@/views/admin/administration/UsersListView.vue'));
+const EdgarLogsView = defineAsyncComponent(() => import('@/views/admin/administration/EdgarLogsView.vue'));
+const NginxLogsView = defineAsyncComponent(() => import('@/views/admin/administration/NginxLogsView.vue'));
+const WhoIsOnlineView = defineAsyncComponent(() => import('@/views/admin/administration/WhoIsOnlineView.vue'));
 
 //! HELP
-const GlossaryView = () => import('@/views/admin/help/GlossaryView.vue');
-const FAQView = () => import('@/views/admin/help/FAQView.vue');
-const ExamFormView = () => import('@/views/admin/help/ExamFormView.vue');
-const QuestionOperationsView = () => import('@/views/admin/help/QuestionOperationsView.vue');
-const QuestionFormView = () => import('@/views/admin/help/QuestionFormView.vue');
-const TemplatedQuestionsView = () => import('@/views/admin/help/TemplatedQuestionsView.vue');
-const ScriptedQuestionsView = () => import('@/views/admin/help/ScriptedQuestionsView.vue');
-const PeerAssessmentView = () => import('@/views/admin/help/PeerAssessmentView.vue');
-const TicketingSystemView = () => import('@/views/admin/help/TicketingSystemView.vue');
-const ManualGradingView = () => import('@/views/admin/help/ManualGradingView.vue');
+const GlossaryView = defineAsyncComponent(() => import('@/views/admin/help/GlossaryView.vue'));
+const FAQView = defineAsyncComponent(() => import('@/views/admin/help/FAQView.vue'));
+const ExamFormView = defineAsyncComponent(() => import('@/views/admin/help/ExamFormView.vue'));
+const QuestionOperationsView = defineAsyncComponent(() => import('@/views/admin/help/QuestionOperationsView.vue'));
+const QuestionFormView = defineAsyncComponent(() => import('@/views/admin/help/QuestionFormView.vue'));
+const TemplatedQuestionsView = defineAsyncComponent(() => import('@/views/admin/help/TemplatedQuestionsView.vue'));
+const ScriptedQuestionsView = defineAsyncComponent(() => import('@/views/admin/help/ScriptedQuestionsView.vue'));
+const PeerAssessmentView = defineAsyncComponent(() => import('@/views/admin/help/PeerAssessmentView.vue'));
+const TicketingSystemView = defineAsyncComponent(() => import('@/views/admin/help/TicketingSystemView.vue'));
+const ManualGradingView = defineAsyncComponent(() => import('@/views/admin/help/ManualGradingView.vue'));
 
 const SPA_URL_PREFIX = '';
 
@@ -419,22 +426,22 @@ const router = createRouter({
 });
 
 //! Auth should look something akin to this.
-// const { User, isLoggedIn } = storeToRefs(useUserStore(pinia));
+// const { User, isLoggedIn } = storeToRefs(useUserStore(pinia)));
 // router.beforeEach((to, from, next) => {
-//   if (to.name !== 'Login' && !isLoggedIn) next({ name: 'Login' });
-//   else next();
-// });
+//   if (to.name !== 'Login' && !isLoggedIn) next({ name: 'Login' }));
+//   else next());
+// }));
 
 // router.beforeEach((to, from) => {
 // 	// ...
 // 	// explicitly return false to cancel the navigation
 // 	//! Use JWT auth here.
-// 	console.log('From:');
-// 	console.table(from);
-// 	console.log('-----------');
-// 	console.log('To:');
-// 	console.table(to);
+// 	console.log('From:'));
+// 	console.table(from));
+// 	console.log('-----------'));
+// 	console.log('To:'));
+// 	console.table(to));
 // 	return true;
-// });
+// }));
 
 export default router;

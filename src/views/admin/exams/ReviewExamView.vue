@@ -152,6 +152,7 @@ const brokenQuestionText = computed(() => {
 
 <template>
 	<div class="container-fluid">
+		<Toast />
 		<Card>
 			<template #title>
 				<div class="wrapper">

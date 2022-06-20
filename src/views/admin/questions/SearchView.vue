@@ -191,6 +191,7 @@ const skeletonColumns: any[] = [
 
 <template>
 	<div class="container-fluid">
+		<Toast />
 		<br />
 		<Card>
 			<template #title>

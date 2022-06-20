@@ -88,12 +88,17 @@ const openSnippetMenu = ref();
 const toggleOpenSnippetMenu = (event: any) => {
 	openSnippetMenu.value.toggle(event);
 };
-const openSnippetAsync = async (snippet: Snippet) => {
+// Needed because the Menu uses the MenuItem model.
+const openSnippetAsync = async (snippetId: string | undefined) => {
+	if (!snippetId) return;
+
+	const id = parseInt(snippetId);
+
 	openSnippetMenu.value.toggle();
 	const response = await service.getSingleAsync<CodeResponse>('/playground/snippet', {
 		courseId: courseId,
 		studentId: studentId,
-		snippetId: snippet.id,
+		snippetId: id,
 	});
 	code.value = response?.code ?? '';
 };
@@ -101,13 +106,16 @@ const insertSnippetMenu = ref();
 const toggleInsertSnippetMenu = (event: any) => {
 	insertSnippetMenu.value.toggle(event);
 };
-const insertSnippetAsync = async (snippet: Snippet) => {
+// Needed because the Menu uses the MenuItem model.
+const insertSnippetAsync = async (snippetId: string | undefined) => {
 	insertSnippetMenu.value.toggle();
+	if (!snippetId) return;
 
+	const id = parseInt(snippetId);
 	const response = await service.getSingleAsync<CodeResponse>('/playground/snippet', {
 		courseId: courseId,
 		studentId: studentId,
-		snippetId: snippet.id,
+		snippetId: id,
 	});
 	code.value += response?.code ?? '';
 };
@@ -190,6 +198,7 @@ const publishAsync = async () => {
 
 <template>
 	<div class="container-fluid">
+		<Toast />
 		<Dialog v-model:visible="showSaveAsDialog" :base-z-index="1338" class="w-25">
 			<template #header>
 				<h3>Save code snippet</h3>
@@ -238,7 +247,7 @@ const publishAsync = async () => {
 						@click="toggleOpenSnippetMenu" />
 					<Menu ref="openSnippetMenu" :model="snippets" popup>
 						<template #item="{ item }">
-							<span class="m-3 hand-cursor highlight-span" @click="openSnippet(item)">
+							<span class="m-3 hand-cursor highlight-span" @click="openSnippetAsync(item.key)">
 								{{ item.label }}
 							</span>
 						</template>
@@ -252,7 +261,7 @@ const publishAsync = async () => {
 						@click="toggleInsertSnippetMenu" />
 					<Menu ref="insertSnippetMenu" :model="snippets" popup>
 						<template #item="{ item }">
-							<span class="m-3 hand-cursor highlight-span" @click="insertSnippetAsync(item)">
+							<span class="m-3 hand-cursor highlight-span" @click="insertSnippetAsync(item.key)">
 								{{ item.label }}
 							</span>
 						</template>
@@ -304,7 +313,7 @@ const publishAsync = async () => {
 						@click="toggleOpenSnippetMenu" />
 					<Menu ref="openSnippetMenu" :model="snippets" popup>
 						<template #item="{ item }">
-							<span class="m-3 hand-cursor highlight-span" @click="openSnippetAsync(item)">
+							<span class="m-3 hand-cursor highlight-span" @click="openSnippetAsync(item.key)">
 								{{ item.label }}
 							</span>
 						</template>
@@ -318,7 +327,7 @@ const publishAsync = async () => {
 						@click="toggleInsertSnippetMenu" />
 					<Menu ref="insertSnippetMenu" :model="snippets" popup>
 						<template #item="{ item }">
-							<span class="m-3 hand-cursor highlight-span" @click="insertSnippetAsync(item)">
+							<span class="m-3 hand-cursor highlight-span" @click="insertSnippetAsync(item.key)">
 								{{ item.label }}
 							</span>
 						</template>

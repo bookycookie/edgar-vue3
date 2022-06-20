@@ -75,6 +75,7 @@ onMounted(async () => {
 
 <template>
 	<div class="container-fluid">
+		<Toast />
 		<br />
 		<div class="flex">
 			<PreviousExamsSidebar :exams-sidebar="examsSidebar"></PreviousExamsSidebar>

@@ -11,10 +11,7 @@ const service = new ApiService();
 
 const online = ref<OnlineUser[]>([]);
 onMounted(async () => {
-	online.value = await service.getManyAsync<OnlineUser>('/administration/whoisonline', {
-		courseId: courseId,
-		academicYearId: academicYearId,
-	});
+	online.value = await service.getManyAsync<OnlineUser>('/administration/whoisonline');
 });
 
 const filters = ref({
@@ -27,6 +24,7 @@ const exportCSV = () => onlineDt.value.exportCSV();
 
 <template>
 	<div class="container-fluid">
+		<Toast />
 		<Card>
 			<template #title>Online users (= touched server in the last hour):</template>
 			<template #content>

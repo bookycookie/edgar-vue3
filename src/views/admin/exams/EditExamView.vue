@@ -471,6 +471,7 @@ onMounted(async () => {
 <template>
 	<div class="container-fluid">
 		<Toast />
+		<Toast />
 		<br />
 		<Message v-if="examError" severity="error">
 			<div v-html="examError"></div>

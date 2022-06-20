@@ -1,6 +1,9 @@
 import axios from 'axios';
+import { useToast } from 'primevue/usetoast';
 export default class ApiService {
 	private baseUrl = `http://localhost:1337/api`;
+
+	private toast = useToast();
 
 	/**
 	 * Sends an HTTP GET request for a single item of type T.
@@ -23,10 +26,21 @@ export default class ApiService {
 			}
 
 			console.log(res.data);
+			this.toast.add({
+				severity: 'success',
+				summary: `${res.status} ${res.statusText}`,
+				detail: `Successful GET ${url}.`,
+				life: 2000,
+			});
 			data = res.data;
-		} catch (error) {
-			console.error(`ERROR at GET ${url}`);
+		} catch (error: any) {
+			const err = error.response.data;
 			console.error(error);
+			this.toast.add({
+				severity: 'error',
+				summary: `${err.status} ${err.statusText}`,
+				detail: `GET ${url}: ${err.message}}.`,
+			});
 		}
 		return data;
 	}
@@ -52,10 +66,22 @@ export default class ApiService {
 			}
 
 			console.log(res.data);
+			this.toast.add({
+				severity: 'success',
+				summary: `${res.status} ${res.statusText}`,
+				detail: `GET ${url}.`,
+				life: 2000,
+			});
+
+			console.log(res);
 			data = res.data;
-		} catch (error) {
-			console.error(`ERROR at GET ${url}`);
-			console.error(error);
+		} catch (error: any) {
+			const err = error.response;
+			this.toast.add({
+				severity: 'error',
+				summary: `${err.status} ${err.statusText}`,
+				detail: `GET ${url}: ${err.data}}.`,
+			});
 		}
 		return data;
 	}
@@ -72,9 +98,18 @@ export default class ApiService {
 		try {
 			console.log(`POST ${url} ${data ? `with body ${JSON.stringify(data)}` : ''}`);
 			res = await axios.post(`${url}`, { data });
-		} catch (error) {
-			console.error(`ERROR at POST ${url}`);
-			console.error(error);
+			this.toast.add({
+				severity: 'success',
+				summary: '200 OK',
+				detail: `POST ${url}.`,
+			});
+		} catch (error: any) {
+			const err = error.response;
+			this.toast.add({
+				severity: 'error',
+				summary: `${err.status} ${err.statusText}`,
+				detail: `POST ${url}: ${err.data}}.`,
+			});
 		}
 		return res;
 	}

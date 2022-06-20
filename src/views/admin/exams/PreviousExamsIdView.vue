@@ -34,6 +34,7 @@ defineProps({
 
 <template>
 	<div class="container-fluid">
+		<Toast />
 		<div class="flex">
 			<div style="width: 100%">
 				<DataTable

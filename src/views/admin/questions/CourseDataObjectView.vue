@@ -12,7 +12,7 @@ const service = new ApiService();
 const courseId = 2000;
 
 onMounted(async () => {
-	const dataObjects = await service.getManyAsync<any>('/data_object');
+	const dataObjects = await service.getManyAsync<any>('/data_object', { courseId: courseId });
 
 	globalDataObject.value = dataObjects[0].data_object;
 	courseDataObject.value = dataObjects[1].data_object;
@@ -25,7 +25,7 @@ const courseDataObject = ref(``);
 
 const saveCourseDataObject = async () => {
 	service
-		.postAsync('/data_object', {
+		.postAsync('/data_object/save', {
 			dataObject: courseDataObject.value,
 			courseId: courseId,
 		})
@@ -49,6 +49,7 @@ const saveCourseDataObject = async () => {
 </script>
 <template>
 	<div class="container-fluid">
+		<Toast />
 		<Toast />
 		<br />
 		<div class="grid p-fluid">

@@ -4,7 +4,8 @@
 		<br />
 		<p>Images below depict the meaning of question operations:</p>
 		<br />
-		<img src="/images/help/q1.PNG" />
-		<img src="/images/help/q2.PNG" />
+
+		<img src="../../../../public/images/help/q1.png" />
+		<img src="../../../../public/images/help/q2.png" />
 	</div>
 </template>

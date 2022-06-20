@@ -29,6 +29,7 @@ const exportCSV = () => exportStudentDt.value.exportCSV();
 
 <template>
 	<div class="container-fluid">
+		<Toast />
 		<Card>
 			<template #title>Scores for the current course and year:</template>
 			<template #content>
