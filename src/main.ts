@@ -11,9 +11,17 @@ axios.defaults.withCredentials = true;
 import PrimeVue from 'primevue/config';
 // import 'primevue/resources/themes/fluent-light/theme.css';
 // import 'primevue/resources/themes/md-light-indigo/theme.css';
-import 'primevue/resources/themes/lara-light-blue/theme.css';
+// import 'primevue/resources/themes/mdc-light-indigo/theme.css';
+import 'primevue/resources/themes/lara-light-blue/theme.css'; // :)
+// import 'primevue/resources/themes/bootstrap4-light-blue/theme.css';
+// import 'primevue/resources/themes/luna-blue/theme.css';
 // import 'primevue/resources/themes/lara-dark-blue/theme.css';
 // import 'primevue/resources/themes/md-dark-indigo/theme.css';
+// import 'primevue/resources/themes/nova-vue/theme.css';
+// import 'primevue/resources/themes/rhea/theme.css';
+// import 'primevue/resources/themes/saga-blue/theme.css';
+// import 'primevue/resources/themes/tailwind-light/theme.css';
+// import 'primevue/resources/themes/vela-blue/theme.css';
 import 'primevue/resources/primevue.min.css';
 import 'primeicons/primeicons.css';
 import 'primeflex/primeflex.css';
