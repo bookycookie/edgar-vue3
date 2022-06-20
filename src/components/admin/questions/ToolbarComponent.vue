@@ -205,6 +205,6 @@ const internalCanUpload = useModelWrapper<boolean>(props, emit, 'canUpload');
 	position: sticky !important;
 	position: -webkit-sticky;
 	top: 0 !important;
-	z-index: 1337;
+	z-index: 2;
 }
 </style>

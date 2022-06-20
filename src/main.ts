@@ -1,6 +1,6 @@
 /* eslint-disable vue/no-reserved-component-names */
 /* eslint-disable vue/multi-word-component-names */
-import { createApp } from 'vue';
+import { createApp, defineAsyncComponent } from 'vue';
 import App from './App.vue';
 import router from './router';
 
@@ -18,6 +18,7 @@ import 'primevue/resources/primevue.min.css';
 import 'primeicons/primeicons.css';
 import 'primeflex/primeflex.css';
 
+import BlockUI from 'primevue/blockui';
 import Button from 'primevue/button';
 import Accordion from 'primevue/accordion';
 import AccordionTab from 'primevue/accordiontab';
@@ -29,19 +30,17 @@ import Tag from 'primevue/tag';
 import InputText from 'primevue/inputtext';
 import Password from 'primevue/password';
 import Card from 'primevue/card';
-import DataTable from 'primevue/datatable';
+const DataTable = defineAsyncComponent(() => import('primevue/datatable'));
 import Column from 'primevue/column';
 import Skeleton from 'primevue/skeleton';
 import Textarea from 'primevue/textarea';
 import InputSwitch from 'primevue/inputswitch';
 import RadioButton from 'primevue/radiobutton';
-import Tooltip from 'primevue/tooltip';
 import Badge from 'primevue/badge';
 import InputNumber from 'primevue/inputnumber';
 import MultiSelect from 'primevue/multiselect';
 import SelectButton from 'primevue/selectbutton';
 import Chip from 'primevue/chip';
-import BadgeDirective from 'primevue/badgedirective';
 import Rating from 'primevue/rating';
 import TabView from 'primevue/tabview';
 import TabPanel from 'primevue/tabpanel';
@@ -49,10 +48,13 @@ import FileUpload from 'primevue/fileupload';
 import Paginator from 'primevue/paginator';
 import ToggleButton from 'primevue/togglebutton';
 import Dialog from 'primevue/dialog';
-import ToastService from 'primevue/toastservice';
 import Calendar from 'primevue/calendar';
 import Timeline from 'primevue/timeline';
 import Tree from 'primevue/tree';
+import Toast from 'primevue/toast';
+import BadgeDirective from 'primevue/badgedirective';
+import Tooltip from 'primevue/tooltip';
+import ToastService from 'primevue/toastservice';
 
 import FontAwesomeIcon from './utilities/fontawesome/fontawesome-icons';
 
@@ -60,6 +62,7 @@ const app = createApp(App);
 app.component('FontAwesomeIcon', FontAwesomeIcon);
 app.directive('tooltip', Tooltip);
 app.directive('badge', BadgeDirective);
+app.component('BlockUI', BlockUI);
 app.component('Button', Button);
 app.component('Accordion', Accordion);
 app.component('AccordionTab', AccordionTab);
@@ -92,6 +95,7 @@ app.component('Dialog', Dialog);
 app.component('Calendar', Calendar);
 app.component('Timeline', Timeline);
 app.component('Tree', Tree);
+app.component('Toast', Toast);
 
 app.use(router);
 app.use(PrimeVue);

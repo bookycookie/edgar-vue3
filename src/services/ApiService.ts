@@ -5,6 +5,10 @@ export default class ApiService {
 
 	private toast = useToast();
 
+	private logGetSuccess = false;
+	private logPostSuccess = true;
+	private logError = true;
+
 	/**
 	 * Sends an HTTP GET request for a single item of type T.
 	 * @param endpoint - The endpoint of the API to target (e.g. /nodes).
@@ -21,12 +25,14 @@ export default class ApiService {
 				params: params,
 			});
 
-			this.toast.add({
-				severity: 'success',
-				summary: `${res.status} ${res.statusText}`,
-				detail: `Successful GET ${url}.`,
-				life: 2000,
-			});
+			if (this.logGetSuccess)
+				this.toast.add({
+					severity: 'success',
+					summary: `${res.status} ${res.statusText}`,
+					detail: `Successful GET ${url}.`,
+					life: 2000,
+				});
+
 			if (res && res.data && res.data.success === false) {
 				return null;
 			}
@@ -36,11 +42,12 @@ export default class ApiService {
 		} catch (error: any) {
 			const err = error.response.data;
 			console.error(error);
-			this.toast.add({
-				severity: 'error',
-				summary: `${err.status} ${err.statusText}`,
-				detail: `GET ${url}: ${err.message}}.`,
-			});
+			if (this.logError)
+				this.toast.add({
+					severity: 'error',
+					summary: `${err.status} ${err.statusText}`,
+					detail: `GET ${url}: ${err.message}}.`,
+				});
 		}
 		return data;
 	}
@@ -61,12 +68,13 @@ export default class ApiService {
 				params: params,
 			});
 
-			this.toast.add({
-				severity: 'success',
-				summary: `${res.status} ${res.statusText}`,
-				detail: `GET ${url}.`,
-				life: 2000,
-			});
+			if (this.logGetSuccess)
+				this.toast.add({
+					severity: 'success',
+					summary: `${res.status} ${res.statusText}`,
+					detail: `GET ${url}.`,
+					life: 2000,
+				});
 			if (res && res.data && res.data.success === false) {
 				return [];
 			}
@@ -77,11 +85,12 @@ export default class ApiService {
 			data = res.data;
 		} catch (error: any) {
 			const err = error.response;
-			this.toast.add({
-				severity: 'error',
-				summary: `${err.status} ${err.statusText}`,
-				detail: `GET ${url}: ${err.data}}.`,
-			});
+			if (this.logError)
+				this.toast.add({
+					severity: 'error',
+					summary: `${err.status} ${err.statusText}`,
+					detail: `GET ${url}: ${err.data}}.`,
+				});
 		}
 		return data;
 	}
@@ -98,18 +107,22 @@ export default class ApiService {
 		try {
 			console.log(`POST ${url} ${data ? `with body ${JSON.stringify(data)}` : ''}`);
 			res = await axios.post(`${url}`, { data });
-			this.toast.add({
-				severity: 'success',
-				summary: '200 OK',
-				detail: `POST ${url}.`,
-			});
+
+			if (this.logPostSuccess)
+				this.toast.add({
+					severity: 'success',
+					summary: '200 OK',
+					detail: `POST ${url}.`,
+					life: 2500,
+				});
 		} catch (error: any) {
 			const err = error.response;
-			this.toast.add({
-				severity: 'error',
-				summary: `${err.status} ${err.statusText}`,
-				detail: `POST ${url}: ${err.data}}.`,
-			});
+			if (this.logError)
+				this.toast.add({
+					severity: 'error',
+					summary: `${err.status} ${err.statusText}`,
+					detail: `POST ${url}: ${err.data}}.`,
+				});
 		}
 		return res;
 	}

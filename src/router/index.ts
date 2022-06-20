@@ -2,7 +2,7 @@ import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router';
 import { defineAsyncComponent } from 'vue';
 import RouteNames from './routes';
 
-const HomeView = defineAsyncComponent(() => import('@/views/HomeView.vue'));
+const HomeView = () => import('@/views/HomeView.vue');
 const LoginView = defineAsyncComponent(() => import('@/views/LoginView.vue'));
 
 //? STUDENT

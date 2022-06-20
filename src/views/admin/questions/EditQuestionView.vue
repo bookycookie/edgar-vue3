@@ -720,6 +720,7 @@ const claimAuthorship = async () => {
 </script>
 
 <template>
+	<BlockUI :blocked="isLoading" full-screen />
 	<div v-if="!question && !isLoading">Missed it. Wanna try not guessing?</div>
 	<div v-else class="container-fluid">
 		<Toast :base-z-index="99999" />
