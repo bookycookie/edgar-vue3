@@ -25,6 +25,10 @@ onMounted(() => {
 });
 
 const exportCSV = () => exportStudentDt.value.exportCSV();
+
+const filters = ref({
+	global: { value: '', matchMode: FilterMatchMode.CONTAINS },
+});
 </script>
 
 <template>
@@ -34,6 +38,8 @@ const exportCSV = () => exportStudentDt.value.exportCSV();
 			<template #content>
 				<DataTable
 					ref="exportStudentDt"
+					v-model:filters="filters"
+					:global-filter-fields="headers"
 					:value="rows"
 					filter-display="menu"
 					show-gridlines
@@ -42,6 +48,13 @@ const exportCSV = () => exportStudentDt.value.exportCSV();
 					paginator>
 					<template #header>
 						<div style="display: flex">
+							<span class="p-input-icon-left">
+								<i class="pi pi-search" />
+								<InputText
+									v-model="filters['global'].value"
+									placeholder="Search"
+									class="p-inputtext-sm p-inputtext-filled" />
+							</span>
 							<Button
 								icon="pi pi-external-link"
 								label="Export"

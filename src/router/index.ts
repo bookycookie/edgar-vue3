@@ -2,94 +2,384 @@ import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router';
 import { defineAsyncComponent } from 'vue';
 import RouteNames from './routes';
 
+import NotFoundComponent from '@/components/NotFoundComponent.vue';
+import SkeletonComponent from '@/components/SkeletonComponent.vue';
+import ErrorComponent from '@/components/ErrorComponent.vue';
 const HomeView = () => import('@/views/HomeView.vue');
 const LoginView = defineAsyncComponent(() => import('@/views/LoginView.vue'));
 
 //? STUDENT
-const PreviousExamsViewStudent = defineAsyncComponent(() => import('@/views/student/PreviousExamsView.vue'));
-const TicketsViewStudent = defineAsyncComponent(() => import('@/views/student/TicketsView.vue'));
-const StatsViewStudent = defineAsyncComponent(() => import('@/views/student/StatsView.vue'));
-const CodeThemeViewStudent = defineAsyncComponent(() => import('@/views/student/CodeThemeView.vue'));
+const PreviousExamsViewStudent = defineAsyncComponent({
+	loader: () => import('@/views/student/PreviousExamsView.vue'),
+	loadingComponent: SkeletonComponent,
+	errorComponent: ErrorComponent,
+	timeout: 10000,
+});
+const TicketsViewStudent = defineAsyncComponent({
+	loader: () => import('@/views/student/TicketsView.vue'),
+	loadingComponent: SkeletonComponent,
+	errorComponent: ErrorComponent,
+	timeout: 10000,
+});
+const StatsViewStudent = defineAsyncComponent({
+	loader: () => import('@/views/student/StatsView.vue'),
+	loadingComponent: SkeletonComponent,
+	errorComponent: ErrorComponent,
+	timeout: 10000,
+});
+const CodeThemeViewStudent = defineAsyncComponent({
+	loader: () => import('@/views/student/CodeThemeView.vue'),
+	loadingComponent: SkeletonComponent,
+	errorComponent: ErrorComponent,
+	timeout: 10000,
+});
 
 //? ADMIN
 //! EXAMS
-const PreviousExamsView = defineAsyncComponent(() => import('@/views/admin/exams/PreviousExamsView.vue'));
-const ReviewExamView = defineAsyncComponent(() => import('@/views/admin/exams/ReviewExamView.vue'));
-const TicketsAdminView = defineAsyncComponent(() => import('@/views/admin/exams/TicketsAdminView.vue'));
-const ExamDefinitionsView = defineAsyncComponent(() => import('@/views/admin/exams/ExamDefinitionsView.vue'));
-const EditExamView = defineAsyncComponent(() => import('@/views/admin/exams/EditExamView.vue'));
-const ExamInstancesView = defineAsyncComponent(() => import('@/views/admin/exams/ExamInstancesView.vue'));
-const ExportStudentScoresView = defineAsyncComponent(() => import('@/views/admin/exams/ExportStudentScoresView.vue'));
-const QuizDefinitionsView = defineAsyncComponent(() => import('@/views/admin/exams/QuizDefinitionsView.vue'));
-const QuizInstancesView = defineAsyncComponent(() => import('@/views/admin/exams/QuizInstancesView.vue'));
-const LectureQuizView = defineAsyncComponent(() => import('@/views/admin/exams/LectureQuizView.vue'));
+const PreviousExamsView = defineAsyncComponent({
+	loader: () => import('@/views/admin/exams/PreviousExamsView.vue'),
+	loadingComponent: SkeletonComponent,
+	errorComponent: ErrorComponent,
+	timeout: 10000,
+});
+const ReviewExamView = defineAsyncComponent({
+	loader: () => import('@/views/admin/exams/ReviewExamView.vue'),
+	loadingComponent: SkeletonComponent,
+	errorComponent: ErrorComponent,
+	timeout: 10000,
+});
+const TicketsAdminView = defineAsyncComponent({
+	loader: () => import('@/views/admin/exams/TicketsAdminView.vue'),
+	loadingComponent: SkeletonComponent,
+	errorComponent: ErrorComponent,
+	timeout: 10000,
+});
+const ExamDefinitionsView = defineAsyncComponent({
+	loader: () => import('@/views/admin/exams/ExamDefinitionsView.vue'),
+	loadingComponent: SkeletonComponent,
+	errorComponent: ErrorComponent,
+	timeout: 10000,
+});
+const EditExamView = defineAsyncComponent({
+	loader: () => import('@/views/admin/exams/EditExamView.vue'),
+	loadingComponent: SkeletonComponent,
+	errorComponent: ErrorComponent,
+	timeout: 10000,
+});
+const ExamInstancesView = defineAsyncComponent({
+	loader: () => import('@/views/admin/exams/ExamInstancesView.vue'),
+	loadingComponent: SkeletonComponent,
+	errorComponent: ErrorComponent,
+	timeout: 10000,
+});
+const ExportStudentScoresView = defineAsyncComponent({
+	loader: () => import('@/views/admin/exams/ExportStudentScoresView.vue'),
+	loadingComponent: SkeletonComponent,
+	errorComponent: ErrorComponent,
+	timeout: 10000,
+});
+const QuizDefinitionsView = defineAsyncComponent({
+	loader: () => import('@/views/admin/exams/QuizDefinitionsView.vue'),
+	loadingComponent: SkeletonComponent,
+	errorComponent: ErrorComponent,
+	timeout: 10000,
+});
+const QuizInstancesView = defineAsyncComponent({
+	loader: () => import('@/views/admin/exams/QuizInstancesView.vue'),
+	loadingComponent: SkeletonComponent,
+	errorComponent: ErrorComponent,
+	timeout: 10000,
+});
+const LectureQuizView = defineAsyncComponent({
+	loader: () => import('@/views/admin/exams/LectureQuizView.vue'),
+	loadingComponent: SkeletonComponent,
+	errorComponent: ErrorComponent,
+	timeout: 10000,
+});
 
 //! LEARN
-const NewTutorialView = defineAsyncComponent(() => import('@/views/admin/learn/NewTutorialView.vue'));
-const TutorialDefinitionView = defineAsyncComponent(() => import('@/views/admin/learn/TutorialDefinitionView.vue'));
-const StartTutorialView = defineAsyncComponent(() => import('@/views/admin/learn/StartTutorialView.vue'));
-const NewExerciseView = defineAsyncComponent(() => import('@/views/admin/learn/NewExerciseView.vue'));
-const ExerciseDefinitionView = defineAsyncComponent(() => import('@/views/admin/learn/ExerciseDefinitionView.vue'));
-const StartExerciseView = defineAsyncComponent(() => import('@/views/admin/learn/StartExerciseView.vue'));
-const FeedbackView = defineAsyncComponent(() => import('@/views/admin/learn/FeedbackView.vue'));
+const NewTutorialView = defineAsyncComponent({
+	loader: () => import('@/views/admin/learn/NewTutorialView.vue'),
+	loadingComponent: SkeletonComponent,
+	errorComponent: ErrorComponent,
+	timeout: 10000,
+});
+const TutorialDefinitionView = defineAsyncComponent({
+	loader: () => import('@/views/admin/learn/TutorialDefinitionView.vue'),
+	loadingComponent: SkeletonComponent,
+	errorComponent: ErrorComponent,
+	timeout: 10000,
+});
+const StartTutorialView = defineAsyncComponent({
+	loader: () => import('@/views/admin/learn/StartTutorialView.vue'),
+	loadingComponent: SkeletonComponent,
+	errorComponent: ErrorComponent,
+	timeout: 10000,
+});
+const NewExerciseView = defineAsyncComponent({
+	loader: () => import('@/views/admin/learn/NewExerciseView.vue'),
+	loadingComponent: SkeletonComponent,
+	errorComponent: ErrorComponent,
+	timeout: 10000,
+});
+const ExerciseDefinitionView = defineAsyncComponent({
+	loader: () => import('@/views/admin/learn/ExerciseDefinitionView.vue'),
+	loadingComponent: SkeletonComponent,
+	errorComponent: ErrorComponent,
+	timeout: 10000,
+});
+const StartExerciseView = defineAsyncComponent({
+	loader: () => import('@/views/admin/learn/StartExerciseView.vue'),
+	loadingComponent: SkeletonComponent,
+	errorComponent: ErrorComponent,
+	timeout: 10000,
+});
+const FeedbackView = defineAsyncComponent({
+	loader: () => import('@/views/admin/learn/FeedbackView.vue'),
+	loadingComponent: SkeletonComponent,
+	errorComponent: ErrorComponent,
+	timeout: 10000,
+});
 
 //! QUESTIONS
-const NewQuestionView = defineAsyncComponent(() => import('@/views/admin/questions/NewQuestionView.vue'));
-const EditQuestionView = defineAsyncComponent(() => import('@/views/admin/questions/EditQuestionView.vue'));
-const ListAllAndEditView = defineAsyncComponent(() => import('@/views/admin/questions/ListAllAndEditView.vue'));
-const SearchView = defineAsyncComponent(() => import('@/views/admin/questions/SearchView.vue'));
-const NodeVisView = defineAsyncComponent(() => import('@/views/admin/questions/NodeVisView.vue'));
-const NodeQuestionsView = defineAsyncComponent(() => import('@/views/admin/questions/NodeQuestionsView.vue'));
-const NodeTreeVisView = defineAsyncComponent(() => import('@/views/admin/questions/NodeTreeVisView.vue'));
-const CourseDataObjectView = defineAsyncComponent(() => import('@/views/admin/questions/CourseDataObjectView.vue'));
-const QuestionInstancesView = defineAsyncComponent(() => import('@/views/admin/questions/QuestionInstancesView.vue'));
+const NewQuestionView = defineAsyncComponent({
+	loader: () => import('@/views/admin/questions/NewQuestionView.vue'),
+	loadingComponent: SkeletonComponent,
+	errorComponent: ErrorComponent,
+	timeout: 10000,
+});
+const EditQuestionView = defineAsyncComponent({
+	loader: () => import('@/views/admin/questions/EditQuestionView.vue'),
+	loadingComponent: SkeletonComponent,
+	errorComponent: ErrorComponent,
+	timeout: 10000,
+});
+const ListAllAndEditView = defineAsyncComponent({
+	loader: () => import('@/views/admin/questions/ListAllAndEditView.vue'),
+	loadingComponent: SkeletonComponent,
+	errorComponent: ErrorComponent,
+	timeout: 10000,
+});
+const SearchView = defineAsyncComponent({
+	loader: () => import('@/views/admin/questions/SearchView.vue'),
+	loadingComponent: SkeletonComponent,
+	errorComponent: ErrorComponent,
+	timeout: 10000,
+});
+const NodeVisView = defineAsyncComponent({
+	loader: () => import('@/views/admin/questions/NodeVisView.vue'),
+	loadingComponent: SkeletonComponent,
+	errorComponent: ErrorComponent,
+	timeout: 10000,
+});
+const NodeQuestionsView = defineAsyncComponent({
+	loader: () => import('@/views/admin/questions/NodeQuestionsView.vue'),
+	loadingComponent: SkeletonComponent,
+	errorComponent: ErrorComponent,
+	timeout: 10000,
+});
+const NodeTreeVisView = defineAsyncComponent({
+	loader: () => import('@/views/admin/questions/NodeTreeVisView.vue'),
+	loadingComponent: SkeletonComponent,
+	errorComponent: ErrorComponent,
+	timeout: 10000,
+});
+const CourseDataObjectView = defineAsyncComponent({
+	loader: () => import('@/views/admin/questions/CourseDataObjectView.vue'),
+	loadingComponent: SkeletonComponent,
+	errorComponent: ErrorComponent,
+	timeout: 10000,
+});
+const QuestionInstancesView = defineAsyncComponent({
+	loader: () => import('@/views/admin/questions/QuestionInstancesView.vue'),
+	loadingComponent: SkeletonComponent,
+	errorComponent: ErrorComponent,
+	timeout: 10000,
+});
 
 //! PREFERENCES
-const CodeMirrorSkinView = defineAsyncComponent(() => import('@/views/admin/preferences/CodeMirrorSkinView.vue'));
+const CodeMirrorSkinView = defineAsyncComponent({
+	loader: () => import('@/views/admin/preferences/CodeMirrorSkinView.vue'),
+	loadingComponent: SkeletonComponent,
+	errorComponent: ErrorComponent,
+	timeout: 10000,
+});
 
 //! PLAYGROUND
-const CodeSandboxView = defineAsyncComponent(() => import('@/views/admin/playground/CodeSandboxView.vue'));
-const SnippetStoreView = defineAsyncComponent(() => import('@/views/admin/playground/SnippetStoreView.vue'));
+const CodeSandboxView = defineAsyncComponent({
+	loader: () => import('@/views/admin/playground/CodeSandboxView.vue'),
+	loadingComponent: SkeletonComponent,
+	errorComponent: ErrorComponent,
+	timeout: 10000,
+});
+const SnippetStoreView = defineAsyncComponent({
+	loader: () => import('@/views/admin/playground/SnippetStoreView.vue'),
+	loadingComponent: SkeletonComponent,
+	errorComponent: ErrorComponent,
+	timeout: 10000,
+});
 
 //! ANALYTICS
-const ExamAnalyticsView = defineAsyncComponent(() => import('@/views/admin/analytics/ExamAnalyticsView.vue'));
-const ExamScoreDistributionAnalyticsView = defineAsyncComponent(
-	() => import('@/views/admin/analytics/ExamScoreDistributionAnalyticsView.vue'),
-);
-const QuestionsAnalyticsView = defineAsyncComponent(() => import('@/views/admin/analytics/QuestionsAnalyticsView.vue'));
-const StudentBehaviourAnalyticsView = defineAsyncComponent(
-	() => import('@/views/admin/analytics/StudentBehaviourAnalyticsView.vue'),
-);
-const PlagiarismDetectionView = defineAsyncComponent(
-	() => import('@/views/admin/analytics/PlagiarismDetectionView.vue'),
-);
-const TimeDependantPlagiarismDetectionView = defineAsyncComponent(
-	() => import('@/views/admin/analytics/TimeDependantPlagiarismDetectionView.vue'),
-);
-const StudentsScatterView = defineAsyncComponent(() => import('@/views/admin/analytics/StudentsScatterView.vue'));
-const HighScoreListView = defineAsyncComponent(() => import('@/views/admin/analytics/HighScoreListView.vue'));
+const ExamAnalyticsView = defineAsyncComponent({
+	loader: () => import('@/views/admin/analytics/ExamAnalyticsView.vue'),
+	loadingComponent: SkeletonComponent,
+	errorComponent: ErrorComponent,
+	timeout: 10000,
+});
+const ExamScoreDistributionAnalyticsView = defineAsyncComponent({
+	loader: () => import('@/views/admin/analytics/ExamScoreDistributionAnalyticsView.vue'),
+	loadingComponent: SkeletonComponent,
+	errorComponent: ErrorComponent,
+	timeout: 10000,
+});
+const QuestionsAnalyticsView = defineAsyncComponent({
+	loader: () => import('@/views/admin/analytics/QuestionsAnalyticsView.vue'),
+	loadingComponent: SkeletonComponent,
+	errorComponent: ErrorComponent,
+	timeout: 10000,
+});
+const StudentBehaviourAnalyticsView = defineAsyncComponent({
+	loader: () => import('@/views/admin/analytics/StudentBehaviourAnalyticsView.vue'),
+	loadingComponent: SkeletonComponent,
+	errorComponent: ErrorComponent,
+	timeout: 10000,
+});
+const PlagiarismDetectionView = defineAsyncComponent({
+	loader: () => import('@/views/admin/analytics/PlagiarismDetectionView.vue'),
+	loadingComponent: SkeletonComponent,
+	errorComponent: ErrorComponent,
+	timeout: 10000,
+});
+const TimeDependantPlagiarismDetectionView = defineAsyncComponent({
+	loader: () => import('@/views/admin/analytics/TimeDependantPlagiarismDetectionView.vue'),
+	loadingComponent: SkeletonComponent,
+	errorComponent: ErrorComponent,
+	timeout: 10000,
+});
+const StudentsScatterView = defineAsyncComponent({
+	loader: () => import('@/views/admin/analytics/StudentsScatterView.vue'),
+	loadingComponent: SkeletonComponent,
+	errorComponent: ErrorComponent,
+	timeout: 10000,
+});
+const HighScoreListView = defineAsyncComponent({
+	loader: () => import('@/views/admin/analytics/HighScoreListView.vue'),
+	loadingComponent: SkeletonComponent,
+	errorComponent: ErrorComponent,
+	timeout: 10000,
+});
 
 //! ADMINISTRATION
-const UploadStudentsView = defineAsyncComponent(() => import('@/views/admin/administration/UploadStudentsView.vue'));
-const UploadImagesView = defineAsyncComponent(() => import('@/views/admin/administration/UploadImagesView.vue'));
-const StudentsListView = defineAsyncComponent(() => import('@/views/admin/administration/StudentsListView.vue'));
-const TeachersListView = defineAsyncComponent(() => import('@/views/admin/administration/TeachersListView.vue'));
-const UsersListView = defineAsyncComponent(() => import('@/views/admin/administration/UsersListView.vue'));
-const EdgarLogsView = defineAsyncComponent(() => import('@/views/admin/administration/EdgarLogsView.vue'));
-const NginxLogsView = defineAsyncComponent(() => import('@/views/admin/administration/NginxLogsView.vue'));
-const WhoIsOnlineView = defineAsyncComponent(() => import('@/views/admin/administration/WhoIsOnlineView.vue'));
+const UploadStudentsView = defineAsyncComponent({
+	loader: () => import('@/views/admin/administration/UploadStudentsView.vue'),
+	loadingComponent: SkeletonComponent,
+	errorComponent: ErrorComponent,
+	timeout: 10000,
+});
+const UploadImagesView = defineAsyncComponent({
+	loader: () => import('@/views/admin/administration/UploadImagesView.vue'),
+	loadingComponent: SkeletonComponent,
+	errorComponent: ErrorComponent,
+	timeout: 10000,
+});
+const StudentsListView = defineAsyncComponent({
+	loader: () => import('@/views/admin/administration/StudentsListView.vue'),
+	loadingComponent: SkeletonComponent,
+	errorComponent: ErrorComponent,
+	timeout: 10000,
+});
+const TeachersListView = defineAsyncComponent({
+	loader: () => import('@/views/admin/administration/TeachersListView.vue'),
+	loadingComponent: SkeletonComponent,
+	errorComponent: ErrorComponent,
+	timeout: 10000,
+});
+const UsersListView = defineAsyncComponent({
+	loader: () => import('@/views/admin/administration/UsersListView.vue'),
+	loadingComponent: SkeletonComponent,
+	errorComponent: ErrorComponent,
+	timeout: 10000,
+});
+const EdgarLogsView = defineAsyncComponent({
+	loader: () => import('@/views/admin/administration/EdgarLogsView.vue'),
+	loadingComponent: SkeletonComponent,
+	errorComponent: ErrorComponent,
+	timeout: 10000,
+});
+const NginxLogsView = defineAsyncComponent({
+	loader: () => import('@/views/admin/administration/NginxLogsView.vue'),
+	loadingComponent: SkeletonComponent,
+	errorComponent: ErrorComponent,
+	timeout: 10000,
+});
+const WhoIsOnlineView = defineAsyncComponent({
+	loader: () => import('@/views/admin/administration/WhoIsOnlineView.vue'),
+	loadingComponent: SkeletonComponent,
+	errorComponent: ErrorComponent,
+	timeout: 10000,
+});
 
 //! HELP
-const GlossaryView = defineAsyncComponent(() => import('@/views/admin/help/GlossaryView.vue'));
-const FAQView = defineAsyncComponent(() => import('@/views/admin/help/FAQView.vue'));
-const ExamFormView = defineAsyncComponent(() => import('@/views/admin/help/ExamFormView.vue'));
-const QuestionOperationsView = defineAsyncComponent(() => import('@/views/admin/help/QuestionOperationsView.vue'));
-const QuestionFormView = defineAsyncComponent(() => import('@/views/admin/help/QuestionFormView.vue'));
-const TemplatedQuestionsView = defineAsyncComponent(() => import('@/views/admin/help/TemplatedQuestionsView.vue'));
-const ScriptedQuestionsView = defineAsyncComponent(() => import('@/views/admin/help/ScriptedQuestionsView.vue'));
-const PeerAssessmentView = defineAsyncComponent(() => import('@/views/admin/help/PeerAssessmentView.vue'));
-const TicketingSystemView = defineAsyncComponent(() => import('@/views/admin/help/TicketingSystemView.vue'));
-const ManualGradingView = defineAsyncComponent(() => import('@/views/admin/help/ManualGradingView.vue'));
+const GlossaryView = defineAsyncComponent({
+	loader: () => import('@/views/admin/help/GlossaryView.vue'),
+	loadingComponent: SkeletonComponent,
+	errorComponent: ErrorComponent,
+	timeout: 10000,
+});
+const FAQView = defineAsyncComponent({
+	loader: () => import('@/views/admin/help/FAQView.vue'),
+	loadingComponent: SkeletonComponent,
+	errorComponent: ErrorComponent,
+	timeout: 10000,
+});
+const ExamFormView = defineAsyncComponent({
+	loader: () => import('@/views/admin/help/ExamFormView.vue'),
+	loadingComponent: SkeletonComponent,
+	errorComponent: ErrorComponent,
+	timeout: 10000,
+});
+const QuestionOperationsView = defineAsyncComponent({
+	loader: () => import('@/views/admin/help/QuestionOperationsView.vue'),
+	loadingComponent: SkeletonComponent,
+	errorComponent: ErrorComponent,
+	timeout: 10000,
+});
+const QuestionFormView = defineAsyncComponent({
+	loader: () => import('@/views/admin/help/QuestionFormView.vue'),
+	loadingComponent: SkeletonComponent,
+	errorComponent: ErrorComponent,
+	timeout: 10000,
+});
+const TemplatedQuestionsView = defineAsyncComponent({
+	loader: () => import('@/views/admin/help/TemplatedQuestionsView.vue'),
+	loadingComponent: SkeletonComponent,
+	errorComponent: ErrorComponent,
+	timeout: 10000,
+});
+const ScriptedQuestionsView = defineAsyncComponent({
+	loader: () => import('@/views/admin/help/ScriptedQuestionsView.vue'),
+	loadingComponent: SkeletonComponent,
+	errorComponent: ErrorComponent,
+	timeout: 10000,
+});
+const PeerAssessmentView = defineAsyncComponent({
+	loader: () => import('@/views/admin/help/PeerAssessmentView.vue'),
+	loadingComponent: SkeletonComponent,
+	errorComponent: ErrorComponent,
+	timeout: 10000,
+});
+const TicketingSystemView = defineAsyncComponent({
+	loader: () => import('@/views/admin/help/TicketingSystemView.vue'),
+	loadingComponent: SkeletonComponent,
+	errorComponent: ErrorComponent,
+	timeout: 10000,
+});
+const ManualGradingView = defineAsyncComponent({
+	loader: () => import('@/views/admin/help/ManualGradingView.vue'),
+	loadingComponent: SkeletonComponent,
+	errorComponent: ErrorComponent,
+	timeout: 10000,
+});
 
 const SPA_URL_PREFIX = '';
 
@@ -97,7 +387,17 @@ const routes: RouteRecordRaw[] = [
 	{
 		path: SPA_URL_PREFIX,
 		name: RouteNames.Home,
-		component: HomeView,
+		component: defineAsyncComponent({
+			loader: HomeView,
+			loadingComponent: SkeletonComponent,
+			errorComponent: ErrorComponent,
+			timeout: 10000,
+		}),
+	},
+	{
+		path: '/404',
+		name: RouteNames.NotFound,
+		component: NotFoundComponent,
 	},
 	{
 		path: '/login',
@@ -417,7 +717,7 @@ const routes: RouteRecordRaw[] = [
 	},
 	//? REDIRECTS
 	{ path: '/', redirect: { name: RouteNames.Home } },
-	{ path: '/:pathMatch(.*)*', redirect: { name: RouteNames.Home } },
+	{ path: '/:pathMatch(.*)*', redirect: { name: RouteNames.NotFound } },
 ];
 
 const router = createRouter({

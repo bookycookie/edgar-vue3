@@ -71,6 +71,7 @@ enum RouteNames {
 	PeerAssessment = 'PeerAssessment',
 	TicketingSystem = 'TicketingSystem',
 	ManualGrading = 'ManualGrading',
+	NotFound = '404NotFound',
 }
 
 export default RouteNames;

@@ -1,6 +1,6 @@
 /* eslint-disable vue/no-reserved-component-names */
 /* eslint-disable vue/multi-word-component-names */
-import { createApp, defineAsyncComponent } from 'vue';
+import { createApp } from 'vue';
 import App from './App.vue';
 import router from './router';
 
@@ -30,7 +30,7 @@ import Tag from 'primevue/tag';
 import InputText from 'primevue/inputtext';
 import Password from 'primevue/password';
 import Card from 'primevue/card';
-const DataTable = defineAsyncComponent(() => import('primevue/datatable'));
+import DataTable from 'primevue/datatable';
 import Column from 'primevue/column';
 import Skeleton from 'primevue/skeleton';
 import Textarea from 'primevue/textarea';

@@ -142,7 +142,8 @@ const create = async () => {
 		});
 };
 
-const deleteAsync = async (lecture: LectureTable) => {
+const deleteAsync = async (lecture?: LectureTable) => {
+	if (!lecture) return;
 	toast.add({
 		severity: 'success',
 		summary: '200 OK',
@@ -155,10 +156,33 @@ const deleteAsync = async (lecture: LectureTable) => {
 const edit = (id: number) => {
 	router.push({ name: RouteNames.EditExam, params: { id: id } });
 };
+
+const isVisible = ref(false);
+const lectureToDelete = ref<LectureTable>();
+const showDeleteDialog = (instance: LectureTable) => {
+	isVisible.value = true;
+	lectureToDelete.value = instance;
+};
 </script>
 
 <template>
 	<div class="container-fluid no-x">
+		<Dialog v-model:visible="isVisible" :base-z-index="1338">
+			<template #header>
+				<h3>Please confirm</h3>
+			</template>
+			<p>Do you really want to delete this quiz?</p>
+			<template #footer>
+				<Button @click="deleteAsync(lectureToDelete)">
+					<font-awesome-icon icon="thumbs-up" class="me-2"></font-awesome-icon>
+					Yes!
+				</Button>
+				<Button class="p-button-secondary" @click="isVisible = false">
+					<font-awesome-icon icon="thumbs-down" class="me-2"></font-awesome-icon>
+					No
+				</Button>
+			</template>
+		</Dialog>
 		<Card>
 			<template #title>Quizzes for the current course and year:</template>
 			<template #content>
@@ -293,7 +317,7 @@ const edit = (id: number) => {
 					<Column field="" header="Delete">
 						<template #body="{ data }">
 							<div class="center">
-								<Button class="p-button-danger" @click="deleteAsync(data)">
+								<Button class="p-button-danger" @click="showDeleteDialog(data)">
 									<font-awesome-icon icon="trash"></font-awesome-icon>
 								</Button>
 							</div>

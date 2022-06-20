@@ -77,7 +77,7 @@ onMounted(async () => {
 	<div class="container-fluid">
 		<br />
 		<div class="flex">
-			<PreviousExamsSidebar :exams-sidebar="examsSidebar"></PreviousExamsSidebar>
+			<PreviousExamsSidebar :exams-sidebar="examsSidebar" />
 			<Card style="width: 85%">
 				<template #title>
 					<div class="grid p-fluid">
@@ -95,12 +95,12 @@ onMounted(async () => {
 					</div>
 				</template>
 				<template #content>
-					<PreviousExamsTable v-if="!id" :exams="exams" :exams-sidebar="examsSidebar"></PreviousExamsTable>
+					<PreviousExamsTable v-if="!id" :exams="exams" :exams-sidebar="examsSidebar" />
 					<PreviousExamsId
 						v-else
 						:exams-not-over="examsNotOver"
 						:exam-statistics="examStatistics"
-						:exams-sidebar="examsSidebar"></PreviousExamsId>
+						:exams-sidebar="examsSidebar" />
 				</template>
 			</Card>
 		</div>

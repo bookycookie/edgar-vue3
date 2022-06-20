@@ -62,7 +62,8 @@ const skeletonColumns = [
 
 const exportCSV = () => quizInstancesDt.value.exportCSV();
 
-const deleteAsync = async (instance: LectureInstancesTable) => {
+const deleteAsync = async (instance?: LectureInstancesTable) => {
+	if (!instance) return;
 	toast.add({
 		severity: 'success',
 		summary: '200 OK',
@@ -73,15 +74,40 @@ const deleteAsync = async (instance: LectureInstancesTable) => {
 	await service
 		.postAsync('/lecture/instances/delete', { lectureInstanceId: instance.id })
 		.then(async () => await getLectureInstancesAsync());
+	isVisible.value = false;
 };
 const results = (id: number) => {
 	// router.push({ name: RouteNames.EditExam, params: { id: id } });
 	console.log('Push to lecture/instances/results/82?');
 };
+
+const isVisible = ref(false);
+const instanceToDelete = ref<LectureInstancesTable>();
+const showDeleteDialog = (instance: LectureInstancesTable) => {
+	isVisible.value = true;
+	instanceToDelete.value = instance;
+};
 </script>
 
 <template>
 	<div class="container-fluid">
+		<Dialog v-model:visible="isVisible" :base-z-index="1338">
+			<template #header>
+				<h3>Please confirm</h3>
+			</template>
+			<p>Do you really want to delete this test (quiz) instance?</p>
+			<p>This will NOT delete the test definition, only students' answers.</p>
+			<template #footer>
+				<Button @click="deleteAsync(instanceToDelete)">
+					<font-awesome-icon icon="thumbs-up" class="me-2"></font-awesome-icon>
+					Yes!
+				</Button>
+				<Button class="p-button-secondary" @click="isVisible = false">
+					<font-awesome-icon icon="thumbs-down" class="me-2"></font-awesome-icon>
+					No
+				</Button>
+			</template>
+		</Dialog>
 		<Card>
 			<template #title>All quiz instances:</template>
 			<template #content>
@@ -167,7 +193,7 @@ const results = (id: number) => {
 					<Column field="" header="Delete">
 						<template #body="{ data }">
 							<div class="center">
-								<Button class="p-button-danger" @click="deleteAsync(data)">
+								<Button class="p-button-danger" @click="showDeleteDialog(data)">
 									<font-awesome-icon icon="trash"></font-awesome-icon>
 								</Button>
 							</div>
@@ -176,9 +202,11 @@ const results = (id: number) => {
 					<Column field="" header="Results">
 						<template #body="{ data }">
 							<div class="center">
-								<Button class="p-button-success" @click="results(data.id)">
-									<font-awesome-icon icon="tools"></font-awesome-icon>
-								</Button>
+								<a target="_blank" :href="`http://localhost:1337/lecture/instances/results/${data.id}`">
+									<Button class="p-button-success" @click="results(data.id)">
+										<font-awesome-icon icon="tools"></font-awesome-icon>
+									</Button>
+								</a>
 							</div>
 						</template>
 					</Column>
