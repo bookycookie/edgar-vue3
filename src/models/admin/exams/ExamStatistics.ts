@@ -9,4 +9,5 @@ export interface ExamStatistics {
 	t_score: string;
 	t_score_perc: string;
 	passed: boolean;
+	id_test_instance: number;
 }

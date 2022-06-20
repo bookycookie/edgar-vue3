@@ -140,7 +140,7 @@ const review = (data: any) => console.log(data);
 					<router-link
 						:to="{ name: RouteNames.ReviewExam, params: { id: data.id_test_instance, questionId: 1 } }"
 						class="me-2">
-						<Button class="p-button-warning p-button-raised" @click="review(data.id_test_instance)">
+						<Button class="p-button-warning p-button-raised">
 							<font-awesome-icon icon="magnifying-glass" />
 						</Button>
 					</router-link>

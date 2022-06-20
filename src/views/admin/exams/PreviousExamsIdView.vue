@@ -6,6 +6,7 @@ import { ExamStatistics } from '@/models/admin/exams/ExamStatistics';
 import DataTable from 'primevue/datatable';
 import Column from 'primevue/column';
 import humanize from '@/utilities/date-humanizer/humanizer';
+import RouteNames from '@/router/routes';
 
 defineProps({
 	examsNotOver: {
@@ -122,9 +123,18 @@ defineProps({
 						</template>
 					</Column>
 					<Column field="" header="Review">
-						<template #body="{}">
+						<template #body="{ data }">
 							<div class="center-align">
-								<font-awesome-icon icon="magnifying-glass" class="icon warning hand-cursor" />
+								<router-link
+									:to="{
+										name: RouteNames.ReviewExam,
+										params: { id: data.id_test_instance, questionId: 1 },
+									}"
+									class="me-2">
+									<Button class="p-button-warning p-button-raised">
+										<font-awesome-icon icon="magnifying-glass" />
+									</Button>
+								</router-link>
 							</div>
 						</template>
 					</Column>

@@ -161,7 +161,6 @@ details > *:not(summary) {
 .table td.edgar-code,
 .table th.edgar-code {
 	font-family: IosevkaSlabWEB, Consolas, 'Lucida Console', Monaco, monospace;
-	/*IosevkaSlabWEB*/
 	padding: 1px;
 	border: 1px solid gray;
 	white-space: pre;
@@ -177,4 +176,17 @@ p.edgar-code {
 	white-space: pre;
 	font-weight: bold;
 	font-size: 1.1em;
+}
+
+table.edgar th {
+	vertical-align: top;
+	padding: 4px 10px;
+	border: 1px solid #bbb;
+	background-color: aliceblue;
+}
+
+.edgar-code {
+	color: #000;
+	font-family: IosevkaSlabWEB, Consolas, 'Liberation Mono', Menlo, Courier, monospace;
+	font-size: 0.94em;
 }

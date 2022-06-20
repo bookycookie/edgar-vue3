@@ -14,7 +14,7 @@ const router = useRouter();
 
 const service = new ApiService();
 const studentId = 23;
-const courseId = 2000;
+const courseId = 477;
 const academicYearId = 2020;
 
 const exams = ref<PreviousExam[]>([]);
@@ -54,6 +54,7 @@ const getQueryData = async () => {
 		examStats.t_score = examsNotOver.value[0].t_score;
 		examStats.t_score_perc = examsNotOver.value[0].t_score_perc;
 		examStats.passed = examsNotOver.value[0].passed;
+		examStats.id_test_instance = examsNotOver.value[0].id_test_instance;
 	}
 	examStatistics.value = [examStats];
 };
