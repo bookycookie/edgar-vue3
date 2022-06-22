@@ -190,3 +190,88 @@ table.edgar th {
 	font-family: IosevkaSlabWEB, Consolas, 'Liberation Mono', Menlo, Courier, monospace;
 	font-size: 0.94em;
 }
+
+/* Bootstrap CSS */
+/* Bootstrap and Vite do not like eachother, so the temporary solution
+is to copy paste the Execution Result table from the existing Edgar */
+.card-footer,
+.card-header {
+	padding: 0.25rem 0.5rem;
+}
+.align-items-baseline {
+	-ms-flex-align: baseline !important;
+	align-items: baseline !important;
+}
+.justify-content-between {
+	-ms-flex-pack: justify !important;
+	justify-content: space-between !important;
+}
+.d-flex {
+	display: -ms-flexbox !important;
+	display: flex !important;
+}
+
+.badge {
+	display: inline-block;
+	padding: 0.25em 0.4em;
+	font-size: 75%;
+	font-weight: 700;
+	line-height: 1;
+	text-align: center;
+	white-space: nowrap;
+	vertical-align: baseline;
+	border-radius: 0.25rem;
+	transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out,
+		box-shadow 0.15s ease-in-out;
+}
+
+.badge-primary {
+	color: #fff;
+	background-color: #007bff;
+}
+
+.badge-success {
+	color: #fff;
+	background-color: #28a745;
+}
+
+.badge-secondary {
+	color: #fff;
+	background-color: #6c757d;
+}
+
+.badge-danger {
+	color: #fff;
+	background-color: #dc3545;
+}
+
+.badge-warning {
+	color: #fff;
+	background-color: #ffc107;
+}
+
+.list-group {
+	display: -ms-flexbox;
+	display: flex;
+	-ms-flex-direction: column;
+	flex-direction: column;
+	padding-left: 0;
+	margin-bottom: 0;
+	border-radius: 0.25rem;
+}
+
+.list-group-item {
+	position: relative;
+	display: block;
+	padding: 0.75rem 1.25rem;
+	background-color: #fff;
+	border: 1pxsolidrgba (0, 0, 0, 0.125);
+}
+
+.border-dark {
+	border-color: #212529 !important;
+}
+
+.border-dark {
+	border-color: #212529 !important;
+}

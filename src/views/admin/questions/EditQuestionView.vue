@@ -387,6 +387,7 @@ const selectedLanguage = ref<ProgrammingLanguage>({
 const testItems = ref<TestItem[]>([]);
 const runtimeConstraints = ref<RuntimeConstraint[]>([]);
 const testCasesResult = ref('');
+const testCasesIndex = ref(0);
 const runTestCases = async () => {
 	let response: any = await service.postAsync('/execute_question', {
 		questionId: props.id,
@@ -396,8 +397,8 @@ const runTestCases = async () => {
 		programmingLanguageId: selectedLanguage.value.id,
 	});
 
-	console.log(response);
 	testCasesResult.value = response.data.data;
+	testCasesIndex.value = 0;
 };
 
 // Sql
@@ -791,7 +792,7 @@ const claimAuthorship = async () => {
 					</Button>
 				</div>
 				<br />
-				<Accordion v-if="testCasesResult" :active-index="0">
+				<Accordion v-if="testCasesResult" v-model:active-index="testCasesIndex">
 					<AccordionTab header="Test cases result">
 						<div v-html="testCasesResult"></div>
 					</AccordionTab>

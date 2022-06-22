@@ -6,8 +6,8 @@ export default class ApiService {
 	private toast = useToast();
 
 	private logGetSuccess = false;
-	private logPostSuccess = true;
-	private logError = true;
+	private logPostSuccess = false;
+	private logError = false;
 
 	/**
 	 * Sends an HTTP GET request for a single item of type T.
