@@ -6,6 +6,7 @@ import { Codemirror } from 'vue-codemirror';
 import { javascript } from '@codemirror/lang-javascript';
 import { oneDark } from '@codemirror/theme-one-dark';
 import { Extension } from '@codemirror/state';
+import CONSTANTS from '@/config/constants';
 
 const extensions: Extension[] = [javascript(), oneDark];
 const emit = defineEmits(['update:dataObject']);
@@ -14,10 +15,6 @@ const service = new ApiService();
 const props = defineProps({
 	dataObject: {
 		type: String,
-		required: true,
-	},
-	courseId: {
-		type: Number,
 		required: true,
 	},
 });
@@ -29,7 +26,7 @@ onMounted(async () => {
 
 const evaluateDataObject = async () => {
 	const evaluationResponse = await service.postAsync('/question/evaldo', {
-		courseId: props.courseId,
+		courseId: CONSTANTS.COURSE_ID,
 		dataObject: internalDataObject.value,
 	});
 

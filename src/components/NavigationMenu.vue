@@ -217,8 +217,8 @@ const items = computed(() => (isAdmin.value ? adminItems.value : studentItems.va
 </script>
 
 <template>
-	<div class="">
-		<Menubar :model="items" style="max-height: 6rem">
+	<div class="container-fluid">
+		<Menubar :model="items">
 			<template #start>
 				<router-link :to="{ name: RouteNames.Home }" class="ms-2 me-5">
 					<img
@@ -228,7 +228,7 @@ const items = computed(() => (isAdmin.value ? adminItems.value : studentItems.va
 				</router-link>
 			</template>
 			<template #end>
-				<div class="d-flex align-items-center ml-5">
+				<div class="p-menubar no-border">
 					<Dropdown
 						v-model="selectedCourse"
 						:options="courses"
@@ -251,11 +251,10 @@ const items = computed(() => (isAdmin.value ? adminItems.value : studentItems.va
 							<span>{{ slotProps.option.title }}</span>
 						</template>
 					</Dropdown>
-					<div class="profile-picture">
+					<Avatar>
 						<font-awesome-icon icon="user-secret" class="me-3 rounded-circle" style="font-size: 75px" />
-					</div>
-
-					<div style="min-width: 120px">
+					</Avatar>
+					<div>
 						<div>{{ CONSTANTS.NAME }}</div>
 						<Tag
 							:value="isAdmin ? 'Admin' : 'Student'"
@@ -278,7 +277,8 @@ const items = computed(() => (isAdmin.value ? adminItems.value : studentItems.va
 
 <style scoped>
 .p-dropdown :deep(.p-dropdown-label),
-.p-dropdown :deep(.p-dropdown-items) {
+.p-dropdown :deep(.p-dropdown-items),
+.p-dropdown-items > .p-dropdown-item > span {
 	font-size: 14px !important;
 }
 </style>

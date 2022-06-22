@@ -48,6 +48,9 @@ const TemplateDataComponent = defineAsyncComponent(
 const CustomScoringComponent = defineAsyncComponent(
 	() => import('@/components/admin/questions/CustomScoringComponent.vue'),
 );
+const props = defineProps({
+	id: { type: Number, required: true },
+});
 const initiateUpload = async (event: any) => {
 	// console.log(files);
 	// const fileName = files;
@@ -68,9 +71,6 @@ const initiateUpload = async (event: any) => {
 const router = useRouter();
 const route = useRoute();
 const toast = useToast();
-const props = defineProps({
-	id: { type: Number, required: true },
-});
 const service = new ApiService();
 // Good one for ABC: 38441 (course)
 // Has data object & eval script (FREE TEXT): 44549 (course)
@@ -547,6 +547,8 @@ const getDataAsync = async (id: number) => {
 			questionId: id,
 			userEmail: 'imekterovi@fer.hr',
 		});
+
+		languages.value = await service.getManyAsync<ProgrammingLanguage>('/all_programming_languages');
 	} finally {
 		isLoading.value = false;
 	}
@@ -576,9 +578,6 @@ const getDataAsync = async (id: number) => {
 	showRuntimeConstraints.value = showAttachmentsAndRuntimeConstraints?.show_runtime_constraints ?? false;
 
 	if (isCode.value) {
-		languages.value = await service.getManyAsync<ProgrammingLanguage>('/question/programming_languages', {
-			questionId: id,
-		});
 		const code = await service.getSingleAsync<Code>('/question/code', {
 			questionId: id,
 		});
@@ -658,7 +657,7 @@ const getDataAsync = async (id: number) => {
 		if (text?.text_answer) freeTextMarkdown.value = text.text_answer;
 	}
 };
-onMounted(async () => await getDataAsync(props.id));
+onMounted(async () => await router.isReady().then(async () => await getDataAsync(props.id)));
 watch(
 	() => props.id,
 	async (newId) => {
@@ -749,17 +748,10 @@ const claimAuthorship = async () => {
 					@disable="disable" />
 				<br />
 				<div v-if="dataObject">
-					<TemplateDataComponent v-model:dataObject="dataObject" :course-id="CONSTANTS.COURSE_ID" />
+					<TemplateDataComponent v-model:dataObject="dataObject" />
 					<br />
 				</div>
-				<!-- <div v-if="true">
-					<CustomScoringComponent
-						v-model:evalScript="evalScript"
-						:course-id="courseId"
-						:codemirror-options="codemirrorOptions"
-						:question-id="props.id"
-						:programming-languages="languages" />
-				</div> -->
+
 				<QuestionPreviewComponent
 					id="question-preview"
 					v-model:markdown="markdown"
@@ -770,6 +762,14 @@ const claimAuthorship = async () => {
 					:answers="answers"
 					:mode="languageMode"
 					:is-sql="isSql" />
+
+				<div v-if="evalScript">
+					<br />
+					<CustomScoringComponent
+						v-model:evalScript="evalScript"
+						:question-id="props.id"
+						:programming-languages="languages" />
+				</div>
 				<br />
 				<CodeComponent
 					v-if="isC || isJava || isPython || isCodeExactly"

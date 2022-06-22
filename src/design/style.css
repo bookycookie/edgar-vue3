@@ -4,6 +4,10 @@ body {
 	font-family: 'Roboto', sans-serif;
 }
 
+.no-border {
+	border-style: none !important;
+}
+
 .container-center-sm {
 	margin: auto;
 	width: 30%;
