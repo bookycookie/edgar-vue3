@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, watch, onMounted } from 'vue';
+import { ref, watch, onMounted, computed } from 'vue';
 import ApiService from '@/services/ApiService';
 import { PlagiarismDetectionAlgorithm } from '@/models/admin/exams/PlagiarismDetectionAlgorithm';
 import { Pace } from '@/models/admin/exams/Pace';
@@ -9,6 +9,7 @@ import { Node } from '@/models/admin/exams/Node';
 import { GradingModel } from '@/models/admin/exams/GradingModel';
 import { BigTest } from '@/models/admin/exams/BigTest';
 import { TestPart } from '@/models/admin/exams/TestPart';
+import { Phase1Exam } from '@/models/admin/exams/Phase1Exam';
 import { useRouter } from 'vue-router';
 import humanize from '@/utilities/date-humanizer/humanizer';
 import Calendar from 'primevue/calendar';
@@ -17,6 +18,8 @@ import { useToast } from 'primevue/usetoast';
 import Message from 'primevue/message';
 import RouteNames from '@/router/routes';
 import CONSTANTS from '@/config/constants';
+import { QuestionNode } from '@/models/admin/questions/QuestionNode';
+import { Question } from '@/models/admin/questions/Question';
 const router = useRouter();
 
 const toast = useToast();
@@ -239,7 +242,7 @@ const save = async () => {
 		// assessmentsNo: assessmentsNo.value, // PHASE 1
 		// calibAssessmentsNo: calibAssessmentsNo.value // PHASE 1
 	};
-
+	// TODO: Validate before saving!
 	await service
 		.postAsync('/exam/save', saveObject)
 		.then(() => {
@@ -352,6 +355,8 @@ const preselectDropdowns = () => {
 
 const getQueryData = async () => {
 	if (!props.id) return;
+
+	const promises = [];
 	const examPromise = service
 		.getSingleAsync<BigTest>('/big_test', {
 			testId: props.id,
@@ -409,7 +414,18 @@ const getQueryData = async () => {
 			});
 		});
 
-	await Promise.all([examPromise, testPartsPromise]);
+	promises.push(examPromise, testPartsPromise);
+
+	const questionNodesPromise = service
+		.getManyAsync<QuestionNode>('/question_nodes', { courseId: CONSTANTS.COURSE_ID })
+		.then((qn) => {
+			questionNodes.value = qn;
+			questionNode.value = qn[0];
+		});
+
+	if (isPhase2.value) promises.push(questionNodesPromise);
+
+	await Promise.all(promises);
 };
 
 const fetchDropdowns = async () => {
@@ -459,7 +475,62 @@ const fetchDropdowns = async () => {
 onMounted(async () => {
 	//! OPTIMIZATION: FetchDropdowns and GetQueryData can be awaited in parallel.
 	await fetchDropdowns().then(async () => getQueryData().then(() => preselectDropdowns()));
+
+	//! OPTIMIZATION: Push this to the promises array.
+	if (isPhase2Master.value) {
+		await getPhase1ExamsAsync();
+		await getPhase2ExamsAsync();
+	}
 });
+
+const getPhase1ExamsAsync = async () => {
+	await service
+		.getManyAsync<Phase1Exam>('/exam/phase1Exams', {
+			courseId: CONSTANTS.COURSE_ID,
+			academicYearId: CONSTANTS.ACADEMIC_YEAR_ID,
+		})
+		.then((exams: Phase1Exam[]) => {
+			phase1Exams.value = exams;
+			phase1Exam.value = exams[0];
+		});
+};
+
+const fetchQuestionByNodeAsync = async () => {
+	fetchedQuestions.value = await service.getManyAsync<Question>('/exam/questions_by_node', {
+		testId: props.id,
+		nodeId: questionNode.value?.id,
+		questionText: questionNodeName.value,
+	});
+};
+
+const isPhase2 = computed(() => exam.value?.type_name.includes('PHASE2'));
+const isPhase2Master = computed(() => isPhase2.value && exam.value?.type_name.includes('MASTER'));
+
+// TODO: FINISH PEER ASSESSMENT
+const phase1Exams = ref<Phase1Exam[]>([]);
+const phase1Exam = ref<Phase1Exam>();
+const totalQuestions = ref(1);
+const havingCalibrationQuestions = ref<number | null>(null);
+const questionNodeName = ref('');
+const questionNodes = ref<QuestionNode[]>([]);
+const questionNode = ref<QuestionNode>();
+
+const fetchedQuestions = ref<Question[]>([]);
+
+const addQuestionToExamAsync = async (question: Question) => {
+	console.log(question);
+};
+
+const getPhase2ExamsAsync = async () => {
+	await service.getManyAsync<TestPart>('/exam/phase2Exams', { testId: props.id }).then((e: TestPart[]) => {
+		phase2Exams.value = e;
+
+		for (var i = 0; i < phase2Exams.value.length; i++)
+			phase2Exams.value[i].title_type_name = `${phase2Exams.value[i].title} — ${phase2Exams.value[i].type_name}`;
+	});
+};
+
+const phase2Exams = ref<TestPart[]>([]);
 </script>
 
 <template>
@@ -678,7 +749,7 @@ onMounted(async () => {
 							</div>
 							<div class="col-12 md:col-1">
 								<span class="p-float-label">
-									<InputNumber id="no-of-questions" v-model="noOfQuestions"></InputNumber>
+									<InputNumber id="no-of-questions" v-model="noOfQuestions" :min="1"></InputNumber>
 									<label for="no-of-questions">No of questions</label>
 								</span>
 							</div>
@@ -764,9 +835,47 @@ onMounted(async () => {
 							</div>
 						</div>
 					</template>
+					<template #footer>
+						<h2 class="p-card-footer">Peer assessment properties #1</h2>
+						<br />
+						<div class="grid p-fluid" style="row-gap: 1rem">
+							<div class="col-12 md:col-5">
+								<span class="p-float-label">
+									<Dropdown
+										id="phase1-exams"
+										v-model="phase1Exam"
+										:options="phase1Exams"
+										option-label="title"></Dropdown>
+									<label for="ordinal">Phase #1 Exam</label>
+								</span>
+							</div>
+							<div class="col-12 md:col-2">
+								<span class="p-float-label">
+									<InputNumber
+										id="ordinal"
+										v-model="totalQuestions"
+										:step="1"
+										:min="1"
+										:max="99"></InputNumber>
+									<label for="ordinal">Total questions</label>
+								</span>
+							</div>
+							<div class="col-12 md:col-2">
+								<span class="p-float-label">
+									<InputNumber
+										id="ordinal"
+										v-model="havingCalibrationQuestions"
+										:step="1"
+										:min="1"
+										:max="99"></InputNumber>
+									<label for="ordinal">having calibration qs</label>
+								</span>
+							</div>
+						</div>
+					</template>
 				</Card>
 				<br />
-				<Card>
+				<Card v-if="!isPhase2">
 					<template #title>Exam parts</template>
 					<template #content>
 						<DataTable :value="testParts">
@@ -827,7 +936,7 @@ onMounted(async () => {
 				</Card>
 			</template>
 			<template #footer>
-				<Card>
+				<Card v-if="!isPhase2">
 					<template #title>Add nodes</template>
 					<template #content>
 						<div class="grid p-fluid">
@@ -886,9 +995,165 @@ onMounted(async () => {
 									{{ node.node_name }}
 								</div>
 								<div class="col-12 md:col-2">
-									<Button label="Add" @click="addNodeToExamPart(node)" />
+									<Button label="Add" class="p-button-success" @click="addNodeToExamPart(node)" />
 								</div>
 							</div>
+						</div>
+					</template>
+				</Card>
+
+				<Card v-if="isPhase2">
+					<template #title>Add questions (isPhase2)</template>
+					<template #content>
+						<div class="grid p-fluid">
+							<div class="col-12 md:col-5">
+								<span class="p-float-label">
+									<Dropdown
+										id="question-node"
+										v-model="questionNode"
+										:options="questionNodes"
+										option-label="name"></Dropdown>
+									<label for="question-node">Node</label>
+								</span>
+							</div>
+							<div class="col-12 md:col-6">
+								<span class="p-float-label">
+									<InputText v-model="questionNodeName"></InputText>
+									<label>Filter name</label>
+								</span>
+							</div>
+							<div class="col-12 md:col-1">
+								<Button label="Fetch nodes" class="p-button-info" @click="fetchQuestionByNodeAsync" />
+							</div>
+						</div>
+					</template>
+					<template #footer>
+						<h3>Questions ({{ fetchedQuestions.length }})</h3>
+						<br />
+						<br />
+						<div v-for="question in fetchedQuestions" :key="question.id">
+							<div class="p-inputgroup">
+								<router-link :to="{ name: RouteNames.EditQuestion, params: { id: question.id } }">
+									<div class="col-12 md:col-2">
+										<Button :label="`${question.id}`" icon="pi pi-external-link" icon-pos="right" />
+									</div>
+								</router-link>
+								<div
+									class="col-12 md:col-2 p-2 m-2 text-align"
+									style="
+										border: 1px solid rgba(0, 0, 0, 0.38);
+										border-radius: 4px;
+										background-color: #eee;
+									">
+									{{ question.type_name }}
+								</div>
+								<div
+									class="col-12 md:col-6 p-2 m-2 text-align"
+									style="
+										border: 1px solid rgba(0, 0, 0, 0.38);
+										border-radius: 4px;
+										background-color: #eee;
+									">
+									{{ question.question_text }}
+								</div>
+								<div class="col-12 md:col-2">
+									<Button
+										label="Add"
+										class="p-button-success"
+										@click="addQuestionToExamAsync(question)" />
+								</div>
+							</div>
+						</div>
+					</template>
+				</Card>
+				<br />
+				<!-- TODO: Implement add questions -->
+				<Card v-if="isPhase2Master">
+					<template #title>Peer assessment properties #2 (isPhase2Master)</template>
+					<template #content>
+						<div class="center">
+							<div class="flex">
+								<Button
+									label="1. Shuffle keep groups (save params before)"
+									class="p-button-primary me-1" />
+								<Button
+									label="1. Shuffle all together (save params before)"
+									class="p-button-primary me-1" />
+								<Button label="2. Save current shuffle" class="p-button-success me-1" />
+								<Button
+									label="3. (Re)generate exams (save shuffle before)"
+									class="p-button-success me-1" />
+							</div>
+							<div class="center p-card-title">
+								Generated exams (these will be ran by students, mind the passwords.. ):
+							</div>
+							<DataTable
+								:value="phase2Exams"
+								filter-display="menu"
+								show-gridlines
+								class="p-datatable-sm"
+								:rows="7"
+								paginator>
+								<template #empty>
+									<span class="center">No data to show.</span>
+								</template>
+								<Column field="" header="#">
+									<template #body="{ index }">
+										<div>{{ index + 1 }}</div>
+									</template>
+								</Column>
+								<Column field="id" header="Id" sortable>
+									<template #body="{ data }">
+										<router-link :to="{ name: RouteNames.EditExam, params: { id: data.id } }">
+											<Button
+												:label="`${data.id}`"
+												icon-pos="right"
+												icon="pi pi-external-link"
+												class="p-button-outlined" />
+										</router-link>
+									</template>
+								</Column>
+								<Column field="ordinal" header="Test ordinal" sortable>
+									<template #body="{ data }">
+										<div class="number-align">{{ data.ordinal }}</div>
+									</template>
+								</Column>
+								<Column field="title_type_name" header="Title" sortable>
+									<template #body="{ data }">
+										<strong>{{ data.title }}</strong>
+										<p>
+											<em>
+												<small>{{ data.type_name }}</small>
+											</em>
+										</p>
+									</template>
+								</Column>
+								<Column field="password" header="Password" sortable></Column>
+								<Column field="ts_available_from" header="Available from" sortable>
+									<template #body="{ data }">
+										<span class="w-100">
+											{{ new Date(data.ts_available_from).toISOString().split('T')[0] }}
+										</span>
+										<p class="text-xs text-500">
+											<em>
+												{{ humanize(new Date(data.ts_available_from)) }}
+											</em>
+										</p>
+									</template>
+								</Column>
+								<Column field="ts_available_to" header="Available to" sortable>
+									<template #body="{ data }">
+										<span class="w-100">
+											{{ new Date(data.ts_available_to).toISOString().split('T')[0] }}
+										</span>
+										<p class="text-xs text-500">
+											<em>
+												{{ humanize(new Date(data.ts_available_to)) }}
+											</em>
+										</p>
+									</template>
+								</Column>
+							</DataTable>
 						</div>
 					</template>
 				</Card>

@@ -122,7 +122,7 @@ const deleteAsync = async (test: TestTable) => {
 };
 
 const edit = (id: number) => {
-	router.push({ name: RouteNames.EditExam, params: { id: id } });
+	router.push();
 };
 
 const getTestTableAsync = async () => {
@@ -334,15 +334,17 @@ onMounted(async () => {
 					<Column field="" header="Delete">
 						<template #body="{ data }">
 							<Button class="p-button-danger" @click="deleteAsync(data)">
-								<font-awesome-icon icon="trash"></font-awesome-icon>
+								<font-awesome-icon icon="trash" />
 							</Button>
 						</template>
 					</Column>
 					<Column field="" header="Edit">
 						<template #body="{ data }">
-							<Button class="p-button-success" @click="edit(data.id)">
-								<font-awesome-icon icon="pen-to-square"></font-awesome-icon>
-							</Button>
+							<router-link :to="{ name: RouteNames.EditExam, params: { id: data.id } }">
+								<Button class="p-button-success">
+									<font-awesome-icon icon="pen-to-square" />
+								</Button>
+							</router-link>
 						</template>
 					</Column>
 				</DataTable>

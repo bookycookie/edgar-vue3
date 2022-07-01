@@ -21,6 +21,7 @@ import { ProgrammingLanguage } from '@/models/admin/questions/ProgrammingLanguag
 import { Code } from '@/models/admin/questions/Code';
 import { Scale } from '@/models/admin/questions/Scale';
 import { SaveScale } from '@/models/admin/questions/SaveScale';
+import { SavePeerAssessment } from '@/models/admin/questions/SavePeerAssessment';
 import { Json } from '@/models/admin/questions/Json';
 import { TestItem } from '@/models/admin/questions/TestItem';
 import { RuntimeConstraint } from '@/models/admin/questions/RuntimeConstraint';
@@ -125,6 +126,10 @@ const isText = computed((): boolean | undefined => isAbc.value || isFreeText.val
 const isCode = computed(
 	(): boolean | undefined => (isC.value || isJava.value || isPython.value || isCodeExactly.value) && !isText.value,
 );
+
+const isPeerAssessment = computed((): boolean | undefined =>
+	question.value?.type_name ? question.value.type_name.includes('Peer') : false,
+);
 const languageMode = computed((): string => {
 	if (isAbc.value || isFreeText.value || isScale.value) return 'text';
 	if (isC.value) return 'text/x-c++src';
@@ -147,6 +152,7 @@ const save = async () => {
 	if (isAbc.value) await saveAbc();
 	if (isFreeText.value) await saveFreeText();
 	if (isSql.value) await saveSql();
+	if (isPeerAssessment.value) await savePeerAssessment();
 };
 
 const saveFreeText = async () => {
@@ -253,6 +259,37 @@ const saveScale = async () => {
 		attachment_label: '',
 		id_scale: selectedScale.value?.id ?? 0,
 		question_comment: commentMarkdown.value,
+		data_object: dataObject.value,
+		eval_script: evalScript.value,
+	};
+
+	try {
+		await service.postAsync('/question/big_save', {
+			...saveObject,
+			appUserId: CONSTANTS.APP_USER_ID,
+		});
+	} catch (err) {
+		console.log(err);
+		toast.add({
+			severity: 'error',
+			summary: '500 Server error.',
+			detail: `Error occured while saving question ${props.id}. ${err}`,
+		});
+	}
+};
+
+const savePeerAssessment = async () => {
+	const saveObject: SavePeerAssessment = {
+		id_question: props.id,
+		is_active: isActive.value,
+		can_upload: true,
+		save: 'save',
+		question_text: markdown.value,
+		attachment: '',
+		attachment_label: '',
+		question_comment: commentMarkdown.value,
+		data_object: dataObject.value,
+		eval_script: evalScript.value,
 	};
 
 	try {
@@ -701,18 +738,17 @@ const claimAuthorship = async () => {
 	}
 };
 </script>
-
+//! TODO: SCALE IS NOT SAVING PROPERLY! id: 44695
 <template>
 	<BlockUI :blocked="isLoading" full-screen />
 	<div v-if="!question && !isLoading">Missed it. Wanna try not guessing?</div>
 	<div v-else class="container-fluid">
-		<Toast :base-z-index="99999" />
 		<br />
 		<Card id="main">
 			<template #title>
 				<div class="grid">
 					<div class="col-12 md:col-11">
-						<h2>Edit question — {{ isActive ? 'Active' : 'Disabled' }}</h2>
+						<h2>Edit question</h2>
 					</div>
 				</div>
 			</template>
@@ -751,17 +787,19 @@ const claimAuthorship = async () => {
 					<TemplateDataComponent v-model:dataObject="dataObject" />
 					<br />
 				</div>
-
-				<QuestionPreviewComponent
-					id="question-preview"
-					v-model:markdown="markdown"
-					v-model:selected-tags="selectedTags"
-					:layout-question="selectedLayout.layoutLeft"
-					:layout-preview="selectedLayout.layoutRight"
-					:tags="tags"
-					:answers="answers"
-					:mode="languageMode"
-					:is-sql="isSql" />
+				<BlockUI :blocked="!isActive">
+					<h1 v-if="!isActive" class="center failure">DISABLED</h1>
+					<QuestionPreviewComponent
+						id="question-preview"
+						v-model:markdown="markdown"
+						v-model:selected-tags="selectedTags"
+						:layout-question="selectedLayout.layoutLeft"
+						:layout-preview="selectedLayout.layoutRight"
+						:tags="tags"
+						:answers="answers"
+						:mode="languageMode"
+						:is-sql="isSql" />
+				</BlockUI>
 
 				<div v-if="evalScript">
 					<br />

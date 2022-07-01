@@ -56,13 +56,14 @@ const evaluateScoringScript = async () => {
 	});
 
 	isEvaluated.value = true;
+
 	if (evaluationResponse.data.success) {
 		evaluatedObject.value = JSON.stringify(evaluationResponse.data.data, null, 4);
 		evaluatedScoreObject.value = JSON.stringify(evaluationResponse.data.data.score, null, 4);
 		evaluatedScript.value = 'Score is: \n';
 		evaluatedScript.value += evaluatedScoreObject.value;
 	} else {
-		evaluatedScript.value = evaluationResponse.error.message;
+		evaluatedScript.value = evaluationResponse.data.error.message;
 	}
 };
 

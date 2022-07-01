@@ -13,4 +13,9 @@ export interface TestPart {
 	type_name: string;
 	node_name_and_type_name: string;
 	cnt_active_qs: number;
+	ts_available_to: string;
+	ts_available_from: string;
+	password: string;
+	title: string;
+	title_type_name: string;
 }

@@ -1,4 +1,4 @@
-export interface SaveScale {
+export interface SavePeerAssessment {
 	id_question: number;
 	is_active: boolean;
 	can_upload: boolean;
@@ -6,7 +6,6 @@ export interface SaveScale {
 	question_text: string;
 	attachment: string;
 	attachment_label: string;
-	id_scale: number;
 	question_comment: string;
 	data_object: string;
 	eval_script: string;
