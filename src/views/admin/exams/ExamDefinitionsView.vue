@@ -121,10 +121,6 @@ const deleteAsync = async (test: TestTable) => {
 	await service.postAsync('/exam/delete', { testId: test.id }).then(async () => await getTestTableAsync());
 };
 
-const edit = (id: number) => {
-	router.push();
-};
-
 const getTestTableAsync = async () => {
 	try {
 		isLoading.value = true;

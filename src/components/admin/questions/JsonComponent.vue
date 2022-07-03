@@ -143,7 +143,7 @@ const runJsonTestFixture = () => {
 							$event.stopPropagation();
 						">
 						Execute
-						<font-awesome-icon icon="play"></font-awesome-icon>
+						<font-awesome-icon icon="play" class="ms-2"></font-awesome-icon>
 					</Button>
 				</template>
 				<Codemirror
@@ -158,13 +158,13 @@ const runJsonTestFixture = () => {
 						<span id="json-alt-assertion-header">JSON alt assertion</span>
 					</div>
 					<Button
-						class="ms-2 p-button-secondary"
+						class="ms-2 me-2 p-button-secondary"
 						@click="
 							runJsonAltAssertion();
 							$event.stopPropagation();
 						">
 						Execute all
-						<font-awesome-icon icon="play"></font-awesome-icon>
+						<font-awesome-icon icon="play" class="ms-2"></font-awesome-icon>
 					</Button>
 				</template>
 
@@ -180,13 +180,13 @@ const runJsonTestFixture = () => {
 						<span id="json-alt-presentation-query-header">JSON alt presentation query</span>
 					</div>
 					<Button
-						class="ms-2 p-button-secondary"
+						class="ms-2 me-2 p-button-secondary"
 						@click="
 							runJsonAltPresentationQuery();
 							$event.stopPropagation();
 						">
 						Execute all
-						<font-awesome-icon icon="play"></font-awesome-icon>
+						<font-awesome-icon icon="play" class="ms-2"></font-awesome-icon>
 					</Button>
 				</template>
 				<Codemirror
@@ -201,13 +201,13 @@ const runJsonTestFixture = () => {
 						<span id="json-test-fixture-header">JSON test fixture</span>
 					</div>
 					<Button
-						class="ms-2 p-button-secondary"
+						class="ms-2 me-2 p-button-secondary"
 						@click="
 							runJsonTestFixture();
 							$event.stopPropagation();
 						">
 						Execute all
-						<font-awesome-icon icon="play"></font-awesome-icon>
+						<font-awesome-icon icon="play" class="ms-2"></font-awesome-icon>
 					</Button>
 				</template>
 				<Codemirror

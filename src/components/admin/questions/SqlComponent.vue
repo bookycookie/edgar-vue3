@@ -141,7 +141,7 @@ const runAll = async () => {
 							$event.stopPropagation();
 						">
 						Execute
-						<font-awesome-icon icon="play"></font-awesome-icon>
+						<font-awesome-icon icon="play" class="ms-2"></font-awesome-icon>
 					</Button>
 				</template>
 				<Codemirror
@@ -196,13 +196,13 @@ const runAll = async () => {
 						</span>
 					</div>
 					<Button
-						class="ms-2 p-button-secondary"
+						class="ms-2 me-2 p-button-secondary"
 						@click="
 							runAll();
 							$event.stopPropagation();
 						">
 						Execute all
-						<font-awesome-icon icon="play"></font-awesome-icon>
+						<font-awesome-icon icon="play" class="ms-2"></font-awesome-icon>
 					</Button>
 				</template>
 				<Codemirror
@@ -222,13 +222,13 @@ const runAll = async () => {
 						</span>
 					</div>
 					<Button
-						class="ms-2 p-button-secondary"
+						class="ms-2 me-2 p-button-secondary"
 						@click="
 							runAll();
 							$event.stopPropagation();
 						">
 						Execute all
-						<font-awesome-icon icon="play"></font-awesome-icon>
+						<font-awesome-icon icon="play" class="ms-2"></font-awesome-icon>
 					</Button>
 				</template>
 				<Codemirror
@@ -248,13 +248,13 @@ const runAll = async () => {
 						</span>
 					</div>
 					<Button
-						class="ms-2 p-button-secondary"
+						class="ms-2 me-2 p-button-secondary"
 						@click="
 							runAll();
 							$event.stopPropagation();
 						">
 						Execute all
-						<font-awesome-icon icon="play"></font-awesome-icon>
+						<font-awesome-icon icon="play" class="ms-2"></font-awesome-icon>
 					</Button>
 				</template>
 				<Codemirror
